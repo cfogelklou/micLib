@@ -88,6 +88,7 @@ all: $(OUTDIR) $(TARGETLIB)
 	@echo "=== done $(LDFLAGS)"
 
 $(OUTDIR) :
+	@mkdir -p $@/$(SRCDIR2)
 	@mkdir -p $@/$(SRCDIR)
 
 $(OUTDIR)/%.o : %.c
