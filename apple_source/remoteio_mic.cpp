@@ -1,6 +1,6 @@
 #include <cstdio>
 #include <math.h>
-#include <cstdlib>
+#include <cstddef>
 #include <AudioToolbox/AudioToolbox.h>
 
 #include "remoteio_mic_c.h"
@@ -53,12 +53,12 @@ static const char *riomGetUintStr(UInt32 chars) {
 static bool riom_print_asbd(const char * const szHeader, const AudioStreamBasicDescription * const pAsbd) {
 
     RIOTRACE(("%s:\n", szHeader));
-    RIOTRACE(("  pAsbd->mChannelsPerFrame = %d\n", pAsbd->mChannelsPerFrame));
-    RIOTRACE(("  pAsbd->mFormatFlags = 0x%x\n", pAsbd->mFormatFlags));
-    RIOTRACE(("  pAsbd->mFramesPerPacket = %d\n", pAsbd->mFramesPerPacket));
-    RIOTRACE(("  pAsbd->mBytesPerFrame = %d\n", pAsbd->mBytesPerFrame));
-    RIOTRACE(("  pAsbd->mBytesPerPacket = %d\n", pAsbd->mBytesPerPacket));
-    RIOTRACE(("  pAsbd->mBitsPerChannel = %d\n", pAsbd->mBitsPerChannel));
+    RIOTRACE(("  pAsbd->mChannelsPerFrame = %u\n", (unsigned int)pAsbd->mChannelsPerFrame));
+    RIOTRACE(("  pAsbd->mFormatFlags = 0x%x\n", (unsigned int)pAsbd->mFormatFlags));
+    RIOTRACE(("  pAsbd->mFramesPerPacket = %u\n", (unsigned int)pAsbd->mFramesPerPacket));
+    RIOTRACE(("  pAsbd->mBytesPerFrame = %u\n", (unsigned int)pAsbd->mBytesPerFrame));
+    RIOTRACE(("  pAsbd->mBytesPerPacket = %u\n", (unsigned int)pAsbd->mBytesPerPacket));
+    RIOTRACE(("  pAsbd->mBitsPerChannel = %u\n", (unsigned int)pAsbd->mBitsPerChannel));
     return true;
 }
 
@@ -359,7 +359,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
         UInt32 propSize = sizeof(inputAvailable);
         ASSERT_FN(noErr == AudioSessionGetProperty(kAudioSessionProperty_AudioInputAvailable, &propSize, &inputAvailable));
         ASSERT(0 != inputAvailable);
-        RIOTRACE(("inputAvailable = %u\n", inputAvailable));
+        RIOTRACE(("inputAvailable = %u\n", (unsigned int)inputAvailable));
     }
  
   // Getting the hardware sample rate
@@ -368,7 +368,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
         ASSERT_FN(noErr == AudioSessionGetProperty(kAudioSessionProperty_CurrentHardwareSampleRate, &propSize, &hardwareSampleRate));
         if (hardwareSampleRate < 8000) {
             hardwareSampleRate = 24000;
-            RIOTRACE(("Hardware sample rate not set.  Setting to %d\n", hardwareSampleRate));
+            RIOTRACE(("Hardware sample rate not set.  Setting to %d\n", (int)hardwareSampleRate));
             
             ASSERT_FN(noErr == AudioSessionSetProperty(kAudioSessionProperty_CurrentHardwareSampleRate,
                 propSize,
@@ -441,7 +441,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
             &micHwEnabled,
             &flagSize));
         
-        RIOTRACE(("micHwEnabled = %d\n", micHwEnabled));
+        RIOTRACE(("micHwEnabled = %u\n", (unsigned int)micHwEnabled));
         
         // If disabled, then enable it.
         if (micHwEnabled == 0) {
@@ -625,34 +625,32 @@ static bool rio_restore_old_callback(RemoteIO_Internal_t *pPlayer){
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-void rio_stop_mic( RioInstance_t *pInst ) 
-{
+void rio_stop_mic(RioInstance_t *pInst) {
   RemoteIO_Internal_t *pPlayer = (RemoteIO_Internal_t *)pInst;
 
-  if (pPlayer == NULL) return;
+  if (pPlayer == NULL)
+    return;
 
-  AudioOutputUnitStop(pPlayer->inputUnit); 
+  AudioOutputUnitStop(pPlayer->inputUnit);
   rio_restore_old_callback(pPlayer);
 
-  AudioUnitUninitialize (pPlayer->inputUnit); 
+  AudioUnitUninitialize(pPlayer->inputUnit);
   if (pPlayer->pInputBuffer) {
-  // Free all allocated buffers.
-  for (int i = 0; i < pPlayer->pInputBuffer->mNumberBuffers; i++) {
-      if (pPlayer->pInputBuffer->mBuffers[i].mData){
-    free( pPlayer->pInputBuffer->mBuffers[i].mData );
+    // Free all allocated buffers.
+    for (int i = 0; i < pPlayer->pInputBuffer->mNumberBuffers; i++) {
+      if (pPlayer->pInputBuffer->mBuffers[i].mData) {
+        free(pPlayer->pInputBuffer->mBuffers[i].mData);
       }
-    pPlayer->pInputBuffer->mBuffers[i].mData = NULL;
-  }
-  
-  // Free the input buffer structure.
-  free(pPlayer->pInputBuffer);
+      pPlayer->pInputBuffer->mBuffers[i].mData = NULL;
+    }
+
+    // Free the input buffer structure.
+    free(pPlayer->pInputBuffer);
   }
   pPlayer->pInputBuffer = NULL;
 
   // Fini!
   free(pPlayer);
-
 }
-
 
 } // extern "C"

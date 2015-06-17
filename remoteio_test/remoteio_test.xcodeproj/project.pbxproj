@@ -16,7 +16,6 @@
 		83841CEB1B170B500013D0DF /* remoteio_testTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 83841CEA1B170B500013D0DF /* remoteio_testTests.m */; };
 		83841CF71B170C8C0013D0DF /* libremote_io.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83841CF61B170C8C0013D0DF /* libremote_io.a */; };
 		83841CFA1B1713690013D0DF /* AppDelegate_cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83841CF81B1713690013D0DF /* AppDelegate_cpp.cpp */; };
-		83841CFC1B1734F40013D0DF /* libdaTuner.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83841CFB1B1734F40013D0DF /* libdaTuner.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +45,6 @@
 		83841CF61B170C8C0013D0DF /* libremote_io.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libremote_io.a; sourceTree = "<group>"; };
 		83841CF81B1713690013D0DF /* AppDelegate_cpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate_cpp.cpp; sourceTree = "<group>"; };
 		83841CF91B1713690013D0DF /* AppDelegate_cpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate_cpp.h; sourceTree = "<group>"; };
-		83841CFB1B1734F40013D0DF /* libdaTuner.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdaTuner.a; path = "../../../Base App/band-buddy/Assets/Plugins/iOS/libdaTuner.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +52,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83841CFC1B1734F40013D0DF /* libdaTuner.a in Frameworks */,
 				83841CF71B170C8C0013D0DF /* libremote_io.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -72,7 +69,6 @@
 		83841CC21B170B4F0013D0DF = {
 			isa = PBXGroup;
 			children = (
-				83841CFB1B1734F40013D0DF /* libdaTuner.a */,
 				83841CF61B170C8C0013D0DF /* libremote_io.a */,
 				83841CCD1B170B4F0013D0DF /* remoteio_test */,
 				83841CE71B170B500013D0DF /* remoteio_testTests */,
@@ -449,6 +445,7 @@
 				83841CF01B170B500013D0DF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		83841CF11B170B500013D0DF /* Build configuration list for PBXNativeTarget "remoteio_testTests" */ = {
 			isa = XCConfigurationList;
@@ -457,6 +454,7 @@
 				83841CF31B170B500013D0DF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
