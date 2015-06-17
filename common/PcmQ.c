@@ -57,13 +57,13 @@ const pthread_mutex_t rMutexInit = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 /* [Internal] Does an insertion at the current write pointer and count, but
 does not update write pointer or count variables.
 */
-static uint_t PcmQUnprotectedInsert(PcmQ_t *const pQ, const pcm_t *pWrBuf,
+static uint_t MWPcmQUnprotectedInsert(MWPcmQ_t *const pQ, const pcm_t *pWrBuf,
                                     uint_t nLen, uint_t *pNewWrIdx);
 
 /*
 **=============================================================================
 **  Abstract:
-**    Public function to initialize the PcmQ_t structure.
+**    Public function to initialize the MWPcmQ_t structure.
 **
 **  Parameters:
 **
@@ -71,11 +71,11 @@ static uint_t PcmQUnprotectedInsert(PcmQ_t *const pQ, const pcm_t *pWrBuf,
 **
 **=============================================================================
 */
-bool_t PcmQCreate(PcmQ_t *const pQ, pcm_t *pBuf, uint_t nBufSz ) {
+bool_t MWPcmQCreate(MWPcmQ_t *const pQ, pcm_t *pBuf, uint_t nBufSz ) {
 
   ASSERT((NULL != pQ) && (NULL != pBuf));
 
-  memset(pQ, 0, sizeof(PcmQ_t));
+  memset(pQ, 0, sizeof(MWPcmQ_t));
 
 #if defined(__APPLE__)
   memcpy(&pQ->mutex, (void *)&rMutexInit, sizeof(pthread_mutex_t));
@@ -99,7 +99,7 @@ bool_t PcmQCreate(PcmQ_t *const pQ, pcm_t *pBuf, uint_t nBufSz ) {
 **
 **=============================================================================
 */
-bool_t PcmQDestroy(PcmQ_t *const pQ) {
+bool_t MWPcmQDestroy(MWPcmQ_t *const pQ) {
   ASSERT(NULL != pQ);
   return TRUE;
 }
@@ -116,7 +116,7 @@ bool_t PcmQDestroy(PcmQ_t *const pQ) {
 **
 **=============================================================================
 */
-uint_t PcmQWrite(PcmQ_t *const pQ, const pcm_t *pWrBuf, uint_t nLen) {
+uint_t MWPcmQWrite(MWPcmQ_t *const pQ, const pcm_t *pWrBuf, uint_t nLen) {
   uint_t WordsWritten = 0;
 
   ASSERT(NULL != pQ);
@@ -163,7 +163,7 @@ uint_t PcmQWrite(PcmQ_t *const pQ, const pcm_t *pWrBuf, uint_t nLen) {
 **=============================================================================
 **=============================================================================
 */
-static uint_t PcmQUnprotectedInsert(PcmQ_t *const pQ, const pcm_t *pWrBuf,
+static uint_t MWPcmQUnprotectedInsert(MWPcmQ_t *const pQ, const pcm_t *pWrBuf,
                                     uint_t nLen, uint_t *pNewWrIdx) {
   uint_t WordsWritten = 0;
   uint_t nWrIdx = pQ->nWrIdx;
@@ -200,7 +200,7 @@ static uint_t PcmQUnprotectedInsert(PcmQ_t *const pQ, const pcm_t *pWrBuf,
 **=============================================================================
 **=============================================================================
 */
-uint_t PcmQCommitWrite(PcmQ_t *const pQ, uint_t nLen) {
+uint_t MWPcmQCommitWrite(MWPcmQ_t *const pQ, uint_t nLen) {
   uint_t WordsWritten = 0;
 
   ASSERT(NULL != pQ);
@@ -237,7 +237,7 @@ uint_t PcmQCommitWrite(PcmQ_t *const pQ, uint_t nLen) {
 **
 **=============================================================================
 */
-uint_t PcmQRead(PcmQ_t *const pQ, pcm_t *pRdBuf, uint_t nLen) {
+uint_t MWPcmQRead(MWPcmQ_t *const pQ, pcm_t *pRdBuf, uint_t nLen) {
   uint_t WordsRead = 0;
   ASSERT(NULL != pQ);
 
@@ -295,7 +295,7 @@ uint_t PcmQRead(PcmQ_t *const pQ, pcm_t *pRdBuf, uint_t nLen) {
 **
 **=============================================================================
 */
-uint_t PcmQCommitRead(PcmQ_t *const pQ, uint_t nLen) {
+uint_t MWPcmQCommitRead(MWPcmQ_t *const pQ, uint_t nLen) {
   uint_t WordsRead = 0;
   ASSERT(NULL != pQ);
 
@@ -332,7 +332,7 @@ uint_t PcmQCommitRead(PcmQ_t *const pQ, uint_t nLen) {
 **
 **=============================================================================
 */
-uint_t PcmQGetWriteReady(PcmQ_t *const pQ) {
+uint_t MWPcmQGetWriteReady(MWPcmQ_t *const pQ) {
   uint_t rval = 0;
   ASSERT(NULL != pQ);
 
@@ -353,7 +353,7 @@ uint_t PcmQGetWriteReady(PcmQ_t *const pQ) {
 **
 **=============================================================================
 */
-uint_t PcmQGetContiguousWriteReady(PcmQ_t *const pQ) {
+uint_t MWPcmQGetContiguousWriteReady(MWPcmQ_t *const pQ) {
 
   uint_t bytesReady = 0;
   ASSERT(NULL != pQ);
@@ -375,7 +375,7 @@ uint_t PcmQGetContiguousWriteReady(PcmQ_t *const pQ) {
 **
 **=============================================================================
 */
-uint_t PcmQGetReadReady(PcmQ_t *const pQ) {
+uint_t MWPcmQGetReadReady(MWPcmQ_t *const pQ) {
   uint_t bytesReady = 0;
   ASSERT(NULL != pQ);
 
@@ -396,7 +396,7 @@ uint_t PcmQGetReadReady(PcmQ_t *const pQ) {
 **
 **=============================================================================
 */
-uint_t PcmQGetContiguousReadReady(PcmQ_t *const pQ) {
+uint_t MWPcmQGetContiguousReadReady(MWPcmQ_t *const pQ) {
 
   uint_t bytesReady = 0;
   ASSERT(NULL != pQ);
@@ -418,7 +418,7 @@ uint_t PcmQGetContiguousReadReady(PcmQ_t *const pQ) {
 **
 **=============================================================================
 */
-void PcmQFlush(PcmQ_t *const pQ) {
+void MWPcmQFlush(MWPcmQ_t *const pQ) {
   // Get the read mutex to only allow a single thread to read from the
   // queue at a time.
 
@@ -440,7 +440,7 @@ void PcmQFlush(PcmQ_t *const pQ) {
 *
 **=============================================================================
 */
-uint_t PcmQPeek(PcmQ_t *const pQ, pcm_t *pRdBuf, uint_t nLen) {
+uint_t MWPcmQPeek(MWPcmQ_t *const pQ, pcm_t *pRdBuf, uint_t nLen) {
   uint_t WordsRead = 0;
 
   ASSERT(NULL != pQ);
@@ -483,7 +483,7 @@ uint_t PcmQPeek(PcmQ_t *const pQ, pcm_t *pRdBuf, uint_t nLen) {
 *
 **=============================================================================
 */
-void *PcmQGetWritePtr(PcmQ_t *const pQ) {
+void *MWPcmQGetWritePtr(MWPcmQ_t *const pQ) {
   void *pRVal = 0;
 
   LOCKMUTEX(pQ);
@@ -499,7 +499,7 @@ void *PcmQGetWritePtr(PcmQ_t *const pQ) {
 *
 **=============================================================================
 */
-void *PcmQGetReadPtr(PcmQ_t *const pQ) {
+void *MWPcmQGetReadPtr(MWPcmQ_t *const pQ) {
   void *pRVal = 0;
 
   LOCKMUTEX(pQ);
@@ -515,7 +515,7 @@ void *PcmQGetReadPtr(PcmQ_t *const pQ) {
 *
 **=============================================================================
 */
-void PcmQSetRdIdxFromPointer(PcmQ_t *const pQ, void *pRdPtr) {
+void MWPcmQSetRdIdxFromPointer(MWPcmQ_t *const pQ, void *pRdPtr) {
   LOCKMUTEX(pQ);
   {
     const pcm_t *const pRd8 = (const pcm_t *)pRdPtr;
@@ -560,7 +560,7 @@ void PcmQSetRdIdxFromPointer(PcmQ_t *const pQ, void *pRdPtr) {
 *
 **=============================================================================
 */
-uint_t PcmQUnread(PcmQ_t *const pQ, uint_t nLen) {
+uint_t MWPcmQUnread(MWPcmQ_t *const pQ, uint_t nLen) {
   uint_t bytesUnread = 0;
   ASSERT(NULL != pQ);
 
@@ -597,7 +597,7 @@ uint_t PcmQUnread(PcmQ_t *const pQ, uint_t nLen) {
 *
 **=============================================================================
 */
-uint_t PcmQForceWrite(PcmQ_t *const pQ, const pcm_t *const pWrBuf,
+uint_t MWPcmQForceWrite(MWPcmQ_t *const pQ, const pcm_t *const pWrBuf,
                       uint_t nLen) {
   uint_t words = 0;
   ASSERT(NULL != pQ);
@@ -627,7 +627,7 @@ uint_t PcmQForceWrite(PcmQ_t *const pQ, const pcm_t *const pWrBuf,
     }
 
     // Insert the data in the buffer.
-    ASSERT_FN(nLen == PcmQUnprotectedInsert(pQ, pWrBuf, nLen, &newWrIdx));
+    ASSERT_FN(nLen == MWPcmQUnprotectedInsert(pQ, pWrBuf, nLen, &newWrIdx));
     pQ->nWrIdx = newWrIdx;
 
     pQ->nCount += nLen;
@@ -645,7 +645,7 @@ uint_t PcmQForceWrite(PcmQ_t *const pQ, const pcm_t *const pWrBuf,
 *
 **=============================================================================
 */
-uint_t PcmQPeekRandom(PcmQ_t *const pQ, pcm_t *pRdBuf, uint_t bytesFromRdIdx,
+uint_t MWPcmQPeekRandom(MWPcmQ_t *const pQ, pcm_t *pRdBuf, uint_t bytesFromRdIdx,
                       uint_t nLen) {
   uint_t WordsRead = 0;
 
@@ -690,7 +690,7 @@ uint_t PcmQPeekRandom(PcmQ_t *const pQ, pcm_t *pRdBuf, uint_t bytesFromRdIdx,
 }
 
 /** [Declaration] Inserts data somewhere into the buffer */
-uint_t PcmQPokeRandom(PcmQ_t *const pQ, pcm_t *pWrBuf, uint_t bytesFromStart,
+uint_t MWPcmQPokeRandom(MWPcmQ_t *const pQ, pcm_t *pWrBuf, uint_t bytesFromStart,
                       uint_t nLen) {
   uint_t WordsWritten = 0;
 
@@ -737,7 +737,7 @@ uint_t PcmQPokeRandom(PcmQ_t *const pQ, pcm_t *pWrBuf, uint_t bytesFromStart,
 }
 
 /** [Declaration] Reads the last nLen words from the buffer */
-int_t PcmQDoReadFromEnd(PcmQ_t *const pQ, pcm_t *pRdBuf, int_t nLen) {
+int_t MWPcmQDoReadFromEnd(MWPcmQ_t *const pQ, pcm_t *pRdBuf, int_t nLen) {
   int_t shortsRead = 0;
 
   if (nLen > 0) {
@@ -772,7 +772,7 @@ int_t PcmQDoReadFromEnd(PcmQ_t *const pQ, pcm_t *pRdBuf, int_t nLen) {
   return shortsRead;
 }
 
-int_t PcmQDoReadToDoubleFromEnd(PcmQ_t *const pQ, double *pRdBuf, int_t nLen) {
+int_t MWPcmQDoReadToDoubleFromEnd(MWPcmQ_t *const pQ, double *pRdBuf, int_t nLen) {
   int_t shortsRead = 0;
 
   if (nLen > 0) {
@@ -813,7 +813,7 @@ int_t PcmQDoReadToDoubleFromEnd(PcmQ_t *const pQ, double *pRdBuf, int_t nLen) {
   return shortsRead;
 }
 
-int_t PcmQDoReadToDoubleCustomCommit(PcmQ_t *const pQ, double *pRdBuf,
+int_t MWPcmQDoReadToDoubleCustomCommit(MWPcmQ_t *const pQ, double *pRdBuf,
                                      uint_t nLen, int_t amountToCommit) {
   uint_t nToRead = 0;
   // Calculate how many shorts can be read from the RdBuffer.

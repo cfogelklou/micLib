@@ -23,7 +23,7 @@
 
 typedef struct mw_tag {
   void          *pSelf;
-  PcmQ_t        pcmQ;
+  MWPcmQ_t        pcmQ;
   float         *pPcmBuf;
   RioInstance_t *pRio;
   bool          pcmQInitialized;
@@ -46,7 +46,7 @@ extern "C" {
       ASSERT(numChannels == 1);
       if (mw.pcmQInitialized){
           const int numSamples = numChannels*numFrames;
-          PcmQForceWrite(&mw.pcmQ, pSampsBuf, numSamples);
+          MWPcmQForceWrite(&mw.pcmQ, pSampsBuf, numSamples);
       }
       return s_ok;
   }
@@ -62,7 +62,7 @@ extern "C" {
     mw.pRio = rio_start_mic(NULL, &mw, mw_mic_callback);
     int bufSizeWords = (int)(1.0 * mw.pRio->fs);
     mw.pPcmBuf = (float *)malloc(bufSizeWords*sizeof(float));
-    PcmQCreate(&mw.pcmQ, mw.pPcmBuf, bufSizeWords);
+    MWPcmQCreate(&mw.pcmQ, mw.pPcmBuf, bufSizeWords);
     mw.pcmQInitialized = true;      
     return mw.pRio->fs;
   }
@@ -84,7 +84,7 @@ extern "C" {
   int MicWGetReadReady() {
     int rval = 0;
     if (mw.pPcmBuf) {
-      rval = PcmQGetReadReady(&mw.pcmQ);
+      rval = MWPcmQGetReadReady(&mw.pcmQ);
     }
     return rval;
   }
@@ -95,7 +95,7 @@ extern "C" {
   int MicWRead(float *pfBuf, int length) {
     int rval = 0;
     if (mw.pPcmBuf) {
-      rval = PcmQRead(&mw.pcmQ, pfBuf, length);
+      rval = MWPcmQRead(&mw.pcmQ, pfBuf, length);
     }
     return rval;
   }

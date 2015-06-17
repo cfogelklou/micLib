@@ -51,12 +51,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="apple_source\remoteio_mic.cpp" />
+    <ClCompile Include="common\micWrapper.cpp" />
+    <ClCompile Include="common\PcmQ.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="remoteio_test\remoteio_test\AppDelegate_cpp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="apple_source\remoteio_mic.h" />
     <ClInclude Include="apple_source\remoteio_mic_c.h" />
+    <ClInclude Include="common\PcmQ.h" />
     <ClInclude Include="remoteio_test\remoteio_test\AppDelegate.h" />
     <ClInclude Include="remoteio_test\remoteio_test\AppDelegate_cpp.h" />
     <ClInclude Include="remoteio_test\remoteio_test\ViewController.h" />
