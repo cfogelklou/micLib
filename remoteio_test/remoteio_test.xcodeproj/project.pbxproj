@@ -374,7 +374,7 @@
 					"App/band-buddy/Assets/Plugins/iOS",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "../lib_source ../plugins_ios";
+				USER_HEADER_SEARCH_PATHS = "../apple_source ../plugins_ios";
 			};
 			name = Debug;
 		};
@@ -392,7 +392,7 @@
 					"App/band-buddy/Assets/Plugins/iOS",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "../lib_source ../plugins_ios";
+				USER_HEADER_SEARCH_PATHS = "../apple_source ../plugins_ios";
 			};
 			name = Release;
 		};

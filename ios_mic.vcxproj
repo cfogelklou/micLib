@@ -37,7 +37,7 @@
     <NMakeCleanCommandLine>clean.bat</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>rebuild.bat</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>$(ProjectDir)CoreAudioUtilityClasses\CoreAudio\PublicUtility\;$(ProjectDir)lib_source\;$(ProjectDir)osx_includes\;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>$(ProjectDir)CoreAudioUtilityClasses\CoreAudio\PublicUtility\;$(ProjectDir)apple_source\;$(ProjectDir)osx_includes\;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeBuildCommandLine>build.bat</NMakeBuildCommandLine>
@@ -48,19 +48,19 @@
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="lib_source\remoteio_mic.cpp" />
+    <ClCompile Include="apple_source\remoteio_mic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="remoteio_test\remoteio_test\AppDelegate_cpp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="lib_source\remoteio_mic.h" />
-    <ClInclude Include="lib_source\remoteio_mic_c.h" />
+    <ClInclude Include="apple_source\remoteio_mic.h" />
+    <ClInclude Include="apple_source\remoteio_mic_c.h" />
     <ClInclude Include="remoteio_test\remoteio_test\AppDelegate.h" />
     <ClInclude Include="remoteio_test\remoteio_test\AppDelegate_cpp.h" />
     <ClInclude Include="remoteio_test\remoteio_test\ViewController.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="lib_source\remoteio_mic.m" />
+    <None Include="apple_source\remoteio_mic.m" />
     <None Include="remoteio_test\remoteio_test\AppDelegate.m" />
     <None Include="remoteio_test\remoteio_test\Info.plist" />
     <None Include="remoteio_test\remoteio_test\main.m" />

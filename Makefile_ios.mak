@@ -40,7 +40,7 @@ endif
 
 MYINCLUDES = \
 -Ilib_source \
--I../lib_source \
+-I../apple_source \
 -Ic_sources \
 -I../c_sources \
 -I$(PLATFORMPATH)/Developer/Library/Frameworks \
@@ -63,7 +63,7 @@ LDAPPFLAGS += \
   -F$(SDKPATH)/System/Library/Frameworks \
   -framework AudioToolbox -framework AudioUnit -framework CoreAudio
 
-SRCDIR = lib_source
+SRCDIR = apple_source
 OUTDIR_TOP = _ios
 OUTDIR = $(OUTDIR_TOP)/$(ARCH)
 

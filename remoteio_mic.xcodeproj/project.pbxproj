@@ -39,15 +39,15 @@
 		83841C9B1B16E2E40013D0DF /* libremoteio_mic.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libremoteio_mic.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		83841CA61B16E2E40013D0DF /* remoteio_micTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = remoteio_micTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		83841CAC1B16E2E40013D0DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		83841CB61B16E3EB0013D0DF /* audiolib_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = audiolib_types.h; path = lib_source/audiolib_types.h; sourceTree = SOURCE_ROOT; };
-		83841CB71B16E3EB0013D0DF /* DaTunerDebug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = DaTunerDebug.c; path = lib_source/DaTunerDebug.c; sourceTree = SOURCE_ROOT; };
-		83841CB81B16E3EB0013D0DF /* DaTunerDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DaTunerDebug.h; path = lib_source/DaTunerDebug.h; sourceTree = SOURCE_ROOT; };
-		83841CB91B16E3EB0013D0DF /* DaTunerDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DaTunerDefs.h; path = lib_source/DaTunerDefs.h; sourceTree = SOURCE_ROOT; };
-		83841CBA1B16E3EB0013D0DF /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Platform.h; path = lib_source/Platform.h; sourceTree = SOURCE_ROOT; };
-		83841CBB1B16E3EB0013D0DF /* remoteio_mic_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = remoteio_mic_c.h; path = lib_source/remoteio_mic_c.h; sourceTree = SOURCE_ROOT; };
-		83841CBC1B16E3EB0013D0DF /* remoteio_mic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = remoteio_mic.cpp; path = lib_source/remoteio_mic.cpp; sourceTree = SOURCE_ROOT; };
-		83841CBD1B16E3EB0013D0DF /* remoteio_mic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = remoteio_mic.h; path = lib_source/remoteio_mic.h; sourceTree = SOURCE_ROOT; };
-		83841CBE1B16E3EB0013D0DF /* remoteio_mic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = remoteio_mic.m; path = lib_source/remoteio_mic.m; sourceTree = SOURCE_ROOT; };
+		83841CB61B16E3EB0013D0DF /* audiolib_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = audiolib_types.h; path = apple_source/audiolib_types.h; sourceTree = SOURCE_ROOT; };
+		83841CB71B16E3EB0013D0DF /* DaTunerDebug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = DaTunerDebug.c; path = apple_source/DaTunerDebug.c; sourceTree = SOURCE_ROOT; };
+		83841CB81B16E3EB0013D0DF /* DaTunerDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DaTunerDebug.h; path = apple_source/DaTunerDebug.h; sourceTree = SOURCE_ROOT; };
+		83841CB91B16E3EB0013D0DF /* DaTunerDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DaTunerDefs.h; path = apple_source/DaTunerDefs.h; sourceTree = SOURCE_ROOT; };
+		83841CBA1B16E3EB0013D0DF /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Platform.h; path = apple_source/Platform.h; sourceTree = SOURCE_ROOT; };
+		83841CBB1B16E3EB0013D0DF /* remoteio_mic_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = remoteio_mic_c.h; path = apple_source/remoteio_mic_c.h; sourceTree = SOURCE_ROOT; };
+		83841CBC1B16E3EB0013D0DF /* remoteio_mic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = remoteio_mic.cpp; path = apple_source/remoteio_mic.cpp; sourceTree = SOURCE_ROOT; };
+		83841CBD1B16E3EB0013D0DF /* remoteio_mic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = remoteio_mic.h; path = apple_source/remoteio_mic.h; sourceTree = SOURCE_ROOT; };
+		83841CBE1B16E3EB0013D0DF /* remoteio_mic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = remoteio_mic.m; path = apple_source/remoteio_mic.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +72,7 @@
 		83841C921B16E2E40013D0DF = {
 			isa = PBXGroup;
 			children = (
-				83841C9D1B16E2E40013D0DF /* lib_source */,
+				83841C9D1B16E2E40013D0DF /* apple_source */,
 				83841CAA1B16E2E40013D0DF /* remoteio_micTests */,
 				83841C9C1B16E2E40013D0DF /* Products */,
 			);
@@ -87,7 +87,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		83841C9D1B16E2E40013D0DF /* lib_source */ = {
+		83841C9D1B16E2E40013D0DF /* apple_source */ = {
 			isa = PBXGroup;
 			children = (
 				83841CB61B16E3EB0013D0DF /* audiolib_types.h */,
@@ -100,7 +100,7 @@
 				83841CBD1B16E3EB0013D0DF /* remoteio_mic.h */,
 				83841CBE1B16E3EB0013D0DF /* remoteio_mic.m */,
 			);
-			name = lib_source;
+			name = apple_source;
 			path = remoteio_mic;
 			sourceTree = "<group>";
 		};

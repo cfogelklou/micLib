@@ -6,8 +6,8 @@ LDLIB = libtool
 FLAGS = -O3 -m64 -g
 
 MYINCLUDES = \
--Ilib_source \
--I../lib_source \
+-Iapple_source \
+-I../apple_source \
 -Ic_sources \
 -I../c_sources \
 -I/System/Library/Frameworks
@@ -18,7 +18,7 @@ LDFLAGS = -static
 LDAPPFLAGS = $(FLAGS)
 LDAPPFLAGS += -framework AudioToolbox -framework AudioUnit -framework CoreAudio
 
-SRCDIR = lib_source
+SRCDIR = apple_source
 OUTDIR = _osx
 
 CSRCS = $(wildcard $(SRCDIR)/*.c)
