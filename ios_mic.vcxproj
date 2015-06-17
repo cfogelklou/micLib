@@ -12,6 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <Keyword>MakeFileProj</Keyword>
+    <ProjectGuid>{621002E6-5220-41DB-A81A-9A9BAF6F672B}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -37,13 +38,14 @@
     <NMakeCleanCommandLine>clean.bat</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>rebuild.bat</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>$(ProjectDir)CoreAudioUtilityClasses\CoreAudio\PublicUtility\;$(ProjectDir)apple_source\;$(ProjectDir)osx_includes\;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>$(ProjectDir);$(ProjectDir)apple_source\;$(ProjectDir)windows_includes\;O:\tmp_includes\include;O:\tmp_includes\iPhoneOS.sdk\System\Library\Frameworks;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeBuildCommandLine>build.bat</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>clean.bat</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>rebuild.bat</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(ProjectDir);$(ProjectDir)apple_source\;$(ProjectDir)windows_includes\;O:\tmp_includes\include;O:\tmp_includes\iPhoneOS.sdk\System\Library\Frameworks;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
@@ -58,6 +60,7 @@
     <ClInclude Include="remoteio_test\remoteio_test\AppDelegate.h" />
     <ClInclude Include="remoteio_test\remoteio_test\AppDelegate_cpp.h" />
     <ClInclude Include="remoteio_test\remoteio_test\ViewController.h" />
+    <ClInclude Include="windows_includes\AudioToolbox\AudioToolbox.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="apple_source\remoteio_mic.m" />
