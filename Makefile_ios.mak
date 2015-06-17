@@ -39,10 +39,10 @@ ARCH=arm64
 endif
 
 MYINCLUDES = \
--Ilib_source \
+-Iapple_source \
 -I../apple_source \
--Ic_sources \
--I../c_sources \
+-Icommon \
+-I../common \
 -I$(PLATFORMPATH)/Developer/Library/Frameworks \
 -I$(SDKPATH) \
 -I$(SDKPATH)/usr/include \
@@ -64,13 +64,17 @@ LDAPPFLAGS += \
   -framework AudioToolbox -framework AudioUnit -framework CoreAudio
 
 SRCDIR = apple_source
+SRCDIR2 = common
 OUTDIR_TOP = _ios
 OUTDIR = $(OUTDIR_TOP)/$(ARCH)
 
 CSRCS = $(wildcard $(SRCDIR)/*.c)
+CSRCS += $(wildcard $(SRCDIR2)/*.c)
+
 COBJS = $(CSRCS:%.c=$(OUTDIR)/%.o)
 
 CPPSRCS = $(wildcard $(SRCDIR)/*.cpp)
+CPPSRCS += $(wildcard $(SRCDIR2)/*.cpp)
 CPPOBJS = $(CPPSRCS:%.cpp=$(OUTDIR)/%.o)
 
 TESTSRCS = main.cpp

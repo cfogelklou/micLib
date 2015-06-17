@@ -8,8 +8,8 @@ FLAGS = -O3 -m64 -g
 MYINCLUDES = \
 -Iapple_source \
 -I../apple_source \
--Ic_sources \
--I../c_sources \
+-Icommon \
+-I../common \
 -I/System/Library/Frameworks
 
 CFLAGS += $(FLAGS) $(MYINCLUDES)
@@ -19,13 +19,15 @@ LDAPPFLAGS = $(FLAGS)
 LDAPPFLAGS += -framework AudioToolbox -framework AudioUnit -framework CoreAudio
 
 SRCDIR = apple_source
+SRCDIR2 = common
 OUTDIR = _osx
 
 CSRCS = $(wildcard $(SRCDIR)/*.c)
-# CSRCS += $(wildcard $(SRCDIR_APPLE)/*.c)
+CSRCS += $(wildcard $(SRCDIR2)/*.c)
 COBJS = $(CSRCS:%.c=$(OUTDIR)/%.o)
 
 CPPSRCS = $(wildcard $(SRCDIR)/*.cpp)
+CPPSRCS += $(wildcard $(SRCDIR2)/*.cpp)
 CPPOBJS = $(CPPSRCS:%.cpp=$(OUTDIR)/%.o)
 
 TESTSRCS = remoteio_mic_test.cpp
@@ -40,6 +42,7 @@ all: $(OUTDIR) $(TARGETLIB) $(TARGET)
 
 $(OUTDIR) :
 	@mkdir -p $@/$(SRCDIR)
+	@mkdir -p $@/$(SRCDIR2)
 
 $(OUTDIR)/%.o : %.c
 	@echo "  CC $@"
