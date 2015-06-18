@@ -60,6 +60,7 @@
     <ClInclude Include="apple_source\remoteio_mic.h" />
     <ClInclude Include="apple_source\remoteio_mic_c.h" />
     <ClInclude Include="common\PcmQ.h" />
+    <ClInclude Include="common\micwrapper_MicW.h" />
     <ClInclude Include="remoteio_test\remoteio_test\AppDelegate.h" />
     <ClInclude Include="remoteio_test\remoteio_test\AppDelegate_cpp.h" />
     <ClInclude Include="remoteio_test\remoteio_test\ViewController.h" />
