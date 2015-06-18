@@ -61,7 +61,7 @@ static RioMicStat_t mw_mic_callback(
 * Signature: ()I
 */
 jint JNICALL Java_micwrapper_MicW_Start
-    (JNIEnv * pEnv, jclass c)
+    (JNIEnv * pEnv, jclass c, jint fs)
 {
     if (!(init)) {
         memset(&mw, 0, sizeof(mw));
