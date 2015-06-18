@@ -1,3 +1,4 @@
+#!/bin/sh
 rm _ios/libremote_io.a
 make -f Makefile_ios.mak clean
 make -f Makefile_ios.mak ARCH=armv6

@@ -1,6 +1,5 @@
 //
-//  micWrapper.c
-//  Unity-iPhone
+//  micWrapper.cpp
 //
 //  Created by Chris Fogelklou
 //
@@ -8,6 +7,7 @@
 
 #include "PcmQ.h"
 #include "remoteio_mic_c.h"
+#include "../common/micwrapper_MicW.h"
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
@@ -20,6 +20,9 @@
 #define ASSERT_FN(x) if (!(x)) {printf("\n***Assertion Failed at %s(%d)***\n", __FILE__, __LINE__); exit(-1);}
 #endif
 
+#ifndef MIN
+#define MIN(x, y) ((x) < (y) ? (x) : (y));
+#endif
 
 typedef struct mw_tag {
   void          *pSelf;
@@ -35,12 +38,12 @@ static bool init = false;
 extern "C" {
   /////////////////////////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////////////////////////
-  static RioMicStat_t mw_mic_callback(
+static RioMicStat_t mw_mic_callback(
     void *pUserData,
     float *pSampsBuf,
     int numChannels,
     int numFrames)
-  {
+{
       mw_t * pMw = (mw_t *)pUserData;
       ASSERT(pMw == &mw);
       ASSERT(numChannels == 1);
@@ -49,55 +52,79 @@ extern "C" {
           MWPcmQForceWrite(&mw.pcmQ, pSampsBuf, numSamples);
       }
       return s_ok;
-  }
+}
 
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////////////////////////
-  int MicWStart() {
+/*
+* Class:     micwrapper_MicW
+* Method:    Start
+* Signature: ()I
+*/
+jint JNICALL Java_micwrapper_MicW_Start
+    (JNIEnv * pEnv, jclass c)
+{
     if (!(init)) {
-      memset(&mw, 0, sizeof(mw));
-      init = true;
+        memset(&mw, 0, sizeof(mw));
+        init = true;
     }
     mw.pRio = rio_start_mic(NULL, &mw, mw_mic_callback);
     int bufSizeWords = (int)(1.0 * mw.pRio->fs);
     mw.pPcmBuf = (float *)malloc(bufSizeWords*sizeof(float));
     MWPcmQCreate(&mw.pcmQ, mw.pPcmBuf, bufSizeWords);
-    mw.pcmQInitialized = true;      
+    mw.pcmQInitialized = true;
     return mw.pRio->fs;
-  }
+}
 
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////////////////////////
-  void MicWStop() {
+/*
+* Class:     micwrapper_MicW
+* Method:    Stop
+* Signature: ()I
+*/
+jint JNICALL Java_micwrapper_MicW_Stop
+    (JNIEnv * pEnv, jclass c) {
     mw.pcmQInitialized = false;
     rio_stop_mic(mw.pRio);
     free(mw.pPcmBuf);
     mw.pPcmBuf = NULL;
-    return;
-  }
+    return 0;
+}
 
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////////////////////////
-  int MicWGetReadReady() {
+/*
+* Class:     micwrapper_MicW
+* Method:    GetReadReady
+* Signature: ()I
+*/
+jint JNICALL Java_micwrapper_MicW_GetReadReady
+    (JNIEnv * pEnv, jclass c) {
     int rval = 0;
     if (mw.pPcmBuf) {
-      rval = MWPcmQGetReadReady(&mw.pcmQ);
+        rval = MWPcmQGetReadReady(&mw.pcmQ);
     }
     return rval;
-  }
-  
-  
-  /////////////////////////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////////////////////////
-  int MicWRead(float *pfBuf, int length) {
+}
+
+
+/*
+* Class:     micwrapper_MicW
+* Method:    Read
+* Signature: ([FI)I
+*/
+jint JNICALL Java_micwrapper_MicW_Read
+    (JNIEnv *pEnv, jclass c, jfloatArray jfBuf, jint length)
+{
+    jboolean jFalse = 0;
+    float *pfBuf = pEnv->GetFloatArrayElements(jfBuf, &jFalse);
+    jsize jlen = pEnv->GetArrayLength(jfBuf);
+    length = MIN(length, jlen);
     int rval = 0;
     if (mw.pPcmBuf) {
-      rval = MWPcmQRead(&mw.pcmQ, pfBuf, length);
+        rval = MWPcmQRead(&mw.pcmQ, pfBuf, length);
     }
+
+    pEnv->ReleaseFloatArrayElements(jfBuf, pfBuf, 0);
     return rval;
-  }
+}
 
 }
