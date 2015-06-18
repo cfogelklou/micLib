@@ -30,7 +30,7 @@ extern "C" {
 int main (int argc, const char * argv[]) { 
   MyCounterStruct_t myCounter = {0};
   int fs = 0;
-  void *pInst = rio_start_mic(NULL, &myCounter, micCallback);
+  void *pInst = rio_start_mic(NULL, &myCounter, micCallback, 44100);
 
   // And wait 
   printf("Capturing, press <return> to stop:\n"); 

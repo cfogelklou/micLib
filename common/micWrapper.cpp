@@ -67,7 +67,7 @@ jint JNICALL Java_micwrapper_MicW_Start
         memset(&mw, 0, sizeof(mw));
         init = true;
     }
-    mw.pRio = rio_start_mic(NULL, &mw, mw_mic_callback);
+    mw.pRio = rio_start_mic(NULL, &mw, mw_mic_callback, fs);
     int bufSizeWords = (int)(1.0 * mw.pRio->fs);
     mw.pPcmBuf = (float *)malloc(bufSizeWords*sizeof(float));
     MWPcmQCreate(&mw.pcmQ, mw.pPcmBuf, bufSizeWords);

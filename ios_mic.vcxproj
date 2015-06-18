@@ -37,15 +37,15 @@
     <NMakeBuildCommandLine>build.bat</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>clean.bat</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>rebuild.bat</NMakeReBuildCommandLine>
-    <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>$(ProjectDir);$(ProjectDir)apple_source\;$(ProjectDir)windows_includes\;O:\tmp_includes\include;O:\tmp_includes\iPhoneOS.sdk\System\Library\Frameworks;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakePreprocessorDefinitions>WIN32;__COREAUDIO_USE_FLAT_INCLUDES__;TARGET_OS_IPHONE;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(ProjectDir);$(ProjectDir)apple_source\;$(ProjectDir)windows_includes\;O:\tmp_includes\include;O:\tmp_includes\iPhoneOS.sdk\System\Library\Frameworks;O:\tmp_includes\iPhoneOS.sdk\System\Library\Frameworks\CoreAudio.framework\Headers;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeBuildCommandLine>build.bat</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>clean.bat</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>rebuild.bat</NMakeReBuildCommandLine>
-    <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>$(ProjectDir);$(ProjectDir)apple_source\;$(ProjectDir)windows_includes\;O:\tmp_includes\include;O:\tmp_includes\iPhoneOS.sdk\System\Library\Frameworks;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakePreprocessorDefinitions>WIN32;__COREAUDIO_USE_FLAT_INCLUDES__;TARGET_OS_IPHONE;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(ProjectDir);$(ProjectDir)apple_source\;$(ProjectDir)windows_includes\;O:\tmp_includes\include;O:\tmp_includes\iPhoneOS.sdk\System\Library\Frameworks;O:\tmp_includes\iPhoneOS.sdk\System\Library\Frameworks\CoreAudio.framework\Headers;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
@@ -59,6 +59,7 @@
   <ItemGroup>
     <ClInclude Include="apple_source\remoteio_mic.h" />
     <ClInclude Include="apple_source\remoteio_mic_c.h" />
+    <ClInclude Include="common\audiolib_types.h" />
     <ClInclude Include="common\PcmQ.h" />
     <ClInclude Include="common\micwrapper_MicW.h" />
     <ClInclude Include="remoteio_test\remoteio_test\AppDelegate.h" />
