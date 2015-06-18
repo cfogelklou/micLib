@@ -10,6 +10,7 @@
 #include <math.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "PcmQ.h"
 #include "audiolib_types.h"
 
@@ -519,14 +520,12 @@ void MWPcmQSetRdIdxFromPointer(MWPcmQ_t *const pQ, void *pRdPtr) {
   LOCKMUTEX(pQ);
   {
     const pcm_t *const pRd8 = (const pcm_t *)pRdPtr;
-    //(Lint):Note 946: Relational or subtract operator applied to pointers
-    //[MISRA 2004 Rule 17.3]
-    int_t newRdIdx = pRd8 - pQ->pfBuf; // lint !e946
+    intptr_t newRdIdx = pRd8 - pQ->pfBuf; // lint !e946
 
     // Check for within range.
     if ((newRdIdx >= 0) && (newRdIdx <= (int_t)pQ->nBufSz)) // lint !e574 !e737
     {
-      int_t newCount;
+      intptr_t newCount;
 
       // If last read advanced pointer to end of buffer, this is OK, just set to
       // beginning.

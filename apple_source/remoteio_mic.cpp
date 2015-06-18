@@ -282,7 +282,7 @@ failure:
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 static bool riom_set_stream_parameters(RemoteIO_Internal_t *pPlayer, const Float64 hardwareSampleRate) {
     const AudioUnitElement kOutputBus0 = 0;
-    const AudioUnitElement kInputBus1 = 1;
+    //const AudioUnitElement kInputBus1 = 1;
     // Get properties, and set them if necessary.
     AudioStreamBasicDescription asbdExpected;
     memset(&asbdExpected, 0, sizeof(asbdExpected));
