@@ -347,6 +347,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
     const AudioUnitElement kOutputBus0 = 0;
     const AudioUnitElement kInputBus1 = 1;
     // Set up the RIO unit for playback
+    const UInt32 kZeroFlag = 0;
     const UInt32 kOneFlag = 1;
     Float64 hardwareSampleRate = 0;
     Float32 hardwareDurationSeconds = 0;
@@ -432,6 +433,14 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
     // Set the stream parameters!
     ASSERT_FN(riom_set_stream_parameters(pPlayer, hardwareSampleRate));
 
+    // Disable output hardware
+    ASSERT_FN(noErr == AudioUnitSetProperty(pPlayer->inputUnit,
+        kAudioOutputUnitProperty_EnableIO,
+        kAudioUnitScope_Output,
+        kOutputBus0,
+        &kZeroFlag,
+        sizeof(kZeroFlag)));
+
     // Enable microphone hardware if not already enabled!
     {
         UInt32 micHwEnabled = 0;
@@ -458,6 +467,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
                 sizeof(kOneFlag)));
         }
     }
+
 
     // Do some logging so we know the settings used.
     {
