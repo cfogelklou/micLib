@@ -30,7 +30,7 @@ static RioMicStat_t myAudioCallback(void *pUserData, float *pSampsBuf,
 
       pCounter->mCallbackCount++;
       if (pCounter->mCallbackCount & 0xff) {
-        printf("%d: callbacks\n");
+        printf("%d: callbacks\n", pCounter->mCallbackCount);
       }
     }
     return s_ok;
@@ -41,7 +41,7 @@ static RioMicStat_t myAudioCallback(void *pUserData, float *pSampsBuf,
 MIC_t * MIC_Start( void * pSelf ) { 
   MyCounterStruct_t * pCounter = (MyCounterStruct_t *)malloc(sizeof(MyCounterStruct_t) );
   memset( pCounter, 0, sizeof( MyCounterStruct_t ) );
-  pCounter->pRio = rio_start_mic( pSelf, pCounter, myAudioCallback );
+  pCounter->pRio = rio_start_mic( pSelf, pCounter, myAudioCallback, 44100 );
   //int fs = pCounter->pRio->fs;
   pCounter->mic.pSelf = pSelf;
   pCounter->initialized = true;

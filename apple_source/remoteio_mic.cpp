@@ -248,7 +248,8 @@ static bool riom_set_record_category(RemoteIO_Internal_t *pPlayer)
     const AudioSessionPropertyID id = kAudioSessionProperty_AudioCategory;
     UInt32 category = 0;
     UInt32 propSize = sizeof(category);
-    ASSERT_FN(noErr == AudioSessionGetProperty(id, &propSize, &category));
+    OSStatus stat = AudioSessionGetProperty(id, &propSize, &category);
+    ASSERT_FN(noErr == stat);
 
     RIOTRACE(("Category was %s\n", riomGetUintStr(category)));
 
