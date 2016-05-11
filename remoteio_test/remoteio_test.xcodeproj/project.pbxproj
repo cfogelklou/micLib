@@ -366,8 +366,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					/Users/chris/Documents/DaTuner/bandblast_devel/Base,
-					"App/band-buddy/Assets/Plugins/iOS",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "../apple_source ../plugins_ios";
@@ -384,8 +382,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					/Users/chris/Documents/DaTuner/bandblast_devel/Base,
-					"App/band-buddy/Assets/Plugins/iOS",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "../apple_source ../plugins_ios";

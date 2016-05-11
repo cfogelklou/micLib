@@ -17,7 +17,11 @@ typedef struct {
 } RioInstance_t;
 
 // Starts the microphone, which will start triggering callbacks.
-RioInstance_t *rio_start_mic(void * const pSelf, void *const pUserData, fnAudioCallbackFn fnPtr, const int desiredFs);
+RioInstance_t *rio_start_mic(
+    void * const pSelf,
+    void *const pUserData,
+    fnAudioCallbackFn fnPtr,
+    const int desiredFs);
 
 void rio_stop_mic( RioInstance_t *pInst );
 

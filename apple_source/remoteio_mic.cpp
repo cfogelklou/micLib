@@ -330,12 +330,18 @@ static bool riom_set_stream_parameters(RemoteIO_Internal_t *pPlayer, const Float
     propsAsExpected &= (asbdExpected.mBitsPerChannel == pPlayer->myASBD.mBitsPerChannel);
     if (!propsAsExpected) {
         RIOTRACE(("Not all ASBD parameters matched expectations!, adjusting\n"));
-        ASSERT_FN(noErr == AudioUnitSetProperty(pPlayer->inputUnit,
-            kAudioUnitProperty_StreamFormat,
-            kAudioUnitScope_Input,
-            kOutputBus0,
-            &asbdExpected,
-            propSize));
+        int err = AudioUnitSetProperty(pPlayer->inputUnit,
+                                   kAudioUnitProperty_StreamFormat,
+                                   kAudioUnitScope_Input,
+                                   kOutputBus0,
+                                   &asbdExpected,
+                                   propSize);
+        if (noErr != err){
+            RIOTRACE(("AudioUnitSetProperty returned error code %d:\n", err));
+            RIOTRACE(("  - Please run this software on IOS hardware.  The simulator isn't working yet.\n"));
+            ASSERT(noErr == err);
+        }
+        
         pPlayer->myASBD = asbdExpected;
     }
 
