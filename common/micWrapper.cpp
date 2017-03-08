@@ -4,7 +4,7 @@
 //  Created by Chris Fogelklou
 //
 //
-
+#ifdef __ANDROID__
 #include "PcmQ.h"
 #include "remoteio_mic_c.h"
 #include "../common/micwrapper_MicW.h"
@@ -128,3 +128,5 @@ jint JNICALL Java_micwrapper_MicW_Read
 }
 
 }
+
+#endif //__APPLE__
