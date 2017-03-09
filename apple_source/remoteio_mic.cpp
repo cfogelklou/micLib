@@ -331,10 +331,10 @@ static bool riom_set_stream_parameters(RemoteIO_Internal_t *pPlayer, const Float
     if (!propsAsExpected) {
         RIOTRACE(("Not all ASBD parameters matched expectations!, adjusting\n"));
         int err = AudioUnitSetProperty(pPlayer->inputUnit,
-                                   kAudioUnitProperty_StreamFormat,
-                                   kAudioUnitScope_Input,
-                                   kOutputBus0,
-                                   &asbdExpected,
+            kAudioUnitProperty_StreamFormat,
+            kAudioUnitScope_Input,
+            kOutputBus0,
+            &asbdExpected,
                                    propSize);
         if (noErr != err){
             RIOTRACE(("AudioUnitSetProperty returned error code %d:\n", err));
@@ -538,41 +538,41 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
                                     &pPlayer->myASBD,
                                     sizeof (pPlayer->myASBD)), "Couldn't set the ASBD for RIO on output scope/bus 1"); //As you fill
 #endif
-  {
-      UInt32 bufferSizeBytes = bufferSizeFrames *  pPlayer->myASBD.mBytesPerFrame;
-      /*CheckError (AudioUnitGetProperty(pPlayer->inputUnit,
-                                       kAudioDevicePropertyBufferFrameSize,
-                                       kAudioUnitScope_Global,
-                                       0,
-                                       &bufferSizeFrames,
-                                       &propertySize),
-                                       "Couldn't get buffer frame size from input unit");
-                                       */
-      const int numBuffers = pPlayer->myASBD.mChannelsPerFrame;
-      ASSERT(numBuffers >= 1);
+    {
+    UInt32 bufferSizeBytes = bufferSizeFrames *  pPlayer->myASBD.mBytesPerFrame;
+    /*CheckError (AudioUnitGetProperty(pPlayer->inputUnit,
+                                     kAudioDevicePropertyBufferFrameSize,
+                                     kAudioUnitScope_Global,
+                                     0,
+                                     &bufferSizeFrames,
+                                     &propertySize),
+                "Couldn't get buffer frame size from input unit");
+    */
+        const int numBuffers = pPlayer->myASBD.mChannelsPerFrame;
+        ASSERT(numBuffers >= 1);
+        
+        // This code will ONLY work if non-interleaved is set, so there are independent buffers for L and R.
+        ASSERT((1 == numBuffers) || (pPlayer->myASBD.mFormatFlags & kAudioFormatFlagIsNonInterleaved));
 
-      // This code will ONLY work if non-interleaved is set, so there are independent buffers for L and R.
-      ASSERT((1 == numBuffers) || (pPlayer->myASBD.mFormatFlags & kAudioFormatFlagIsNonInterleaved));
+    // malloc buffer lists
+    pPlayer->pInputBuffer = (AudioBufferList *)malloc(sizeof(AudioBufferList) + ((numBuffers-1)*sizeof(AudioBuffer)));
+    
+        RIOTRACE(("pPlayer->myASBD.mChannelsPerFrame = %u\n", (unsigned int)pPlayer->myASBD.mChannelsPerFrame));
+    pPlayer->pInputBuffer->mNumberBuffers = numBuffers;
+    
+    // Pre-malloc buffers for AudioBufferLists
+    for(UInt32 i =0; i< pPlayer->pInputBuffer->mNumberBuffers ; i++) {
+        pPlayer->pInputBuffer->mBuffers[i].mNumberChannels = 1;
+        pPlayer->pInputBuffer->mBuffers[i].mDataByteSize = bufferSizeBytes;
+        pPlayer->pInputBuffer->mBuffers[i].mData = malloc(bufferSizeBytes);
+    }
+    }
 
-      // malloc buffer lists
-      pPlayer->pInputBuffer = (AudioBufferList *)malloc(sizeof(AudioBufferList) + ((numBuffers - 1)*sizeof(AudioBuffer)));
-
-      RIOTRACE(("pPlayer->myASBD.mChannelsPerFrame = %u\n", (unsigned int)pPlayer->myASBD.mChannelsPerFrame));
-      pPlayer->pInputBuffer->mNumberBuffers = numBuffers;
-
-      // Pre-malloc buffers for AudioBufferLists
-      for (UInt32 i = 0; i < pPlayer->pInputBuffer->mNumberBuffers; i++) {
-          pPlayer->pInputBuffer->mBuffers[i].mNumberChannels = 1;
-          pPlayer->pInputBuffer->mBuffers[i].mDataByteSize = bufferSizeBytes;
-          pPlayer->pInputBuffer->mBuffers[i].mData = malloc(bufferSizeBytes);
-      }
-  }
-
-  // Set a new callback struct, but save the old one first.
+    // Set a new callback struct, but save the old one first.
     {
         UInt32 propSize = sizeof(pPlayer->oldRenderCallbackStruct);
         memset(&pPlayer->oldRenderCallbackStruct, 0, sizeof(pPlayer->oldRenderCallbackStruct));
-
+        
         ASSERT_FN(noErr == AudioUnitGetProperty(pPlayer->inputUnit,
             kAudioOutputUnitProperty_SetInputCallback,
             kAudioUnitScope_Global,
@@ -582,26 +582,26 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
 
         RIOTRACE(("Saving the old callback = 0x%x\n", (unsigned int)(uintptr_t)pPlayer->oldRenderCallbackStruct.inputProc));
 
-
+  
         // Set the callback method to point to our new render method.
-        AURenderCallbackStruct callbackStruct;
-        callbackStruct.inputProc = riom_input_render_proc;
-        callbackStruct.inputProcRefCon = pPlayer;
+  AURenderCallbackStruct callbackStruct; 
+  callbackStruct.inputProc = riom_input_render_proc; 
+  callbackStruct.inputProcRefCon = pPlayer; 
         ASSERT_FN(noErr == AudioUnitSetProperty(pPlayer->inputUnit,
-            kAudioOutputUnitProperty_SetInputCallback,
-            kAudioUnitScope_Global,
-            0,
-            &callbackStruct,
+                                  kAudioOutputUnitProperty_SetInputCallback,
+                                  kAudioUnitScope_Global, 
+                                  0,
+                                  &callbackStruct, 
             sizeof(callbackStruct)));
 
     }
 
-    // Initialize and start the RIO unit 
+  // Initialize and start the RIO unit 
     ASSERT_FN(noErr == AudioUnitInitialize(pPlayer->inputUnit));
     ASSERT_FN(noErr == AudioOutputUnitStart(pPlayer->inputUnit));
-
+  
     RIOTRACE(("RIO started!\n"));
-
+  
     return true;
   
 }
