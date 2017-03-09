@@ -11,3 +11,4 @@ Copy the following files to your Assets/Plugins/iOS directory:
 - common/audiolib_types.h
 - common/PcmQ.h
 - micWrapper.cpp
+- more to come...
