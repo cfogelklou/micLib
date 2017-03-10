@@ -18,7 +18,7 @@ PLATFORMPATH=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulato
 export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 SDKPATH = $(PLATFORMPATH)/Developer/SDKs/iPhoneSimulator.sdk
 
-PFLAGS=-fembed-bitcode -mios-simulator-version-min=6.1
+PFLAGS=-mios-simulator-version-min=6.1
 
 else
 
@@ -26,7 +26,7 @@ PLATFORMPATH=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platf
 export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 SDKPATH = $(PLATFORMPATH)/Developer/SDKs/iPhoneOS.sdk
 
-PFLAGS=-fembed-bitcode -miphoneos-version-min=6.1
+PFLAGS=-miphoneos-version-min=6.1
 
 endif
 
@@ -48,9 +48,7 @@ MYINCLUDES = \
 -I$(SDKPATH)/usr/include \
 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include \
 -I/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers \
--I/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers\
--I"/Applications/RoboVM Studio.app/Contents/jre/jdk/Contents/Home/include" \
--I"/Applications/RoboVM Studio.app/Contents/jre/jdk/Contents/Home/include/darwin"
+-I/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers
 
 FLAGS = -DTARGET_OS_IPHONE=1 $(MYINCLUDES)
 

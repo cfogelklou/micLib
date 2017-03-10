@@ -6,13 +6,12 @@
 
   @author: chris.fogelklou@gmail.com
 *******************************************************************************/
-#include <string.h>
+#include "PcmQ.h"
 #include <math.h>
 #include <stdint.h>
-#include <stdlib.h>
 #include <stdio.h>
-#include "PcmQ.h"
-#include "audiolib_types.h"
+#include <stdlib.h>
+#include <string.h>
 
 #ifndef ASSERT
 #define ASSERT(x)                                                              \
@@ -35,7 +34,7 @@
 
 typedef int32_t msg_hdr_t;
 #define MSG_ALIGN (sizeof(msg_hdr_t))
-#define DOALIGN(_LEN) (((_LEN) + MSG_ALIGN - 1) & (uint_t)(0 - MSG_ALIGN))
+#define DOALIGN(_LEN) (((_LEN) + MSG_ALIGN - 1) & (unsigned int)(0 - MSG_ALIGN))
 
 #if defined(__APPLE__)
 #ifdef PTHREAD_RMUTEX_INITIALIZER
@@ -51,15 +50,15 @@ const pthread_mutex_t rMutexInit = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 #define LOCKMUTEX(pQ) pthread_mutex_lock(&pQ->mutex)
 #define UNLOCKMUTEX(pQ) pthread_mutex_unlock(&pQ->mutex)
 #else
-#define LOCKMUTEX(pQ) 
-#define LOCKMUTEX(pQ) 
+#define LOCKMUTEX(pQ)
+#define UNLOCKMUTEX(pQ)
 #endif
 
 /* [Internal] Does an insertion at the current write pointer and count, but
 does not update write pointer or count variables.
 */
-static uint_t MWPcmQUnprotectedInsert(MWPcmQ_t *const pQ, const pcm_t *pWrBuf,
-                                    uint_t nLen, uint_t *pNewWrIdx);
+static unsigned int MWPcmQUnprotectedInsert(MWPcmQ_t *const pQ, const pcm_t *pWrBuf,
+                                      unsigned int nLen, unsigned int *pNewWrIdx);
 
 /*
 **=============================================================================
@@ -72,7 +71,7 @@ static uint_t MWPcmQUnprotectedInsert(MWPcmQ_t *const pQ, const pcm_t *pWrBuf,
 **
 **=============================================================================
 */
-bool_t MWPcmQCreate(MWPcmQ_t *const pQ, pcm_t *pBuf, uint_t nBufSz ) {
+bool MWPcmQCreate(MWPcmQ_t *const pQ, pcm_t *pBuf, unsigned int nBufSz) {
 
   ASSERT((NULL != pQ) && (NULL != pBuf));
 
@@ -85,7 +84,7 @@ bool_t MWPcmQCreate(MWPcmQ_t *const pQ, pcm_t *pBuf, uint_t nBufSz ) {
   pQ->pfBuf = pBuf;
   pQ->nBufSz = nBufSz;
 
-  return TRUE;
+  return true;
 }
 
 /*
@@ -100,9 +99,9 @@ bool_t MWPcmQCreate(MWPcmQ_t *const pQ, pcm_t *pBuf, uint_t nBufSz ) {
 **
 **=============================================================================
 */
-bool_t MWPcmQDestroy(MWPcmQ_t *const pQ) {
+bool MWPcmQDestroy(MWPcmQ_t *const pQ) {
   ASSERT(NULL != pQ);
-  return TRUE;
+  return true;
 }
 
 /*
@@ -117,16 +116,16 @@ bool_t MWPcmQDestroy(MWPcmQ_t *const pQ) {
 **
 **=============================================================================
 */
-uint_t MWPcmQWrite(MWPcmQ_t *const pQ, const pcm_t *pWrBuf, uint_t nLen) {
-  uint_t WordsWritten = 0;
+unsigned int MWPcmQWrite(MWPcmQ_t *const pQ, const pcm_t *pWrBuf, unsigned int nLen) {
+  unsigned int WordsWritten = 0;
 
   ASSERT(NULL != pQ);
 
   if (nLen) {
     // Write nothing if there isn't room in the buffer.
-    uint_t WordsToWrite = 0;
-    uint_t nWrIdx = pQ->nWrIdx;
-    const uint_t nBufSz = pQ->nBufSz;
+    unsigned int WordsToWrite = 0;
+    unsigned int nWrIdx = pQ->nWrIdx;
+    const unsigned int nBufSz = pQ->nBufSz;
     pcm_t *const pBuf = pQ->pfBuf;
 
     WordsToWrite = (nLen <= (nBufSz - pQ->nCount)) ? nLen : 0;
@@ -134,7 +133,7 @@ uint_t MWPcmQWrite(MWPcmQ_t *const pQ, const pcm_t *pWrBuf, uint_t nLen) {
     // We can definitely read WordsToWrite bytes.
     while (WordsToWrite > 0) {
       // Calculate how many contiguous bytes to the end of the buffer
-      uint_t Words = MIN(WordsToWrite, (nBufSz - nWrIdx));
+      unsigned int Words = MIN(WordsToWrite, (nBufSz - nWrIdx));
 
       // Copy that many bytes.
       memcpy(&pBuf[nWrIdx], &pWrBuf[WordsWritten], Words * sizeof(pcm_t));
@@ -164,19 +163,19 @@ uint_t MWPcmQWrite(MWPcmQ_t *const pQ, const pcm_t *pWrBuf, uint_t nLen) {
 **=============================================================================
 **=============================================================================
 */
-static uint_t MWPcmQUnprotectedInsert(MWPcmQ_t *const pQ, const pcm_t *pWrBuf,
-                                    uint_t nLen, uint_t *pNewWrIdx) {
-  uint_t WordsWritten = 0;
-  uint_t nWrIdx = pQ->nWrIdx;
+static unsigned int MWPcmQUnprotectedInsert(MWPcmQ_t *const pQ, const pcm_t *pWrBuf,
+                                      unsigned int nLen, unsigned int *pNewWrIdx) {
+  unsigned int WordsWritten = 0;
+  unsigned int nWrIdx = pQ->nWrIdx;
 
   if (nLen) {
     // Write nothing if there isn't room in the buffer.
-    uint_t WordsToWrite = nLen;
-    const uint_t nBufSz = pQ->nBufSz;
+    unsigned int WordsToWrite = nLen;
+    const unsigned int nBufSz = pQ->nBufSz;
     pcm_t *const pBuf = pQ->pfBuf;
 
     while (WordsToWrite > 0) {
-      uint_t Words = MIN(WordsToWrite, (nBufSz - nWrIdx));
+      unsigned int Words = MIN(WordsToWrite, (nBufSz - nWrIdx));
 
       memcpy(&pBuf[nWrIdx], &pWrBuf[WordsWritten], Words * sizeof(pcm_t));
 
@@ -201,8 +200,8 @@ static uint_t MWPcmQUnprotectedInsert(MWPcmQ_t *const pQ, const pcm_t *pWrBuf,
 **=============================================================================
 **=============================================================================
 */
-uint_t MWPcmQCommitWrite(MWPcmQ_t *const pQ, uint_t nLen) {
-  uint_t WordsWritten = 0;
+unsigned int MWPcmQCommitWrite(MWPcmQ_t *const pQ, unsigned int nLen) {
+  unsigned int WordsWritten = 0;
 
   ASSERT(NULL != pQ);
 
@@ -221,7 +220,6 @@ uint_t MWPcmQCommitWrite(MWPcmQ_t *const pQ, uint_t nLen) {
     LOCKMUTEX(pQ);
     pQ->nCount = pQ->nCount + nLen;
     UNLOCKMUTEX(pQ);
-
   }
   return WordsWritten;
 }
@@ -238,15 +236,15 @@ uint_t MWPcmQCommitWrite(MWPcmQ_t *const pQ, uint_t nLen) {
 **
 **=============================================================================
 */
-uint_t MWPcmQRead(MWPcmQ_t *const pQ, pcm_t *pRdBuf, uint_t nLen) {
-  uint_t WordsRead = 0;
+unsigned int MWPcmQRead(MWPcmQ_t *const pQ, pcm_t *pRdBuf, unsigned int nLen) {
+  unsigned int WordsRead = 0;
   ASSERT(NULL != pQ);
 
   if (nLen) {
     // Calculate how many bytes can be read from the RdBuffer.
-    uint_t WordsToRead = 0;
-    const uint_t nBufSz = pQ->nBufSz;
-    uint_t nRdIdx = pQ->nRdIdx;
+    unsigned int WordsToRead = 0;
+    const unsigned int nBufSz = pQ->nBufSz;
+    unsigned int nRdIdx = pQ->nRdIdx;
     const pcm_t *const pBuf = pQ->pfBuf;
 
     // No count MUTEX needed because count is native integer (single cycle write
@@ -257,7 +255,7 @@ uint_t MWPcmQRead(MWPcmQ_t *const pQ, pcm_t *pRdBuf, uint_t nLen) {
     // We can definitely read WordsToRead bytes.
     while (WordsToRead > 0) {
       // Calculate how many contiguous bytes to the end of the buffer
-      uint_t Words = MIN(WordsToRead, (nBufSz - nRdIdx));
+      unsigned int Words = MIN(WordsToRead, (nBufSz - nRdIdx));
 
       // Copy that many bytes.
       memcpy(&pRdBuf[WordsRead], &pBuf[nRdIdx], Words * sizeof(pcm_t));
@@ -279,7 +277,6 @@ uint_t MWPcmQRead(MWPcmQ_t *const pQ, pcm_t *pRdBuf, uint_t nLen) {
     LOCKMUTEX(pQ);
     pQ->nCount = pQ->nCount - WordsRead;
     UNLOCKMUTEX(pQ);
-
   }
   return WordsRead;
 }
@@ -296,8 +293,8 @@ uint_t MWPcmQRead(MWPcmQ_t *const pQ, pcm_t *pRdBuf, uint_t nLen) {
 **
 **=============================================================================
 */
-uint_t MWPcmQCommitRead(MWPcmQ_t *const pQ, uint_t nLen) {
-  uint_t WordsRead = 0;
+unsigned int MWPcmQCommitRead(MWPcmQ_t *const pQ, unsigned int nLen) {
+  unsigned int WordsRead = 0;
   ASSERT(NULL != pQ);
 
   if (nLen) {
@@ -333,8 +330,8 @@ uint_t MWPcmQCommitRead(MWPcmQ_t *const pQ, uint_t nLen) {
 **
 **=============================================================================
 */
-uint_t MWPcmQGetWriteReady(MWPcmQ_t *const pQ) {
-  uint_t rval = 0;
+unsigned int MWPcmQGetWriteReady(MWPcmQ_t *const pQ) {
+  unsigned int rval = 0;
   ASSERT(NULL != pQ);
 
   LOCKMUTEX(pQ);
@@ -354,9 +351,9 @@ uint_t MWPcmQGetWriteReady(MWPcmQ_t *const pQ) {
 **
 **=============================================================================
 */
-uint_t MWPcmQGetContiguousWriteReady(MWPcmQ_t *const pQ) {
+unsigned int MWPcmQGetContiguousWriteReady(MWPcmQ_t *const pQ) {
 
-  uint_t bytesReady = 0;
+  unsigned int bytesReady = 0;
   ASSERT(NULL != pQ);
 
   LOCKMUTEX(pQ);
@@ -376,8 +373,8 @@ uint_t MWPcmQGetContiguousWriteReady(MWPcmQ_t *const pQ) {
 **
 **=============================================================================
 */
-uint_t MWPcmQGetReadReady(MWPcmQ_t *const pQ) {
-  uint_t bytesReady = 0;
+unsigned int MWPcmQGetReadReady(MWPcmQ_t *const pQ) {
+  unsigned int bytesReady = 0;
   ASSERT(NULL != pQ);
 
   LOCKMUTEX(pQ);
@@ -397,9 +394,9 @@ uint_t MWPcmQGetReadReady(MWPcmQ_t *const pQ) {
 **
 **=============================================================================
 */
-uint_t MWPcmQGetContiguousReadReady(MWPcmQ_t *const pQ) {
+unsigned int MWPcmQGetContiguousReadReady(MWPcmQ_t *const pQ) {
 
-  uint_t bytesReady = 0;
+  unsigned int bytesReady = 0;
   ASSERT(NULL != pQ);
 
   LOCKMUTEX(pQ);
@@ -432,7 +429,6 @@ void MWPcmQFlush(MWPcmQ_t *const pQ) {
   pQ->nRdIdx = pQ->nWrIdx = 0;
 
   UNLOCKMUTEX(pQ);
-
 }
 
 /*
@@ -441,14 +437,14 @@ void MWPcmQFlush(MWPcmQ_t *const pQ) {
 *
 **=============================================================================
 */
-uint_t MWPcmQPeek(MWPcmQ_t *const pQ, pcm_t *pRdBuf, uint_t nLen) {
-  uint_t WordsRead = 0;
+unsigned int MWPcmQPeek(MWPcmQ_t *const pQ, pcm_t *pRdBuf, unsigned int nLen) {
+  unsigned int WordsRead = 0;
 
   ASSERT(NULL != pQ);
   if (nLen) {
 
-    uint_t nRdIdx;
-    uint_t WordsToRead;
+    unsigned int nRdIdx;
+    unsigned int WordsToRead;
 
     nRdIdx = pQ->nRdIdx;
 
@@ -458,7 +454,7 @@ uint_t MWPcmQPeek(MWPcmQ_t *const pQ, pcm_t *pRdBuf, uint_t nLen) {
     // We can definitely read WordsToRead bytes.
     while (WordsToRead > 0) {
       // Calculate how many contiguous bytes to the end of the buffer
-      uint_t Words = MIN(WordsToRead, (pQ->nBufSz - nRdIdx));
+      unsigned int Words = MIN(WordsToRead, (pQ->nBufSz - nRdIdx));
 
       // Copy that many bytes.
       memcpy(&pRdBuf[WordsRead], &pQ->pfBuf[nRdIdx], Words * sizeof(pcm_t));
@@ -473,7 +469,6 @@ uint_t MWPcmQPeek(MWPcmQ_t *const pQ, pcm_t *pRdBuf, uint_t nLen) {
       WordsRead += Words;
       WordsToRead -= Words;
     }
-
   }
   return WordsRead;
 }
@@ -523,19 +518,19 @@ void MWPcmQSetRdIdxFromPointer(MWPcmQ_t *const pQ, void *pRdPtr) {
     intptr_t newRdIdx = pRd8 - pQ->pfBuf; // lint !e946
 
     // Check for within range.
-    if ((newRdIdx >= 0) && (newRdIdx <= (int_t)pQ->nBufSz)) // lint !e574 !e737
+    if ((newRdIdx >= 0) && (newRdIdx <= (int)pQ->nBufSz)) // lint !e574 !e737
     {
       intptr_t newCount;
 
       // If last read advanced pointer to end of buffer, this is OK, just set to
       // beginning.
-      if (newRdIdx == (int_t)pQ->nBufSz) // lint !e737
+      if (newRdIdx == (int)pQ->nBufSz) // lint !e737
       {
         newRdIdx = 0;
       }
 
       // New count is amount write is ahead of read.
-      newCount = (int_t)pQ->nWrIdx - newRdIdx;
+      newCount = (int)pQ->nWrIdx - newRdIdx;
 
       // Assume we are being called from consumer, so wr==rd results in zero
       // count
@@ -546,8 +541,8 @@ void MWPcmQSetRdIdxFromPointer(MWPcmQ_t *const pQ, void *pRdPtr) {
       }
 
       // Set read index and count.
-      pQ->nRdIdx = (uint_t)newRdIdx;
-      pQ->nCount = (uint_t)newCount;
+      pQ->nRdIdx = (unsigned int)newRdIdx;
+      pQ->nCount = (unsigned int)newCount;
     }
   }
   UNLOCKMUTEX(pQ);
@@ -559,14 +554,14 @@ void MWPcmQSetRdIdxFromPointer(MWPcmQ_t *const pQ, void *pRdPtr) {
 *
 **=============================================================================
 */
-uint_t MWPcmQUnread(MWPcmQ_t *const pQ, uint_t nLen) {
-  uint_t bytesUnread = 0;
+unsigned int MWPcmQUnread(MWPcmQ_t *const pQ, unsigned int nLen) {
+  unsigned int bytesUnread = 0;
   ASSERT(NULL != pQ);
 
   if (nLen) {
     // Calculate how many bytes can be read from the RdBuffer.
-    uint_t WordsToUnRead = 0;
-    int_t nReadIdx = 0;
+    unsigned int WordsToUnRead = 0;
+    int nReadIdx = 0;
 
     // No count MUTEX needed because count is native integer (single cycle write
     // or read)
@@ -574,11 +569,11 @@ uint_t MWPcmQUnread(MWPcmQ_t *const pQ, uint_t nLen) {
     WordsToUnRead = MIN((pQ->nBufSz - pQ->nCount), nLen);
 
     // We can definitely read WordsToRead bytes.
-    nReadIdx = (int_t)pQ->nRdIdx - WordsToUnRead; // lint !e713 !e737
+    nReadIdx = (int)pQ->nRdIdx - WordsToUnRead; // lint !e713 !e737
     if (nReadIdx < 0) {
       nReadIdx += pQ->nBufSz; // lint !e713 !e737
     }
-    pQ->nRdIdx = (uint_t)nReadIdx;
+    pQ->nRdIdx = (unsigned int)nReadIdx;
 
     // Decrement the count.
     LOCKMUTEX(pQ);
@@ -596,15 +591,15 @@ uint_t MWPcmQUnread(MWPcmQ_t *const pQ, uint_t nLen) {
 *
 **=============================================================================
 */
-uint_t MWPcmQForceWrite(MWPcmQ_t *const pQ, const pcm_t *const pWrBuf,
-                      uint_t nLen) {
-  uint_t words = 0;
+unsigned int MWPcmQForceWrite(MWPcmQ_t *const pQ, const pcm_t *const pWrBuf,
+                        unsigned int nLen) {
+  unsigned int words = 0;
   ASSERT(NULL != pQ);
 
   if (nLen) {
-    int_t diff = 0;
-    uint_t writeableWords = 0;
-    uint_t newWrIdx = 0;
+    int diff = 0;
+    unsigned int writeableWords = 0;
+    unsigned int newWrIdx = 0;
 
     LOCKMUTEX(pQ);
 
@@ -644,16 +639,16 @@ uint_t MWPcmQForceWrite(MWPcmQ_t *const pQ, const pcm_t *const pWrBuf,
 *
 **=============================================================================
 */
-uint_t MWPcmQPeekRandom(MWPcmQ_t *const pQ, pcm_t *pRdBuf, uint_t bytesFromRdIdx,
-                      uint_t nLen) {
-  uint_t WordsRead = 0;
+unsigned int MWPcmQPeekRandom(MWPcmQ_t *const pQ, pcm_t *pRdBuf,
+                        unsigned int bytesFromRdIdx, unsigned int nLen) {
+  unsigned int WordsRead = 0;
 
   ASSERT(NULL != pQ);
   if (nLen) {
 
-    uint_t nRdIdx;
-    uint_t WordsToRead;
-    int_t nCount;
+    unsigned int nRdIdx;
+    unsigned int WordsToRead;
+    int nCount;
 
     nRdIdx = pQ->nRdIdx + bytesFromRdIdx;
     if (nRdIdx >= pQ->nBufSz) {
@@ -663,12 +658,12 @@ uint_t MWPcmQPeekRandom(MWPcmQ_t *const pQ, pcm_t *pRdBuf, uint_t bytesFromRdIdx
     nCount = (nCount < 0) ? 0 : nCount;
 
     // Calculate how many bytes can be read from the RdBuffer.
-    WordsToRead = MIN(((uint_t)nCount), nLen);
+    WordsToRead = MIN(((unsigned int)nCount), nLen);
 
     // We can definitely read WordsToRead bytes.
     while (WordsToRead > 0) {
       // Calculate how many contiguous bytes to the end of the buffer
-      uint_t Words = MIN(WordsToRead, (pQ->nBufSz - nRdIdx));
+      unsigned int Words = MIN(WordsToRead, (pQ->nBufSz - nRdIdx));
 
       // Copy that many bytes.
       memcpy(&pRdBuf[WordsRead], &pQ->pfBuf[nRdIdx], Words * sizeof(pcm_t));
@@ -683,22 +678,21 @@ uint_t MWPcmQPeekRandom(MWPcmQ_t *const pQ, pcm_t *pRdBuf, uint_t bytesFromRdIdx
       WordsRead += Words;
       WordsToRead -= Words;
     }
-
   }
   return WordsRead;
 }
 
 /** [Declaration] Inserts data somewhere into the buffer */
-uint_t MWPcmQPokeRandom(MWPcmQ_t *const pQ, pcm_t *pWrBuf, uint_t bytesFromStart,
-                      uint_t nLen) {
-  uint_t WordsWritten = 0;
+unsigned int MWPcmQPokeRandom(MWPcmQ_t *const pQ, pcm_t *pWrBuf,
+                        unsigned int bytesFromStart, unsigned int nLen) {
+  unsigned int WordsWritten = 0;
 
   ASSERT(NULL != pQ);
   if (nLen) {
 
-    uint_t nWrIdx;
-    uint_t WordsToWrite;
-    int_t nCount;
+    unsigned int nWrIdx;
+    unsigned int WordsToWrite;
+    int nCount;
 
     nWrIdx = pQ->nWrIdx + bytesFromStart;
     if (nWrIdx >= pQ->nBufSz) {
@@ -710,12 +704,12 @@ uint_t MWPcmQPokeRandom(MWPcmQ_t *const pQ, pcm_t *pWrBuf, uint_t bytesFromStart
     nCount = (nCount < 0) ? 0 : nCount;
 
     // Calculate how many bytes can be written to the WrBuffer.
-    WordsToWrite = MIN(((uint_t)nCount), nLen);
+    WordsToWrite = MIN(((unsigned int)nCount), nLen);
 
     // We can definitely read WordsToRead bytes.
     while (WordsToWrite > 0) {
       // Calculate how many contiguous bytes to the end of the buffer
-      uint_t Words = MIN(WordsToWrite, (pQ->nBufSz - nWrIdx));
+      unsigned int Words = MIN(WordsToWrite, (pQ->nBufSz - nWrIdx));
 
       // Copy that many bytes.
       memcpy(&pQ->pfBuf[nWrIdx], &pWrBuf[WordsWritten], Words * sizeof(pcm_t));
@@ -730,19 +724,18 @@ uint_t MWPcmQPokeRandom(MWPcmQ_t *const pQ, pcm_t *pWrBuf, uint_t bytesFromStart
       WordsWritten += Words;
       WordsToWrite -= Words;
     }
-
   }
   return WordsWritten;
 }
 
 /** [Declaration] Reads the last nLen words from the buffer */
-int_t MWPcmQDoReadFromEnd(MWPcmQ_t *const pQ, pcm_t *pRdBuf, int_t nLen) {
-  int_t shortsRead = 0;
+int MWPcmQDoReadFromEnd(MWPcmQ_t *const pQ, pcm_t *pRdBuf, int nLen) {
+  int shortsRead = 0;
 
   if (nLen > 0) {
     // Calculate how many shorts can be read from the RdBuffer.
-    int_t shortsToRead = 0;
-    int_t nRdIdx = pQ->nWrIdx - nLen;
+    int shortsToRead = 0;
+    int nRdIdx = pQ->nWrIdx - nLen;
     if (nRdIdx < 0) {
       nRdIdx += pQ->nBufSz;
     }
@@ -752,14 +745,14 @@ int_t MWPcmQDoReadFromEnd(MWPcmQ_t *const pQ, pcm_t *pRdBuf, int_t nLen) {
     // We can definitely read ShortsToRead shorts.
     while (shortsToRead > 0) {
       // Calculate how many contiguous shorts to the end of the buffer
-      int_t Shorts = MIN(shortsToRead, (int_t)((pQ->nBufSz - nRdIdx)));
+      int Shorts = MIN(shortsToRead, (int)((pQ->nBufSz - nRdIdx)));
 
       // Copy that many shorts.
       memcpy(&pRdBuf[shortsRead], &pQ->pfBuf[nRdIdx], Shorts * sizeof(pcm_t));
 
       // Circular buffering.
       nRdIdx += Shorts;
-      if (nRdIdx >= (int_t)pQ->nBufSz) {
+      if (nRdIdx >= (int)pQ->nBufSz) {
         nRdIdx -= pQ->nBufSz;
       }
 
@@ -771,13 +764,14 @@ int_t MWPcmQDoReadFromEnd(MWPcmQ_t *const pQ, pcm_t *pRdBuf, int_t nLen) {
   return shortsRead;
 }
 
-int_t MWPcmQDoReadToDoubleFromEnd(MWPcmQ_t *const pQ, double *pRdBuf, int_t nLen) {
-  int_t shortsRead = 0;
+int MWPcmQDoReadToDoubleFromEnd(MWPcmQ_t *const pQ, double *pRdBuf,
+                                  int nLen) {
+  int shortsRead = 0;
 
   if (nLen > 0) {
     // Calculate how many shorts can be read from the RdBuffer.
-    int_t shortsToRead = 0;
-    int_t nRdIdx = pQ->nWrIdx - nLen;
+    int shortsToRead = 0;
+    int nRdIdx = pQ->nWrIdx - nLen;
     if (nRdIdx < 0) {
       nRdIdx += pQ->nBufSz;
     }
@@ -786,10 +780,10 @@ int_t MWPcmQDoReadToDoubleFromEnd(MWPcmQ_t *const pQ, double *pRdBuf, int_t nLen
 
     // We can definitely read ShortsToRead shorts.
     while (shortsToRead > 0) {
-      int_t i;
+      int i;
 
       // Calculate how many contiguous shorts to the end of the buffer
-      int_t Shorts = MIN(shortsToRead, (int_t)((pQ->nBufSz - nRdIdx)));
+      int Shorts = MIN(shortsToRead, (int)((pQ->nBufSz - nRdIdx)));
 
       // Copy that many shorts.
       // HelperMath.aMemCpyToDbl( pRdBuf, shortsRead, pQ->pBuf, nRdIdx, Shorts
@@ -800,7 +794,7 @@ int_t MWPcmQDoReadToDoubleFromEnd(MWPcmQ_t *const pQ, double *pRdBuf, int_t nLen
 
       // Circular buffering.
       nRdIdx += Shorts;
-      if (nRdIdx >= (int_t)pQ->nBufSz) {
+      if (nRdIdx >= (int)pQ->nBufSz) {
         nRdIdx -= pQ->nBufSz;
       }
 
@@ -812,15 +806,15 @@ int_t MWPcmQDoReadToDoubleFromEnd(MWPcmQ_t *const pQ, double *pRdBuf, int_t nLen
   return shortsRead;
 }
 
-int_t MWPcmQDoReadToDoubleCustomCommit(MWPcmQ_t *const pQ, double *pRdBuf,
-                                     uint_t nLen, int_t amountToCommit) {
-  uint_t nToRead = 0;
+int MWPcmQDoReadToDoubleCustomCommit(MWPcmQ_t *const pQ, double *pRdBuf,
+                                       unsigned int nLen, int amountToCommit) {
+  unsigned int nToRead = 0;
   // Calculate how many shorts can be read from the RdBuffer.
-  uint_t nRead = 0;
+  unsigned int nRead = 0;
 
   if (pQ->nCount >= nLen) {
 
-    uint_t rdIdx = pQ->nRdIdx;
+    unsigned int rdIdx = pQ->nRdIdx;
     // No count MUTEX needed because count is native integer (single cycle write
     // or read)
     // and can only get larger if a process writes while we are reading.
@@ -828,9 +822,9 @@ int_t MWPcmQDoReadToDoubleCustomCommit(MWPcmQ_t *const pQ, double *pRdBuf,
 
     // We can definitely read ShortsToRead shorts.
     while (nToRead > 0) {
-      uint_t i;
+      unsigned int i;
       // Calculate how many contiguous shorts to the end of the buffer
-      const uint_t nShorts = MIN(nToRead, (pQ->nBufSz - rdIdx));
+      const unsigned int nShorts = MIN(nToRead, (pQ->nBufSz - rdIdx));
 
       // Copy that many shorts.
       // HelperMath.aMemCpyToDbl( pRdBuf, nRead, pQ->pBuf, rdIdx, nShorts );

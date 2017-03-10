@@ -29,7 +29,7 @@ static void CheckError(OSStatus error, const char *operation) {
 
 void MyInterruptionListener (void *inUserData, UInt32 inInterruptionState)
 {
-    printf ("Interrupted! inInterruptionState=%ld\n", inInterruptionState);
+    printf ("Interrupted! inInterruptionState=%ld\n", (long)inInterruptionState);
     //CH10_iOSBackgroundingToneAppDelegate *appDelegate = (CH10_iOSBackgroundingToneAppDelegate*)inUserData;
     switch (inInterruptionState) {
         case kAudioSessionBeginInterruption:
