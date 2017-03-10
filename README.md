@@ -11,4 +11,6 @@ Copy the following files to your Assets/Plugins/iOS directory:
 - common/audiolib_types.h
 - common/PcmQ.h
 - micWrapper.cpp
-- more to come...
+
+## Unity Capture ##
+You can then use the example in unity/MicCapture.cs as a template for your microphone handling code.
