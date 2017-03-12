@@ -11,6 +11,10 @@
 
 #include <AudioToolbox/AudioToolbox.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*!
  @function       AudioSessionGetProperty
  @abstract       Get the value of a property.
@@ -39,4 +43,8 @@ _AudioSessionSetProperty(            AudioSessionPropertyID              inID,
                         UInt32                              inDataSize,
                         const void                          *inData);
 
+#ifdef __cplusplus
+}
+#endif
+    
 #endif /* AVAudioSessionWrapper_h */

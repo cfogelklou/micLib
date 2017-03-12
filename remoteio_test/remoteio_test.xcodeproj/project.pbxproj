@@ -14,8 +14,10 @@
 		83841CDC1B170B4F0013D0DF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83841CDB1B170B4F0013D0DF /* Images.xcassets */; };
 		83841CDF1B170B4F0013D0DF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83841CDD1B170B4F0013D0DF /* LaunchScreen.xib */; };
 		83841CEB1B170B500013D0DF /* remoteio_testTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 83841CEA1B170B500013D0DF /* remoteio_testTests.m */; };
-		83841CF71B170C8C0013D0DF /* libremote_io.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83841CF61B170C8C0013D0DF /* libremote_io.a */; };
 		83841CFA1B1713690013D0DF /* AppDelegate_cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83841CF81B1713690013D0DF /* AppDelegate_cpp.cpp */; };
+		839915491E7574290082B8D7 /* libremote_io.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 839915481E7573F20082B8D7 /* libremote_io.a */; };
+		839915511E757D680082B8D7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 839915501E757D680082B8D7 /* AVFoundation.framework */; };
+		839915531E757D6D0082B8D7 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 839915521E757D6D0082B8D7 /* AVKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,6 +27,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 83841CCA1B170B4F0013D0DF;
 			remoteInfo = remoteio_test;
+		};
+		839915471E7573F20082B8D7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 839915431E7573F10082B8D7 /* remote_io.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8399151F1E753A5B0082B8D7;
+			remoteInfo = remote_io;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -42,9 +51,11 @@
 		83841CE41B170B500013D0DF /* remoteio_testTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = remoteio_testTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		83841CE91B170B500013D0DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		83841CEA1B170B500013D0DF /* remoteio_testTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = remoteio_testTests.m; sourceTree = "<group>"; };
-		83841CF61B170C8C0013D0DF /* libremote_io.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libremote_io.a; sourceTree = "<group>"; };
 		83841CF81B1713690013D0DF /* AppDelegate_cpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate_cpp.cpp; sourceTree = "<group>"; };
 		83841CF91B1713690013D0DF /* AppDelegate_cpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate_cpp.h; sourceTree = "<group>"; };
+		839915431E7573F10082B8D7 /* remote_io.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = remote_io.xcodeproj; path = ../remote_io/remote_io.xcodeproj; sourceTree = "<group>"; };
+		839915501E757D680082B8D7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		839915521E757D6D0082B8D7 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +63,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83841CF71B170C8C0013D0DF /* libremote_io.a in Frameworks */,
+				839915531E757D6D0082B8D7 /* AVKit.framework in Frameworks */,
+				839915511E757D680082B8D7 /* AVFoundation.framework in Frameworks */,
+				839915491E7574290082B8D7 /* libremote_io.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,10 +82,11 @@
 		83841CC21B170B4F0013D0DF = {
 			isa = PBXGroup;
 			children = (
-				83841CF61B170C8C0013D0DF /* libremote_io.a */,
+				839915431E7573F10082B8D7 /* remote_io.xcodeproj */,
 				83841CCD1B170B4F0013D0DF /* remoteio_test */,
 				83841CE71B170B500013D0DF /* remoteio_testTests */,
 				83841CCC1B170B4F0013D0DF /* Products */,
+				8399154F1E757D680082B8D7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -126,6 +140,23 @@
 				83841CE91B170B500013D0DF /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		839915441E7573F10082B8D7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				839915481E7573F20082B8D7 /* libremote_io.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8399154F1E757D680082B8D7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				839915521E757D6D0082B8D7 /* AVKit.framework */,
+				839915501E757D680082B8D7 /* AVFoundation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,6 +227,12 @@
 			mainGroup = 83841CC21B170B4F0013D0DF;
 			productRefGroup = 83841CCC1B170B4F0013D0DF /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 839915441E7573F10082B8D7 /* Products */;
+					ProjectRef = 839915431E7573F10082B8D7 /* remote_io.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				83841CCA1B170B4F0013D0DF /* remoteio_test */,
@@ -203,6 +240,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		839915481E7573F20082B8D7 /* libremote_io.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libremote_io.a;
+			remoteRef = 839915471E7573F20082B8D7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		83841CC91B170B4F0013D0DF /* Resources */ = {
