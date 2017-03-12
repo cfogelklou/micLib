@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "502321E545F9361885964B3EAABA725596218654",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "EACDB6CFB07CCEC8797F2528671A750DA842F4EB" : 9223372036854775807,
+    "502321E545F9361885964B3EAABA725596218654" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "B52F8AE3-DC08-4912-BF6C-FC9B3063EFC6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "EACDB6CFB07CCEC8797F2528671A750DA842F4EB" : "..",
+    "502321E545F9361885964B3EAABA725596218654" : "micLib\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "remoteio_test",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "remoteio_test\/remoteio_test.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/cfogelklou\/micLib",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "502321E545F9361885964B3EAABA725596218654"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/ec2\/opt\/projects\/acornSmartWatchTuner.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "EACDB6CFB07CCEC8797F2528671A750DA842F4EB"
+    }
+  ]
+}
