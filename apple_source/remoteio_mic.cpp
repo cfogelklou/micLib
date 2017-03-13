@@ -503,6 +503,13 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
                                               kAudioOutputUnitProperty_EnableIO,
                                               kAudioUnitScope_Input, kInputBus1,
                                               &kOneFlag, sizeof(kOneFlag)));
+      // First get status.
+      ASSERT_FN(noErr == AudioUnitGetProperty(pPlayer->inputUnit,
+                                              kAudioOutputUnitProperty_EnableIO,
+                                              kAudioUnitScope_Input, kInputBus1,
+                                               &micHwEnabled, &flagSize));
+
+      RIOTRACE(("micHwEnabled = %u\n", (unsigned int)micHwEnabled));
     }
   }
 
