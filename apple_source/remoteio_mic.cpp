@@ -42,6 +42,7 @@
       return false;                                                            \
   } while (0)
 
+// ////////////////////////////////////////////////////////////////////////////
 typedef struct RemoteIO_Internal_tag {
   RioInstance_t inst;
 
@@ -61,6 +62,7 @@ typedef struct RemoteIO_Internal_tag {
 
 extern "C" {
 
+// ////////////////////////////////////////////////////////////////////////////
 static const char *riomGetUintStr(UInt32 chars) {
   static char bytesArr[8][8];
   static int bytesIdx = 0;
@@ -73,8 +75,7 @@ static const char *riomGetUintStr(UInt32 chars) {
   pBytes[4] = 0;
   return pBytes;
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
 static bool riom_print_asbd(const char *const szHeader,
                             const AudioStreamBasicDescription *const pAsbd) {
 
@@ -94,8 +95,7 @@ static bool riom_print_asbd(const char *const szHeader,
   return true;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
 static OSStatus
 riom_input_render_proc(void *pInRefCon,
                        AudioUnitRenderActionFlags *pIoActionFlags,
@@ -125,8 +125,7 @@ riom_input_render_proc(void *pInRefCon,
   return inputProcErr;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
 #if !TARGET_OS_IPHONE
 static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
   // Generates a description that matches audio HAL
@@ -394,9 +393,9 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
   {
     UInt32 inputAvailable = 0;
     UInt32 propSize = sizeof(inputAvailable);
-    ASSERT_FN(noErr ==
-              _AudioSessionGetProperty(kAudioSessionProperty_AudioInputAvailable,
-                                      &propSize, &inputAvailable));
+    ASSERT_FN(noErr == _AudioSessionGetProperty(
+                           kAudioSessionProperty_AudioInputAvailable, &propSize,
+                           &inputAvailable));
     ASSERT(0 != inputAvailable);
     RIOTRACE(("inputAvailable = %u\n", (unsigned int)inputAvailable));
   }
@@ -507,7 +506,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
       ASSERT_FN(noErr == AudioUnitGetProperty(pPlayer->inputUnit,
                                               kAudioOutputUnitProperty_EnableIO,
                                               kAudioUnitScope_Input, kInputBus1,
-                                               &micHwEnabled, &flagSize));
+                                              &micHwEnabled, &flagSize));
 
       RIOTRACE(("micHwEnabled = %u\n", (unsigned int)micHwEnabled));
     }

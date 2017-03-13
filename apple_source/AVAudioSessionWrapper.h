@@ -15,36 +15,23 @@
 extern "C" {
 #endif
 
-/*!
- @function       AudioSessionGetProperty
- @abstract       Get the value of a property.
- @discussion     This function can be called to get the value for a property of the AudioSession.
- Valid properties are listed in an enum above.
- @param          inID
- The AudioSessionPropertyID for which we want to get the value.
- @param          ioDataSize
- The size of the data payload.
- On entry it should contain the size of the memory pointed to by outData.
- On exit it will contain the actual size of the data.
- @param          outData
- The data for the property will be copied here.
- @return         kAudioSessionNoError if the operation was successful.  If the property is a
- write-only property or only available by way of property listeners,
- kAudioSessionUnsupportedPropertyError will be returned.  Other error codes
- listed under AudioSession Error Constants also apply to this function.
- */
-extern OSStatus
-_AudioSessionGetProperty(            AudioSessionPropertyID              inID,
-                        UInt32                              *ioDataSize,
-                        void                                *outData);
+// For backwards compatibility with legacy C++ code, implements C APIs for Get and Set (for microphone access)
+// In a .mm file, since there are no C APIs for audio sessions anymore.
 
-extern OSStatus
-_AudioSessionSetProperty(            AudioSessionPropertyID              inID,
-                        UInt32                              inDataSize,
-                        const void                          *inData);
+/*
+ @function       AudioSessionGetProperty wrapper
+ */
+extern OSStatus _AudioSessionGetProperty(AudioSessionPropertyID inID,
+                                         UInt32 *ioDataSize, void *outData);
+
+/*
+ @function       AudioSessionSetProperty wrapper
+ */
+extern OSStatus _AudioSessionSetProperty(AudioSessionPropertyID inID,
+                                         UInt32 inDataSize, const void *inData);
 
 #ifdef __cplusplus
 }
 #endif
-    
+
 #endif /* AVAudioSessionWrapper_h */
