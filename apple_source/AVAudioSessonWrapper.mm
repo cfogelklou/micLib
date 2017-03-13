@@ -183,7 +183,7 @@ OSStatus _AudioSessionGetProperty(AudioSessionPropertyID inID,
     *(Float32 *)outData = time;
   } break;
   default:
-    NSLog(@"Unsupported _AudioSessionGetProperty id %@", inID);
+    NSLog(@"Unsupported _AudioSessionGetProperty id %d", (unsigned int)inID);
     break;
   }
   return noErr;
@@ -213,7 +213,7 @@ OSStatus _AudioSessionSetProperty(AudioSessionPropertyID inID,
                                error:nil];
   } break;
   default:
-    NSLog(@"Unsupported _AudioSessionSetProperty id %@", inID);
+    NSLog(@"Unsupported _AudioSessionSetProperty id %d", (unsigned int)inID);
     break;
   }
   return noErr;

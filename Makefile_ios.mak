@@ -57,6 +57,7 @@ FLAGS = -DTARGET_OS_IPHONE=1 $(MYINCLUDES)
 CFLAGS = $(PFLAGS) -x c -arch $(ARCH) $(FLAGS) -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=gnu99 -Wnon-modular-include-in-framework-module -Werror=non-modular-include-in-framework-module -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wunreachable-code -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -isysroot $(SDKPATH) -fstrict-aliasing -Wdeprecated-declarations -g -Wno-sign-conversion -MMD -MT dependencies
   
 CPPFLAGS = $(PFLAGS) -x c++ -arch $(ARCH) $(FLAGS) -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=gnu++11 -stdlib=libc++ -fmodules -Wnon-modular-include-in-framework-module -Werror=non-modular-include-in-framework-module -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wunreachable-code -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -isysroot $(SDKPATH) -fstrict-aliasing -Wdeprecated-declarations -Winvalid-offsetof -g -Wno-sign-conversion -MMD -MT dependencies
+CPPFLAGS += -x objective-c++
 
 ifdef ROBOVM
 CFLAGS += -D ROBOVM
@@ -84,8 +85,12 @@ CPPSRCS = $(wildcard $(SRCDIR)/*.cpp)
 CPPSRCS += $(wildcard $(SRCDIR2)/*.cpp)
 CPPOBJS = $(CPPSRCS:%.cpp=$(OUTDIR)/%.o)
 
+MMSRCS = $(wildcard $(SRCDIR)/*.mm)
+MMSRCS += $(wildcard $(SRCDIR2)/*.mm)
+MMOBJS = $(MMSRCS:%.mm=$(OUTDIR)/%.o)
+
 TESTSRCS = main.cpp
-TESTOBJS = $(CPPOBJS) $(TESTSRCS:%.cpp=$(OUTDIR)/%.o)
+TESTOBJS = $(CPPOBJS) $(MMOBJS) $(TESTSRCS:%.cpp=$(OUTDIR)/%.o)
 
 TARGETLIB = $(OUTDIR)/libremote_io.a
 
@@ -106,7 +111,11 @@ $(OUTDIR)/%.o : %.cpp
 	@echo "  CXX $@"
 	@$(CXX) $(CPPFLAGS)  -c -o $@ $<
 
-$(TARGETLIB) : $(COBJS) $(CPPOBJS)
+$(OUTDIR)/%.o : %.mm
+	@echo "  CXX $@"
+	@$(CC) $(CPPFLAGS)  -c -o $@ $<
+
+$(TARGETLIB) : $(COBJS) $(CPPOBJS) $(MMOBJS)
 	@echo "  LD $@"
 	@$(LDLIB) $(LDFLAGS)  -o $@ $^
 
