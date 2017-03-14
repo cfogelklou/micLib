@@ -17,18 +17,17 @@ ARCH=x86_64
 PLATFORMPATH=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform
 export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 SDKPATH = $(PLATFORMPATH)/Developer/SDKs/iPhoneSimulator.sdk
-
-PFLAGS=-mios-simulator-version-min=7.0
-
+PFLAGS=-mios-simulator-version-min=7.0 -fembed-bitcode
 else
-
 PLATFORMPATH=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform
 export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 SDKPATH = $(PLATFORMPATH)/Developer/SDKs/iPhoneOS.sdk
-
 PFLAGS=-miphoneos-version-min=7.0 -fembed-bitcode
 
 endif
+
+#Common define
+XCODE_DEVELOPER=/Applications/Xcode.app/Contents/Developer
 
 #armv6
 #armv7
@@ -46,11 +45,11 @@ MYINCLUDES = \
 -I$(PLATFORMPATH)/Developer/Library/Frameworks \
 -I$(SDKPATH) \
 -I$(SDKPATH)/usr/include \
--I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include \
+-I$(XCODE_DEVELOPER)/Toolchains/XcodeDefault.xctoolchain/usr/include \
 -I/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers \
 -I/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers \
--I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-migrator/sdks/MacOSX.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers \
--I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers
+-I$(XCODE_DEVELOPER)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-migrator/sdks/MacOSX.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers \
+-I$(XCODE_DEVELOPER)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers
 
 FLAGS = -DTARGET_OS_IPHONE=1 $(MYINCLUDES)
 
@@ -68,8 +67,7 @@ LDFLAGS =  -static -arch_only $(ARCH) -syslibroot $(SDKPATH)
 
 LDAPPFLAGS = $(FLAGS)
 LDAPPFLAGS += \
-  -F$(SDKPATH)/System/Library/Frameworks \
-  -framework AudioToolbox -framework AudioUnit -framework CoreAudio
+  -F$(SDKPATH)/System/Library/Frameworks -framework AVFoundation
 
 SRCDIR = apple_source
 SRCDIR2 = common

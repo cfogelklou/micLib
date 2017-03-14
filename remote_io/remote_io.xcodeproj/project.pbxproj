@@ -12,7 +12,6 @@
 		839915331E753A820082B8D7 /* PcmQ.c in Sources */ = {isa = PBXBuildFile; fileRef = 839915301E753A820082B8D7 /* PcmQ.c */; };
 		839915351E7570420082B8D7 /* AVAudioSessonWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 839915341E7570420082B8D7 /* AVAudioSessonWrapper.mm */; };
 		8399154C1E757D0F0082B8D7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8399154B1E757D0F0082B8D7 /* AVFoundation.framework */; };
-		8399154E1E757D1A0082B8D7 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8399154D1E757D1A0082B8D7 /* AVKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,7 +37,6 @@
 		839915341E7570420082B8D7 /* AVAudioSessonWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AVAudioSessonWrapper.mm; path = ../../apple_source/AVAudioSessonWrapper.mm; sourceTree = "<group>"; };
 		839915361E7570D20082B8D7 /* AVAudioSessionWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AVAudioSessionWrapper.h; path = ../../apple_source/AVAudioSessionWrapper.h; sourceTree = "<group>"; };
 		8399154B1E757D0F0082B8D7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		8399154D1E757D1A0082B8D7 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +44,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8399154E1E757D1A0082B8D7 /* AVKit.framework in Frameworks */,
 				8399154C1E757D0F0082B8D7 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -89,7 +86,6 @@
 		8399154A1E757D0F0082B8D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8399154D1E757D1A0082B8D7 /* AVKit.framework */,
 				8399154B1E757D0F0082B8D7 /* AVFoundation.framework */,
 			);
 			name = Frameworks;
