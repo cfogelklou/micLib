@@ -42,6 +42,7 @@
       return false;                                                            \
   } while (0)
 
+// ////////////////////////////////////////////////////////////////////////////
 typedef struct RemoteIO_Internal_tag {
   RioInstance_t inst;
 
@@ -61,6 +62,7 @@ typedef struct RemoteIO_Internal_tag {
 
 extern "C" {
 
+// ////////////////////////////////////////////////////////////////////////////
 static const char *riomGetUintStr(UInt32 chars) {
   static char bytesArr[8][8];
   static int bytesIdx = 0;
@@ -73,8 +75,7 @@ static const char *riomGetUintStr(UInt32 chars) {
   pBytes[4] = 0;
   return pBytes;
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
 static bool riom_print_asbd(const char *const szHeader,
                             const AudioStreamBasicDescription *const pAsbd) {
 
@@ -94,8 +95,7 @@ static bool riom_print_asbd(const char *const szHeader,
   return true;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
 static OSStatus
 riom_input_render_proc(void *pInRefCon,
                        AudioUnitRenderActionFlags *pIoActionFlags,
@@ -125,8 +125,7 @@ riom_input_render_proc(void *pInRefCon,
   return inputProcErr;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
 #if !TARGET_OS_IPHONE
 static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
   // Generates a description that matches audio HAL
@@ -256,6 +255,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
 }
 #else
 
+#include "AVAudioSessionWrapper.h"
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // We want to ensure that Unity has enabled a mode that allows recording.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -263,7 +263,7 @@ static bool riom_set_record_category(RemoteIO_Internal_t *pPlayer) {
   const AudioSessionPropertyID id = kAudioSessionProperty_AudioCategory;
   UInt32 category = 0;
   UInt32 propSize = sizeof(category);
-  ASSERT_FN(noErr == AudioSessionGetProperty(id, &propSize, &category));
+  ASSERT_FN(noErr == _AudioSessionGetProperty(id, &propSize, &category));
 
   RIOTRACE(("Category was %s\n", riomGetUintStr(category)));
 
@@ -273,9 +273,9 @@ static bool riom_set_record_category(RemoteIO_Internal_t *pPlayer) {
               riomGetUintStr(kAudioSessionCategory_PlayAndRecord)));
     category = kAudioSessionCategory_PlayAndRecord;
     ASSERT_FN(noErr ==
-              AudioSessionSetProperty(id, sizeof(category), &category));
+              _AudioSessionSetProperty(id, sizeof(category), &category));
   }
-  ASSERT_FN(noErr == AudioSessionGetProperty(id, &propSize, &category));
+  ASSERT_FN(noErr == _AudioSessionGetProperty(id, &propSize, &category));
   return ((category == kAudioSessionCategory_RecordAudio) ||
           (category == kAudioSessionCategory_PlayAndRecord));
 
@@ -297,7 +297,7 @@ failure:
 *Ergo, the stream properties for this unit are
 *              Bus 0                               Bus 1
 *Input Scope:  Set ASBD to indicate what           Get ASBD to inspect audio
-*              you’re providing for play-out	    format being received
+*              youï¿½re providing for play-out	    format being received
 *from H/W
 *
 *Output Scope:	Get ASBD to inspect audio format    Set ASBD to indicate
@@ -393,9 +393,9 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
   {
     UInt32 inputAvailable = 0;
     UInt32 propSize = sizeof(inputAvailable);
-    ASSERT_FN(noErr ==
-              AudioSessionGetProperty(kAudioSessionProperty_AudioInputAvailable,
-                                      &propSize, &inputAvailable));
+    ASSERT_FN(noErr == _AudioSessionGetProperty(
+                           kAudioSessionProperty_AudioInputAvailable, &propSize,
+                           &inputAvailable));
     ASSERT(0 != inputAvailable);
     RIOTRACE(("inputAvailable = %u\n", (unsigned int)inputAvailable));
   }
@@ -405,7 +405,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
   // otherwise just get the current sample rate if it is set.
   {
     UInt32 propSize = sizeof(hardwareSampleRate);
-    ASSERT_FN(noErr == AudioSessionGetProperty(
+    ASSERT_FN(noErr == _AudioSessionGetProperty(
                            kAudioSessionProperty_CurrentHardwareSampleRate,
                            &propSize, &hardwareSampleRate));
     if (((pPlayer->desiredFs > 0) &&
@@ -415,11 +415,11 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
       RIOTRACE(("Hardware sample rate of %d not as desired.  Setting to %d\n",
                 (int)hardwareSampleRate, desiredFs));
       hardwareSampleRate = desiredFs;
-      ASSERT_FN(noErr == AudioSessionSetProperty(
+      ASSERT_FN(noErr == _AudioSessionSetProperty(
                              kAudioSessionProperty_CurrentHardwareSampleRate,
                              propSize, &hardwareSampleRate));
 
-      ASSERT_FN(noErr == AudioSessionGetProperty(
+      ASSERT_FN(noErr == _AudioSessionGetProperty(
                              kAudioSessionProperty_CurrentHardwareSampleRate,
                              &propSize, &hardwareSampleRate));
     }
@@ -432,7 +432,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
   {
     UInt32 propSize = sizeof(hardwareDurationSeconds);
     ASSERT_FN(noErr ==
-              AudioSessionGetProperty(
+              _AudioSessionGetProperty(
                   kAudioSessionProperty_PreferredHardwareIOBufferDuration,
                   &propSize, &hardwareDurationSeconds));
 
@@ -502,6 +502,13 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
                                               kAudioOutputUnitProperty_EnableIO,
                                               kAudioUnitScope_Input, kInputBus1,
                                               &kOneFlag, sizeof(kOneFlag)));
+      // First get status.
+      ASSERT_FN(noErr == AudioUnitGetProperty(pPlayer->inputUnit,
+                                              kAudioOutputUnitProperty_EnableIO,
+                                              kAudioUnitScope_Input, kInputBus1,
+                                              &micHwEnabled, &flagSize));
+
+      RIOTRACE(("micHwEnabled = %u\n", (unsigned int)micHwEnabled));
     }
   }
 

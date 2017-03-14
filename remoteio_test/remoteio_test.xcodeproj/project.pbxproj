@@ -13,18 +13,18 @@
 		83841CDA1B170B4F0013D0DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83841CD81B170B4F0013D0DF /* Main.storyboard */; };
 		83841CDC1B170B4F0013D0DF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83841CDB1B170B4F0013D0DF /* Images.xcassets */; };
 		83841CDF1B170B4F0013D0DF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83841CDD1B170B4F0013D0DF /* LaunchScreen.xib */; };
-		83841CEB1B170B500013D0DF /* remoteio_testTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 83841CEA1B170B500013D0DF /* remoteio_testTests.m */; };
-		83841CF71B170C8C0013D0DF /* libremote_io.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83841CF61B170C8C0013D0DF /* libremote_io.a */; };
 		83841CFA1B1713690013D0DF /* AppDelegate_cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83841CF81B1713690013D0DF /* AppDelegate_cpp.cpp */; };
+		839915491E7574290082B8D7 /* libremote_io.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 839915481E7573F20082B8D7 /* libremote_io.a */; };
+		839915511E757D680082B8D7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 839915501E757D680082B8D7 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		83841CE51B170B500013D0DF /* PBXContainerItemProxy */ = {
+		839915471E7573F20082B8D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 83841CC31B170B4F0013D0DF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 83841CCA1B170B4F0013D0DF;
-			remoteInfo = remoteio_test;
+			containerPortal = 839915431E7573F10082B8D7 /* remote_io.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8399151F1E753A5B0082B8D7;
+			remoteInfo = remote_io;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -39,12 +39,10 @@
 		83841CD91B170B4F0013D0DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		83841CDB1B170B4F0013D0DF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		83841CDE1B170B4F0013D0DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		83841CE41B170B500013D0DF /* remoteio_testTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = remoteio_testTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		83841CE91B170B500013D0DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		83841CEA1B170B500013D0DF /* remoteio_testTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = remoteio_testTests.m; sourceTree = "<group>"; };
-		83841CF61B170C8C0013D0DF /* libremote_io.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libremote_io.a; sourceTree = "<group>"; };
 		83841CF81B1713690013D0DF /* AppDelegate_cpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate_cpp.cpp; sourceTree = "<group>"; };
 		83841CF91B1713690013D0DF /* AppDelegate_cpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate_cpp.h; sourceTree = "<group>"; };
+		839915431E7573F10082B8D7 /* remote_io.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = remote_io.xcodeproj; path = ../remote_io/remote_io.xcodeproj; sourceTree = "<group>"; };
+		839915501E757D680082B8D7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,14 +50,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83841CF71B170C8C0013D0DF /* libremote_io.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		83841CE11B170B500013D0DF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				839915511E757D680082B8D7 /* AVFoundation.framework in Frameworks */,
+				839915491E7574290082B8D7 /* libremote_io.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,10 +61,10 @@
 		83841CC21B170B4F0013D0DF = {
 			isa = PBXGroup;
 			children = (
-				83841CF61B170C8C0013D0DF /* libremote_io.a */,
+				839915431E7573F10082B8D7 /* remote_io.xcodeproj */,
 				83841CCD1B170B4F0013D0DF /* remoteio_test */,
-				83841CE71B170B500013D0DF /* remoteio_testTests */,
 				83841CCC1B170B4F0013D0DF /* Products */,
+				8399154F1E757D680082B8D7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -80,7 +72,6 @@
 			isa = PBXGroup;
 			children = (
 				83841CCB1B170B4F0013D0DF /* remoteio_test.app */,
-				83841CE41B170B500013D0DF /* remoteio_testTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -111,21 +102,20 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		83841CE71B170B500013D0DF /* remoteio_testTests */ = {
+		839915441E7573F10082B8D7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				83841CEA1B170B500013D0DF /* remoteio_testTests.m */,
-				83841CE81B170B500013D0DF /* Supporting Files */,
+				839915481E7573F20082B8D7 /* libremote_io.a */,
 			);
-			path = remoteio_testTests;
+			name = Products;
 			sourceTree = "<group>";
 		};
-		83841CE81B170B500013D0DF /* Supporting Files */ = {
+		8399154F1E757D680082B8D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				83841CE91B170B500013D0DF /* Info.plist */,
+				839915501E757D680082B8D7 /* AVFoundation.framework */,
 			);
-			name = "Supporting Files";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,40 +138,18 @@
 			productReference = 83841CCB1B170B4F0013D0DF /* remoteio_test.app */;
 			productType = "com.apple.product-type.application";
 		};
-		83841CE31B170B500013D0DF /* remoteio_testTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 83841CF11B170B500013D0DF /* Build configuration list for PBXNativeTarget "remoteio_testTests" */;
-			buildPhases = (
-				83841CE01B170B500013D0DF /* Sources */,
-				83841CE11B170B500013D0DF /* Frameworks */,
-				83841CE21B170B500013D0DF /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				83841CE61B170B500013D0DF /* PBXTargetDependency */,
-			);
-			name = remoteio_testTests;
-			productName = remoteio_testTests;
-			productReference = 83841CE41B170B500013D0DF /* remoteio_testTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		83841CC31B170B4F0013D0DF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Acorn Technology";
 				TargetAttributes = {
 					83841CCA1B170B4F0013D0DF = {
 						CreatedOnToolsVersion = 6.3.2;
 						DevelopmentTeam = AM9NFEGUR5;
-					};
-					83841CE31B170B500013D0DF = {
-						CreatedOnToolsVersion = 6.3.2;
-						TestTargetID = 83841CCA1B170B4F0013D0DF;
 					};
 				};
 			};
@@ -196,13 +164,28 @@
 			mainGroup = 83841CC21B170B4F0013D0DF;
 			productRefGroup = 83841CCC1B170B4F0013D0DF /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 839915441E7573F10082B8D7 /* Products */;
+					ProjectRef = 839915431E7573F10082B8D7 /* remote_io.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				83841CCA1B170B4F0013D0DF /* remoteio_test */,
-				83841CE31B170B500013D0DF /* remoteio_testTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		839915481E7573F20082B8D7 /* libremote_io.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libremote_io.a;
+			remoteRef = 839915471E7573F20082B8D7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		83841CC91B170B4F0013D0DF /* Resources */ = {
@@ -212,13 +195,6 @@
 				83841CDA1B170B4F0013D0DF /* Main.storyboard in Resources */,
 				83841CDF1B170B4F0013D0DF /* LaunchScreen.xib in Resources */,
 				83841CDC1B170B4F0013D0DF /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		83841CE21B170B500013D0DF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,23 +212,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		83841CE01B170B500013D0DF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				83841CEB1B170B500013D0DF /* remoteio_testTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		83841CE61B170B500013D0DF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 83841CCA1B170B4F0013D0DF /* remoteio_test */;
-			targetProxy = 83841CE51B170B500013D0DF /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		83841CD81B170B4F0013D0DF /* Main.storyboard */ = {
@@ -287,14 +247,17 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -331,8 +294,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -367,6 +332,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "se.acorntechnology.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "../apple_source ../plugins_ios";
 			};
@@ -383,42 +349,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "se.acorntechnology.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "../apple_source ../plugins_ios";
-			};
-			name = Release;
-		};
-		83841CF21B170B500013D0DF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = remoteio_testTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/remoteio_test.app/remoteio_test";
-			};
-			name = Debug;
-		};
-		83841CF31B170B500013D0DF /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = remoteio_testTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/remoteio_test.app/remoteio_test";
 			};
 			name = Release;
 		};
@@ -439,15 +372,6 @@
 			buildConfigurations = (
 				83841CEF1B170B500013D0DF /* Debug */,
 				83841CF01B170B500013D0DF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		83841CF11B170B500013D0DF /* Build configuration list for PBXNativeTarget "remoteio_testTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				83841CF21B170B500013D0DF /* Debug */,
-				83841CF31B170B500013D0DF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

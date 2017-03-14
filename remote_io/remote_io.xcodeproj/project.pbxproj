@@ -1,0 +1,305 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8399152D1E753A720082B8D7 /* remoteio_mic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8399152C1E753A720082B8D7 /* remoteio_mic.cpp */; };
+		839915321E753A820082B8D7 /* micWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8399152F1E753A820082B8D7 /* micWrapper.cpp */; };
+		839915331E753A820082B8D7 /* PcmQ.c in Sources */ = {isa = PBXBuildFile; fileRef = 839915301E753A820082B8D7 /* PcmQ.c */; };
+		839915351E7570420082B8D7 /* AVAudioSessonWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 839915341E7570420082B8D7 /* AVAudioSessonWrapper.mm */; };
+		8399154C1E757D0F0082B8D7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8399154B1E757D0F0082B8D7 /* AVFoundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8399151D1E753A5B0082B8D7 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		8399151F1E753A5B0082B8D7 /* libremote_io.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libremote_io.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8399152B1E753A720082B8D7 /* remoteio_mic_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = remoteio_mic_c.h; path = ../../apple_source/remoteio_mic_c.h; sourceTree = "<group>"; };
+		8399152C1E753A720082B8D7 /* remoteio_mic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = remoteio_mic.cpp; path = ../../apple_source/remoteio_mic.cpp; sourceTree = "<group>"; };
+		8399152E1E753A820082B8D7 /* micwrapper_MicW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = micwrapper_MicW.h; path = ../../common/micwrapper_MicW.h; sourceTree = "<group>"; };
+		8399152F1E753A820082B8D7 /* micWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = micWrapper.cpp; path = ../../common/micWrapper.cpp; sourceTree = "<group>"; };
+		839915301E753A820082B8D7 /* PcmQ.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = PcmQ.c; path = ../../common/PcmQ.c; sourceTree = "<group>"; };
+		839915311E753A820082B8D7 /* PcmQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PcmQ.h; path = ../../common/PcmQ.h; sourceTree = "<group>"; };
+		839915341E7570420082B8D7 /* AVAudioSessonWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AVAudioSessonWrapper.mm; path = ../../apple_source/AVAudioSessonWrapper.mm; sourceTree = "<group>"; };
+		839915361E7570D20082B8D7 /* AVAudioSessionWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AVAudioSessionWrapper.h; path = ../../apple_source/AVAudioSessionWrapper.h; sourceTree = "<group>"; };
+		8399154B1E757D0F0082B8D7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8399151C1E753A5B0082B8D7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8399154C1E757D0F0082B8D7 /* AVFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		839915161E753A5B0082B8D7 = {
+			isa = PBXGroup;
+			children = (
+				839915211E753A5B0082B8D7 /* remote_io */,
+				839915201E753A5B0082B8D7 /* Products */,
+				8399154A1E757D0F0082B8D7 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		839915201E753A5B0082B8D7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8399151F1E753A5B0082B8D7 /* libremote_io.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		839915211E753A5B0082B8D7 /* remote_io */ = {
+			isa = PBXGroup;
+			children = (
+				8399152E1E753A820082B8D7 /* micwrapper_MicW.h */,
+				8399152F1E753A820082B8D7 /* micWrapper.cpp */,
+				839915301E753A820082B8D7 /* PcmQ.c */,
+				839915311E753A820082B8D7 /* PcmQ.h */,
+				8399152B1E753A720082B8D7 /* remoteio_mic_c.h */,
+				8399152C1E753A720082B8D7 /* remoteio_mic.cpp */,
+				839915341E7570420082B8D7 /* AVAudioSessonWrapper.mm */,
+				839915361E7570D20082B8D7 /* AVAudioSessionWrapper.h */,
+			);
+			path = remote_io;
+			sourceTree = "<group>";
+		};
+		8399154A1E757D0F0082B8D7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8399154B1E757D0F0082B8D7 /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8399151E1E753A5B0082B8D7 /* remote_io */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 839915281E753A5B0082B8D7 /* Build configuration list for PBXNativeTarget "remote_io" */;
+			buildPhases = (
+				8399151B1E753A5B0082B8D7 /* Sources */,
+				8399151C1E753A5B0082B8D7 /* Frameworks */,
+				8399151D1E753A5B0082B8D7 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = remote_io;
+			productName = remote_io;
+			productReference = 8399151F1E753A5B0082B8D7 /* libremote_io.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		839915171E753A5B0082B8D7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "Acorn Technology";
+				TargetAttributes = {
+					8399151E1E753A5B0082B8D7 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = AM9NFEGUR5;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 8399151A1E753A5B0082B8D7 /* Build configuration list for PBXProject "remote_io" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 839915161E753A5B0082B8D7;
+			productRefGroup = 839915201E753A5B0082B8D7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8399151E1E753A5B0082B8D7 /* remote_io */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8399151B1E753A5B0082B8D7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8399152D1E753A720082B8D7 /* remoteio_mic.cpp in Sources */,
+				839915331E753A820082B8D7 /* PcmQ.c in Sources */,
+				839915351E7570420082B8D7 /* AVAudioSessonWrapper.mm in Sources */,
+				839915321E753A820082B8D7 /* micWrapper.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		839915261E753A5B0082B8D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		839915271E753A5B0082B8D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		839915291E753A5B0082B8D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = AM9NFEGUR5;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = (
+					"DEBUG=1",
+					"ROBOVM=1",
+					"$(inherited)",
+				);
+				"HEADER_SEARCH_PATHS[arch=*]" = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers/;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		8399152A1E753A5B0082B8D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = AM9NFEGUR5;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "ROBOVM=1";
+				"HEADER_SEARCH_PATHS[arch=*]" = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers/;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8399151A1E753A5B0082B8D7 /* Build configuration list for PBXProject "remote_io" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				839915261E753A5B0082B8D7 /* Debug */,
+				839915271E753A5B0082B8D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		839915281E753A5B0082B8D7 /* Build configuration list for PBXNativeTarget "remote_io" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				839915291E753A5B0082B8D7 /* Debug */,
+				8399152A1E753A5B0082B8D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 839915171E753A5B0082B8D7 /* Project object */;
+}

@@ -10,6 +10,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "AppDelegate_cpp.h"
 
+/*
 static void CheckError(OSStatus error, const char *operation) {
     if (error == noErr) return;
     char errorString[20]; // See if it appears to be a 4-char-code
@@ -23,7 +24,7 @@ static void CheckError(OSStatus error, const char *operation) {
     printf("Error: %s (%s)\n", operation, errorString);
     exit(1);
 }
-
+*/
 
 
 
@@ -57,12 +58,14 @@ static MIC_t *pMic;
     // Override point for customization after application launch.
     
     // Set up the audio session
+    // This fails in XCode > 7.0, but the test code works, anyway.
+    /*
     CheckError(AudioSessionInitialize(NULL,
                                       kCFRunLoopDefaultMode,
                                       MyInterruptionListener,
                                       (__bridge void *)(self)),
                "Couldn't initialize the audio session");
-    
+     */
     /*UInt32 category = kAudioSessionCategory_RecordAudio;
     
     CheckError(AudioSessionSetProperty(kAudioSessionProperty_AudioCategory,

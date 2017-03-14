@@ -4,7 +4,7 @@
 
 export LANG=en_US.US-ASCII
 
-export IPHONEOS_DEPLOYMENT_TARGET=6.1
+export IPHONEOS_DEPLOYMENT_TARGET=7.0
 
 CC = clang
 CXX = clang++
@@ -17,18 +17,17 @@ ARCH=x86_64
 PLATFORMPATH=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform
 export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 SDKPATH = $(PLATFORMPATH)/Developer/SDKs/iPhoneSimulator.sdk
-
-PFLAGS=-mios-simulator-version-min=6.1
-
+PFLAGS=-mios-simulator-version-min=7.0 -fembed-bitcode
 else
-
 PLATFORMPATH=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform
 export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 SDKPATH = $(PLATFORMPATH)/Developer/SDKs/iPhoneOS.sdk
-
-PFLAGS=-miphoneos-version-min=6.1
+PFLAGS=-miphoneos-version-min=7.0 -fembed-bitcode
 
 endif
+
+#Common define
+XCODE_DEVELOPER=/Applications/Xcode.app/Contents/Developer
 
 #armv6
 #armv7
@@ -46,22 +45,29 @@ MYINCLUDES = \
 -I$(PLATFORMPATH)/Developer/Library/Frameworks \
 -I$(SDKPATH) \
 -I$(SDKPATH)/usr/include \
--I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include \
+-I$(XCODE_DEVELOPER)/Toolchains/XcodeDefault.xctoolchain/usr/include \
 -I/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers \
--I/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers
+-I/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers \
+-I$(XCODE_DEVELOPER)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-migrator/sdks/MacOSX.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers \
+-I$(XCODE_DEVELOPER)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers
 
 FLAGS = -DTARGET_OS_IPHONE=1 $(MYINCLUDES)
 
 CFLAGS = $(PFLAGS) -x c -arch $(ARCH) $(FLAGS) -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=gnu99 -Wnon-modular-include-in-framework-module -Werror=non-modular-include-in-framework-module -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wunreachable-code -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -isysroot $(SDKPATH) -fstrict-aliasing -Wdeprecated-declarations -g -Wno-sign-conversion -MMD -MT dependencies
   
 CPPFLAGS = $(PFLAGS) -x c++ -arch $(ARCH) $(FLAGS) -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=gnu++11 -stdlib=libc++ -fmodules -Wnon-modular-include-in-framework-module -Werror=non-modular-include-in-framework-module -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wunreachable-code -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -isysroot $(SDKPATH) -fstrict-aliasing -Wdeprecated-declarations -Winvalid-offsetof -g -Wno-sign-conversion -MMD -MT dependencies
+CPPFLAGS += -x objective-c++
+
+ifdef ROBOVM
+CFLAGS += -D ROBOVM
+CPPFLAGS += -D ROBOVM
+endif
 
 LDFLAGS =  -static -arch_only $(ARCH) -syslibroot $(SDKPATH)
 
 LDAPPFLAGS = $(FLAGS)
 LDAPPFLAGS += \
-  -F$(SDKPATH)/System/Library/Frameworks \
-  -framework AudioToolbox -framework AudioUnit -framework CoreAudio
+  -F$(SDKPATH)/System/Library/Frameworks -framework AVFoundation
 
 SRCDIR = apple_source
 SRCDIR2 = common
@@ -77,8 +83,12 @@ CPPSRCS = $(wildcard $(SRCDIR)/*.cpp)
 CPPSRCS += $(wildcard $(SRCDIR2)/*.cpp)
 CPPOBJS = $(CPPSRCS:%.cpp=$(OUTDIR)/%.o)
 
+MMSRCS = $(wildcard $(SRCDIR)/*.mm)
+MMSRCS += $(wildcard $(SRCDIR2)/*.mm)
+MMOBJS = $(MMSRCS:%.mm=$(OUTDIR)/%.o)
+
 TESTSRCS = main.cpp
-TESTOBJS = $(CPPOBJS) $(TESTSRCS:%.cpp=$(OUTDIR)/%.o)
+TESTOBJS = $(CPPOBJS) $(MMOBJS) $(TESTSRCS:%.cpp=$(OUTDIR)/%.o)
 
 TARGETLIB = $(OUTDIR)/libremote_io.a
 
@@ -99,7 +109,11 @@ $(OUTDIR)/%.o : %.cpp
 	@echo "  CXX $@"
 	@$(CXX) $(CPPFLAGS)  -c -o $@ $<
 
-$(TARGETLIB) : $(COBJS) $(CPPOBJS)
+$(OUTDIR)/%.o : %.mm
+	@echo "  CXX $@"
+	@$(CC) $(CPPFLAGS)  -c -o $@ $<
+
+$(TARGETLIB) : $(COBJS) $(CPPOBJS) $(MMOBJS)
 	@echo "  LD $@"
 	@$(LDLIB) $(LDFLAGS)  -o $@ $^
 
