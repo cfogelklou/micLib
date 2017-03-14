@@ -257,6 +257,7 @@
 					"$(inherited)",
 				);
 				"HEADER_SEARCH_PATHS[arch=*]" = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers/;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -270,6 +271,7 @@
 				DEVELOPMENT_TEAM = AM9NFEGUR5;
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "ROBOVM=1";
 				"HEADER_SEARCH_PATHS[arch=*]" = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers/;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
