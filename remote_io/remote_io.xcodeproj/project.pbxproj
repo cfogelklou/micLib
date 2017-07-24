@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		835F7BD41F261BAE007CDB04 /* AVAudioSessonWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 835F7BCC1F261BAD007CDB04 /* AVAudioSessonWrapper.mm */; };
-		835F7BD51F261BAE007CDB04 /* remoteio_mic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 835F7BCD1F261BAD007CDB04 /* remoteio_mic.cpp */; };
-		835F7BD61F261BAE007CDB04 /* micWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 835F7BD01F261BAD007CDB04 /* micWrapper.cpp */; };
-		835F7BD71F261BAE007CDB04 /* PcmQ.c in Sources */ = {isa = PBXBuildFile; fileRef = 835F7BD21F261BAD007CDB04 /* PcmQ.c */; };
+		835F7C6D1F2622CD007CDB04 /* AVAudioSessonWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 835F7C6A1F2622CD007CDB04 /* AVAudioSessonWrapper.mm */; };
+		835F7C6E1F2622CD007CDB04 /* remoteio_mic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 835F7C6C1F2622CD007CDB04 /* remoteio_mic.cpp */; };
+		835F7C7A1F2622E9007CDB04 /* micWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 835F7C771F2622E9007CDB04 /* micWrapper.cpp */; };
+		835F7C7B1F2622E9007CDB04 /* PcmQ.c in Sources */ = {isa = PBXBuildFile; fileRef = 835F7C781F2622E9007CDB04 /* PcmQ.c */; };
 		8399154C1E757D0F0082B8D7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8399154B1E757D0F0082B8D7 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,14 +27,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		835F7BCB1F261BAD007CDB04 /* AVAudioSessionWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAudioSessionWrapper.h; sourceTree = "<group>"; };
-		835F7BCC1F261BAD007CDB04 /* AVAudioSessonWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AVAudioSessonWrapper.mm; sourceTree = "<group>"; };
-		835F7BCD1F261BAD007CDB04 /* remoteio_mic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = remoteio_mic.cpp; sourceTree = "<group>"; };
-		835F7BCE1F261BAD007CDB04 /* remoteio_mic_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = remoteio_mic_c.h; sourceTree = "<group>"; };
-		835F7BD01F261BAD007CDB04 /* micWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = micWrapper.cpp; sourceTree = "<group>"; };
-		835F7BD11F261BAD007CDB04 /* micwrapper_MicW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = micwrapper_MicW.h; sourceTree = "<group>"; };
-		835F7BD21F261BAD007CDB04 /* PcmQ.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PcmQ.c; sourceTree = "<group>"; };
-		835F7BD31F261BAD007CDB04 /* PcmQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PcmQ.h; sourceTree = "<group>"; };
+		835F7C691F2622CD007CDB04 /* AVAudioSessionWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAudioSessionWrapper.h; path = ../apple_source/AVAudioSessionWrapper.h; sourceTree = "<group>"; };
+		835F7C6A1F2622CD007CDB04 /* AVAudioSessonWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AVAudioSessonWrapper.mm; path = ../apple_source/AVAudioSessonWrapper.mm; sourceTree = "<group>"; };
+		835F7C6B1F2622CD007CDB04 /* remoteio_mic_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = remoteio_mic_c.h; path = ../apple_source/remoteio_mic_c.h; sourceTree = "<group>"; };
+		835F7C6C1F2622CD007CDB04 /* remoteio_mic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = remoteio_mic.cpp; path = ../apple_source/remoteio_mic.cpp; sourceTree = "<group>"; };
+		835F7C761F2622E9007CDB04 /* micwrapper_MicW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = micwrapper_MicW.h; path = ../common/micwrapper_MicW.h; sourceTree = "<group>"; };
+		835F7C771F2622E9007CDB04 /* micWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = micWrapper.cpp; path = ../common/micWrapper.cpp; sourceTree = "<group>"; };
+		835F7C781F2622E9007CDB04 /* PcmQ.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = PcmQ.c; path = ../common/PcmQ.c; sourceTree = "<group>"; };
+		835F7C791F2622E9007CDB04 /* PcmQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PcmQ.h; path = ../common/PcmQ.h; sourceTree = "<group>"; };
 		8399151F1E753A5B0082B8D7 /* libremote_io.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libremote_io.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8399154B1E757D0F0082B8D7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -51,35 +51,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		835F7BCA1F261BAD007CDB04 /* apple_source */ = {
-			isa = PBXGroup;
-			children = (
-				835F7BCB1F261BAD007CDB04 /* AVAudioSessionWrapper.h */,
-				835F7BCC1F261BAD007CDB04 /* AVAudioSessonWrapper.mm */,
-				835F7BCD1F261BAD007CDB04 /* remoteio_mic.cpp */,
-				835F7BCE1F261BAD007CDB04 /* remoteio_mic_c.h */,
-			);
-			name = apple_source;
-			path = ../apple_source;
-			sourceTree = "<group>";
-		};
-		835F7BCF1F261BAD007CDB04 /* common */ = {
-			isa = PBXGroup;
-			children = (
-				835F7BD01F261BAD007CDB04 /* micWrapper.cpp */,
-				835F7BD11F261BAD007CDB04 /* micwrapper_MicW.h */,
-				835F7BD21F261BAD007CDB04 /* PcmQ.c */,
-				835F7BD31F261BAD007CDB04 /* PcmQ.h */,
-			);
-			name = common;
-			path = ../common;
-			sourceTree = "<group>";
-		};
 		839915161E753A5B0082B8D7 = {
 			isa = PBXGroup;
 			children = (
-				835F7BCA1F261BAD007CDB04 /* apple_source */,
-				835F7BCF1F261BAD007CDB04 /* common */,
+				835F7C761F2622E9007CDB04 /* micwrapper_MicW.h */,
+				835F7C771F2622E9007CDB04 /* micWrapper.cpp */,
+				835F7C781F2622E9007CDB04 /* PcmQ.c */,
+				835F7C791F2622E9007CDB04 /* PcmQ.h */,
+				835F7C691F2622CD007CDB04 /* AVAudioSessionWrapper.h */,
+				835F7C6A1F2622CD007CDB04 /* AVAudioSessonWrapper.mm */,
+				835F7C6B1F2622CD007CDB04 /* remoteio_mic_c.h */,
+				835F7C6C1F2622CD007CDB04 /* remoteio_mic.cpp */,
 				839915201E753A5B0082B8D7 /* Products */,
 				8399154A1E757D0F0082B8D7 /* Frameworks */,
 			);
@@ -159,10 +141,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				835F7BD71F261BAE007CDB04 /* PcmQ.c in Sources */,
-				835F7BD61F261BAE007CDB04 /* micWrapper.cpp in Sources */,
-				835F7BD41F261BAE007CDB04 /* AVAudioSessonWrapper.mm in Sources */,
-				835F7BD51F261BAE007CDB04 /* remoteio_mic.cpp in Sources */,
+				835F7C7B1F2622E9007CDB04 /* PcmQ.c in Sources */,
+				835F7C7A1F2622E9007CDB04 /* micWrapper.cpp in Sources */,
+				835F7C6D1F2622CD007CDB04 /* AVAudioSessonWrapper.mm in Sources */,
+				835F7C6E1F2622CD007CDB04 /* remoteio_mic.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,9 +243,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = AM9NFEGUR5;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"ROBOVM=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = (
 					"DEBUG=1",
-					"ROBOVM=1",
 					"$(inherited)",
 				);
 				"HEADER_SEARCH_PATHS[arch=*]" = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers/;
@@ -279,7 +265,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = AM9NFEGUR5;
-				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "ROBOVM=1";
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = (
+					"ROBOVM=1",
+					"$(inherited)",
+				);
 				"HEADER_SEARCH_PATHS[arch=*]" = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers/;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				OTHER_LDFLAGS = "-ObjC";
