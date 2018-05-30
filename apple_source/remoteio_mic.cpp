@@ -408,6 +408,9 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
     ASSERT_FN(noErr == _AudioSessionGetProperty(
                            kAudioSessionProperty_CurrentHardwareSampleRate,
                            &propSize, &hardwareSampleRate));
+    // This used to not set hardwareSampleRate if it already was correct, but
+    // on newer iPhones sometimes this gave us 44.1k even if 48k was requested.
+    // Now we always request desiredFs.
     if (true){
       const int desiredFs = (pPlayer->desiredFs >= 0) ? pPlayer->desiredFs : 44100;
       RIOTRACE(("Hardware sample rate of %d not as desired.  Setting to %d\n",
