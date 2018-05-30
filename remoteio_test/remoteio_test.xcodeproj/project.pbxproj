@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		83841CD11B170B4F0013D0DF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 83841CD01B170B4F0013D0DF /* main.m */; };
-		83841CD41B170B4F0013D0DF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 83841CD31B170B4F0013D0DF /* AppDelegate.m */; };
 		83841CD71B170B4F0013D0DF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83841CD61B170B4F0013D0DF /* ViewController.m */; };
 		83841CDA1B170B4F0013D0DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83841CD81B170B4F0013D0DF /* Main.storyboard */; };
 		83841CDC1B170B4F0013D0DF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83841CDB1B170B4F0013D0DF /* Images.xcassets */; };
 		83841CDF1B170B4F0013D0DF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83841CDD1B170B4F0013D0DF /* LaunchScreen.xib */; };
 		83841CFA1B1713690013D0DF /* AppDelegate_cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83841CF81B1713690013D0DF /* AppDelegate_cpp.cpp */; };
+		838FD2AA20BE5D6700C14298 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 838FD2A720BE5D6600C14298 /* AppDelegate.mm */; };
 		839915491E7574290082B8D7 /* libremote_io.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 839915481E7573F20082B8D7 /* libremote_io.a */; };
 		839915511E757D680082B8D7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 839915501E757D680082B8D7 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
@@ -33,7 +33,6 @@
 		83841CCF1B170B4F0013D0DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		83841CD01B170B4F0013D0DF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		83841CD21B170B4F0013D0DF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		83841CD31B170B4F0013D0DF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		83841CD51B170B4F0013D0DF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		83841CD61B170B4F0013D0DF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		83841CD91B170B4F0013D0DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -41,6 +40,8 @@
 		83841CDE1B170B4F0013D0DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		83841CF81B1713690013D0DF /* AppDelegate_cpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate_cpp.cpp; sourceTree = "<group>"; };
 		83841CF91B1713690013D0DF /* AppDelegate_cpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate_cpp.h; sourceTree = "<group>"; };
+		838FD2A720BE5D6600C14298 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		838FD2A920BE5D6600C14298 /* fft.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = fft.hpp; sourceTree = "<group>"; };
 		839915431E7573F10082B8D7 /* remote_io.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = remote_io.xcodeproj; path = ../remote_io/remote_io.xcodeproj; sourceTree = "<group>"; };
 		839915501E757D680082B8D7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -79,8 +80,9 @@
 		83841CCD1B170B4F0013D0DF /* remoteio_test */ = {
 			isa = PBXGroup;
 			children = (
+				838FD2A720BE5D6600C14298 /* AppDelegate.mm */,
+				838FD2A920BE5D6600C14298 /* fft.hpp */,
 				83841CD21B170B4F0013D0DF /* AppDelegate.h */,
-				83841CD31B170B4F0013D0DF /* AppDelegate.m */,
 				83841CD51B170B4F0013D0DF /* ViewController.h */,
 				83841CD61B170B4F0013D0DF /* ViewController.m */,
 				83841CD81B170B4F0013D0DF /* Main.storyboard */,
@@ -206,8 +208,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				83841CD71B170B4F0013D0DF /* ViewController.m in Sources */,
-				83841CD41B170B4F0013D0DF /* AppDelegate.m in Sources */,
 				83841CFA1B1713690013D0DF /* AppDelegate_cpp.cpp in Sources */,
+				838FD2AA20BE5D6700C14298 /* AppDelegate.mm in Sources */,
 				83841CD11B170B4F0013D0DF /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
