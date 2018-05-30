@@ -10,7 +10,6 @@
 		838FD2B020BE6B4E00C14298 /* AVAudioSessonWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 838FD2AD20BE6B4E00C14298 /* AVAudioSessonWrapper.mm */; };
 		838FD2B720BE6B6D00C14298 /* micWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 838FD2B320BE6B6D00C14298 /* micWrapper.cpp */; };
 		838FD2B820BE6B6D00C14298 /* PcmQ.c in Sources */ = {isa = PBXBuildFile; fileRef = 838FD2B520BE6B6D00C14298 /* PcmQ.c */; };
-		838FD2BD20BE6C1100C14298 /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 838FD2BB20BE6C1000C14298 /* CoreAudioKit.framework */; };
 		838FD2C020BE6C1900C14298 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 838FD2BF20BE6C1900C14298 /* AudioToolbox.framework */; };
 		838FD2CA20BE6D8400C14298 /* remoteio_mic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 838FD2C920BE6D8400C14298 /* remoteio_mic.cpp */; };
 		8399154C1E757D0F0082B8D7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8399154B1E757D0F0082B8D7 /* AVFoundation.framework */; };
@@ -51,7 +50,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				838FD2C020BE6C1900C14298 /* AudioToolbox.framework in Frameworks */,
-				838FD2BD20BE6C1100C14298 /* CoreAudioKit.framework in Frameworks */,
 				8399154C1E757D0F0082B8D7 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
