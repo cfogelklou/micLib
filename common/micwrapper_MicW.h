@@ -50,7 +50,12 @@ JNIEXPORT jint JNICALL Java_micwrapper_MicW_Read
 extern "C" {
 #endif
   
-int _IPhoneMicStart();
+int _IPhoneMicStart(
+  const float fs
+  #ifdef __cplusplus
+    = 48000
+  #endif
+  );
 
 void _IPhoneMicStop();
 

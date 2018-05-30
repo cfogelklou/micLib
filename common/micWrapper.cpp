@@ -195,13 +195,15 @@ static RioMicStat_t mw_mic_callback(void *pUserData, float *pSampsBuf,
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
-int _IPhoneMicStart() {
+int _IPhoneMicStart(
+  const float fs
+  ) {
   if (!(init)) {
     memset(&mw, 0, sizeof(mw));
     memcpy(&mw.mutex, (void *)&rMutexInit, sizeof(pthread_mutex_t));
     init = true;
   }
-  mw.pRio = rio_start_mic(NULL, &mw, mw_mic_callback, 0);
+  mw.pRio = rio_start_mic(NULL, &mw, mw_mic_callback, fs);
   int bufSizeWords = (int)(1.0 * mw.pRio->fs);
   mw.pPcmBuf = (float *)malloc(bufSizeWords * sizeof(float));
   MWPcmQCreate(&mw.pcmQ, mw.pPcmBuf, bufSizeWords);
