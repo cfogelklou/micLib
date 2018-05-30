@@ -1,7 +1,7 @@
 # micLib
 A simple, low latency library for accessing the microphone in IOS (and possibly, eventually, Android).
 
-Start by running build_ios_fat_lib.sh
+Note: build_ios_fat_lib.sh probably no longer works.  Instead, use the xcode library project, which does work, to build libremote_io.a.
 Then try the library on real hardware by running the xcode project.  As of right now, does not run on a simulator, unfortunately.
 
 ## How to Integrate with Unity ##
