@@ -4,8 +4,7 @@
 //  Created by Chris Fogelklou
 //
 //
-
-#if defined(__ANDROID__) //|| defined(ROBOVM)
+#if defined (__ANDROID__) || defined(ROBOVM)
 #include "../common/micwrapper_MicW.h"
 #include "PcmQ.h"
 #include "remoteio_mic_c.h"

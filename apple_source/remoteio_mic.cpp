@@ -408,10 +408,8 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
     ASSERT_FN(noErr == _AudioSessionGetProperty(
                            kAudioSessionProperty_CurrentHardwareSampleRate,
                            &propSize, &hardwareSampleRate));
-    if (((pPlayer->desiredFs > 0) &&
-         (pPlayer->desiredFs != (int)hardwareSampleRate)) ||
-        (hardwareSampleRate < 8000)) {
-      int desiredFs = (pPlayer->desiredFs >= 0) ? pPlayer->desiredFs : 44100;
+    if (true){
+      const int desiredFs = (pPlayer->desiredFs >= 0) ? pPlayer->desiredFs : 44100;
       RIOTRACE(("Hardware sample rate of %d not as desired.  Setting to %d\n",
                 (int)hardwareSampleRate, desiredFs));
       hardwareSampleRate = desiredFs;
@@ -640,8 +638,11 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Starts the microphone, which will start triggering callbacks.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-RioInstance_t *rio_start_mic(void *const pSelf, void *const pUserData,
-                             fnAudioCallbackFn fnPtr, const int desiredFs) {
+RioInstance_t *rio_start_mic(
+  void *const pSelf,
+  void *const pUserData,
+  fnAudioCallbackFn fnPtr,
+  const int desiredFs) {
 
   RemoteIO_Internal_t *pInst =
       (RemoteIO_Internal_t *)malloc(sizeof(RemoteIO_Internal_t));

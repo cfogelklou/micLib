@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		835F7C6D1F2622CD007CDB04 /* AVAudioSessonWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 835F7C6A1F2622CD007CDB04 /* AVAudioSessonWrapper.mm */; };
-		835F7C6E1F2622CD007CDB04 /* remoteio_mic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 835F7C6C1F2622CD007CDB04 /* remoteio_mic.cpp */; };
-		835F7C7A1F2622E9007CDB04 /* micWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 835F7C771F2622E9007CDB04 /* micWrapper.cpp */; };
-		835F7C7B1F2622E9007CDB04 /* PcmQ.c in Sources */ = {isa = PBXBuildFile; fileRef = 835F7C781F2622E9007CDB04 /* PcmQ.c */; };
+		838FD2B020BE6B4E00C14298 /* AVAudioSessonWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 838FD2AD20BE6B4E00C14298 /* AVAudioSessonWrapper.mm */; };
+		838FD2B720BE6B6D00C14298 /* micWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 838FD2B320BE6B6D00C14298 /* micWrapper.cpp */; };
+		838FD2B820BE6B6D00C14298 /* PcmQ.c in Sources */ = {isa = PBXBuildFile; fileRef = 838FD2B520BE6B6D00C14298 /* PcmQ.c */; };
+		838FD2C020BE6C1900C14298 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 838FD2BF20BE6C1900C14298 /* AudioToolbox.framework */; };
+		838FD2CA20BE6D8400C14298 /* remoteio_mic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 838FD2C920BE6D8400C14298 /* remoteio_mic.cpp */; };
 		8399154C1E757D0F0082B8D7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8399154B1E757D0F0082B8D7 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,14 +28,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		835F7C691F2622CD007CDB04 /* AVAudioSessionWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAudioSessionWrapper.h; path = ../apple_source/AVAudioSessionWrapper.h; sourceTree = "<group>"; };
-		835F7C6A1F2622CD007CDB04 /* AVAudioSessonWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AVAudioSessonWrapper.mm; path = ../apple_source/AVAudioSessonWrapper.mm; sourceTree = "<group>"; };
-		835F7C6B1F2622CD007CDB04 /* remoteio_mic_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = remoteio_mic_c.h; path = ../apple_source/remoteio_mic_c.h; sourceTree = "<group>"; };
-		835F7C6C1F2622CD007CDB04 /* remoteio_mic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = remoteio_mic.cpp; path = ../apple_source/remoteio_mic.cpp; sourceTree = "<group>"; };
-		835F7C761F2622E9007CDB04 /* micwrapper_MicW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = micwrapper_MicW.h; path = ../common/micwrapper_MicW.h; sourceTree = "<group>"; };
-		835F7C771F2622E9007CDB04 /* micWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = micWrapper.cpp; path = ../common/micWrapper.cpp; sourceTree = "<group>"; };
-		835F7C781F2622E9007CDB04 /* PcmQ.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = PcmQ.c; path = ../common/PcmQ.c; sourceTree = "<group>"; };
-		835F7C791F2622E9007CDB04 /* PcmQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PcmQ.h; path = ../common/PcmQ.h; sourceTree = "<group>"; };
+		838FD2AC20BE6B4E00C14298 /* AVAudioSessionWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAudioSessionWrapper.h; sourceTree = "<group>"; };
+		838FD2AD20BE6B4E00C14298 /* AVAudioSessonWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AVAudioSessonWrapper.mm; sourceTree = "<group>"; };
+		838FD2AF20BE6B4E00C14298 /* remoteio_mic_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = remoteio_mic_c.h; sourceTree = "<group>"; };
+		838FD2B320BE6B6D00C14298 /* micWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = micWrapper.cpp; sourceTree = "<group>"; };
+		838FD2B420BE6B6D00C14298 /* micwrapper_MicW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = micwrapper_MicW.h; sourceTree = "<group>"; };
+		838FD2B520BE6B6D00C14298 /* PcmQ.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PcmQ.c; sourceTree = "<group>"; };
+		838FD2B620BE6B6D00C14298 /* PcmQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PcmQ.h; sourceTree = "<group>"; };
+		838FD2B920BE6C0100C14298 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		838FD2BB20BE6C1000C14298 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
+		838FD2BC20BE6C1000C14298 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		838FD2BF20BE6C1900C14298 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		838FD2C920BE6D8400C14298 /* remoteio_mic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = remoteio_mic.cpp; sourceTree = "<group>"; };
 		8399151F1E753A5B0082B8D7 /* libremote_io.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libremote_io.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8399154B1E757D0F0082B8D7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -44,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				838FD2C020BE6C1900C14298 /* AudioToolbox.framework in Frameworks */,
 				8399154C1E757D0F0082B8D7 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -51,17 +57,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		838FD2AB20BE6B4E00C14298 /* apple_source */ = {
+			isa = PBXGroup;
+			children = (
+				838FD2C920BE6D8400C14298 /* remoteio_mic.cpp */,
+				838FD2AC20BE6B4E00C14298 /* AVAudioSessionWrapper.h */,
+				838FD2AD20BE6B4E00C14298 /* AVAudioSessonWrapper.mm */,
+				838FD2AF20BE6B4E00C14298 /* remoteio_mic_c.h */,
+			);
+			name = apple_source;
+			path = ../apple_source;
+			sourceTree = "<group>";
+		};
+		838FD2B220BE6B6D00C14298 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				838FD2B320BE6B6D00C14298 /* micWrapper.cpp */,
+				838FD2B420BE6B6D00C14298 /* micwrapper_MicW.h */,
+				838FD2B520BE6B6D00C14298 /* PcmQ.c */,
+				838FD2B620BE6B6D00C14298 /* PcmQ.h */,
+			);
+			name = common;
+			path = ../common;
+			sourceTree = "<group>";
+		};
 		839915161E753A5B0082B8D7 = {
 			isa = PBXGroup;
 			children = (
-				835F7C761F2622E9007CDB04 /* micwrapper_MicW.h */,
-				835F7C771F2622E9007CDB04 /* micWrapper.cpp */,
-				835F7C781F2622E9007CDB04 /* PcmQ.c */,
-				835F7C791F2622E9007CDB04 /* PcmQ.h */,
-				835F7C691F2622CD007CDB04 /* AVAudioSessionWrapper.h */,
-				835F7C6A1F2622CD007CDB04 /* AVAudioSessonWrapper.mm */,
-				835F7C6B1F2622CD007CDB04 /* remoteio_mic_c.h */,
-				835F7C6C1F2622CD007CDB04 /* remoteio_mic.cpp */,
+				838FD2B220BE6B6D00C14298 /* common */,
+				838FD2AB20BE6B4E00C14298 /* apple_source */,
 				839915201E753A5B0082B8D7 /* Products */,
 				8399154A1E757D0F0082B8D7 /* Frameworks */,
 			);
@@ -78,6 +102,10 @@
 		8399154A1E757D0F0082B8D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				838FD2BF20BE6C1900C14298 /* AudioToolbox.framework */,
+				838FD2BC20BE6C1000C14298 /* CoreAudio.framework */,
+				838FD2BB20BE6C1000C14298 /* CoreAudioKit.framework */,
+				838FD2B920BE6C0100C14298 /* AudioUnit.framework */,
 				8399154B1E757D0F0082B8D7 /* AVFoundation.framework */,
 			);
 			name = Frameworks;
@@ -141,10 +169,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				835F7C7B1F2622E9007CDB04 /* PcmQ.c in Sources */,
-				835F7C7A1F2622E9007CDB04 /* micWrapper.cpp in Sources */,
-				835F7C6D1F2622CD007CDB04 /* AVAudioSessonWrapper.mm in Sources */,
-				835F7C6E1F2622CD007CDB04 /* remoteio_mic.cpp in Sources */,
+				838FD2B720BE6B6D00C14298 /* micWrapper.cpp in Sources */,
+				838FD2CA20BE6D8400C14298 /* remoteio_mic.cpp in Sources */,
+				838FD2B020BE6B4E00C14298 /* AVAudioSessonWrapper.mm in Sources */,
+				838FD2B820BE6B6D00C14298 /* PcmQ.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,13 +271,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = AM9NFEGUR5;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"ROBOVM=1",
-					"DEBUG=1",
-					"$(inherited)",
-				);
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = (
 					"DEBUG=1",
+					"ROBOVM=1",
 					"$(inherited)",
 				);
 				"HEADER_SEARCH_PATHS[arch=*]" = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers/;
@@ -265,10 +289,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = AM9NFEGUR5;
-				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = (
-					"ROBOVM=1",
-					"$(inherited)",
-				);
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "ROBOVM=1";
 				"HEADER_SEARCH_PATHS[arch=*]" = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers/;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				OTHER_LDFLAGS = "-ObjC";
