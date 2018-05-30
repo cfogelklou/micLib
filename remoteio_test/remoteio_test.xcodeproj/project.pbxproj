@@ -15,7 +15,6 @@
 		83841CFA1B1713690013D0DF /* AppDelegate_cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83841CF81B1713690013D0DF /* AppDelegate_cpp.cpp */; };
 		838FD2AA20BE5D6700C14298 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 838FD2A720BE5D6600C14298 /* AppDelegate.mm */; };
 		838FD2C520BE6CB300C14298 /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 838FD2C320BE6CB300C14298 /* CoreAudioKit.framework */; };
-		838FD2C620BE6CB300C14298 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 838FD2C420BE6CB300C14298 /* CoreAudio.framework */; };
 		838FD2C820BE6CBC00C14298 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 838FD2C720BE6CBC00C14298 /* AudioToolbox.framework */; };
 		838FD2CB20BE6DF600C14298 /* libremote_io.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 839915481E7573F20082B8D7 /* libremote_io.a */; };
 		839915511E757D680082B8D7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 839915501E757D680082B8D7 /* AVFoundation.framework */; };
@@ -61,7 +60,6 @@
 				838FD2CB20BE6DF600C14298 /* libremote_io.a in Frameworks */,
 				838FD2C820BE6CBC00C14298 /* AudioToolbox.framework in Frameworks */,
 				838FD2C520BE6CB300C14298 /* CoreAudioKit.framework in Frameworks */,
-				838FD2C620BE6CB300C14298 /* CoreAudio.framework in Frameworks */,
 				839915511E757D680082B8D7 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

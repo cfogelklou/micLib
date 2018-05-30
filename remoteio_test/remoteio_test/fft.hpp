@@ -1,3 +1,10 @@
+/**
+ Copyright 2012 Chris Fogelklou
+ chris.fogelklou@gmail.com
+ 
+ FFT using lookup tables.
+*/
+
 #include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -77,9 +84,9 @@ public:
   //---------------------------------------------------------------------------
   ~Fft()
   {
-    delete mpReverseBitsLUT;
-    delete mpFftLUT;
-    delete mpIfftLUT;
+    delete [] mpReverseBitsLUT;
+    delete [] mpFftLUT;
+    delete [] mpIfftLUT;
 #ifdef FFT_DBG
     if (pf != nullptr) {
       fclose(pf);
@@ -339,8 +346,10 @@ private:
 #endif
 
             {
+#ifdef FFT_DBG
               const double oldxrj = xr[j];
               const double oldxij = xi[j];
+#endif
               xr[j] = xr[j] + tr;
               xi[j] = xi[j] + ti;
 
