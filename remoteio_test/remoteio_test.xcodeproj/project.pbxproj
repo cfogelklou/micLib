@@ -14,7 +14,10 @@
 		83841CDF1B170B4F0013D0DF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83841CDD1B170B4F0013D0DF /* LaunchScreen.xib */; };
 		83841CFA1B1713690013D0DF /* AppDelegate_cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83841CF81B1713690013D0DF /* AppDelegate_cpp.cpp */; };
 		838FD2AA20BE5D6700C14298 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 838FD2A720BE5D6600C14298 /* AppDelegate.mm */; };
-		839915491E7574290082B8D7 /* libremote_io.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 839915481E7573F20082B8D7 /* libremote_io.a */; };
+		838FD2C520BE6CB300C14298 /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 838FD2C320BE6CB300C14298 /* CoreAudioKit.framework */; };
+		838FD2C620BE6CB300C14298 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 838FD2C420BE6CB300C14298 /* CoreAudio.framework */; };
+		838FD2C820BE6CBC00C14298 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 838FD2C720BE6CBC00C14298 /* AudioToolbox.framework */; };
+		838FD2CB20BE6DF600C14298 /* libremote_io.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 839915481E7573F20082B8D7 /* libremote_io.a */; };
 		839915511E757D680082B8D7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 839915501E757D680082B8D7 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +45,10 @@
 		83841CF91B1713690013D0DF /* AppDelegate_cpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate_cpp.h; sourceTree = "<group>"; };
 		838FD2A720BE5D6600C14298 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		838FD2A920BE5D6600C14298 /* fft.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = fft.hpp; sourceTree = "<group>"; };
+		838FD2C120BE6CAA00C14298 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		838FD2C320BE6CB300C14298 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
+		838FD2C420BE6CB300C14298 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		838FD2C720BE6CBC00C14298 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		839915431E7573F10082B8D7 /* remote_io.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = remote_io.xcodeproj; path = ../remote_io/remote_io.xcodeproj; sourceTree = "<group>"; };
 		839915501E757D680082B8D7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -51,8 +58,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				838FD2CB20BE6DF600C14298 /* libremote_io.a in Frameworks */,
+				838FD2C820BE6CBC00C14298 /* AudioToolbox.framework in Frameworks */,
+				838FD2C520BE6CB300C14298 /* CoreAudioKit.framework in Frameworks */,
+				838FD2C620BE6CB300C14298 /* CoreAudio.framework in Frameworks */,
 				839915511E757D680082B8D7 /* AVFoundation.framework in Frameworks */,
-				839915491E7574290082B8D7 /* libremote_io.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +125,10 @@
 		8399154F1E757D680082B8D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				838FD2C720BE6CBC00C14298 /* AudioToolbox.framework */,
+				838FD2C420BE6CB300C14298 /* CoreAudio.framework */,
+				838FD2C320BE6CB300C14298 /* CoreAudioKit.framework */,
+				838FD2C120BE6CAA00C14298 /* AudioUnit.framework */,
 				839915501E757D680082B8D7 /* AVFoundation.framework */,
 			);
 			name = Frameworks;

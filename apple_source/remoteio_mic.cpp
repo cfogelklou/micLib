@@ -640,8 +640,11 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Starts the microphone, which will start triggering callbacks.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-RioInstance_t *rio_start_mic(void *const pSelf, void *const pUserData,
-                             fnAudioCallbackFn fnPtr, const int desiredFs) {
+RioInstance_t *rio_start_mic(
+  void *const pSelf,
+  void *const pUserData,
+  fnAudioCallbackFn fnPtr,
+  const int desiredFs) {
 
   RemoteIO_Internal_t *pInst =
       (RemoteIO_Internal_t *)malloc(sizeof(RemoteIO_Internal_t));

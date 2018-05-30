@@ -9,6 +9,7 @@
 #define APPDELEGATE_CPP_H__
 #include "AppDelegate_cpp.h"
 #include "remoteio_mic_c.h"
+#include "fft.hpp"
 #include <cstdlib>
 #include <math.h>
 #include <string.h>
@@ -21,9 +22,11 @@ typedef struct MyCounterStruct_tag {
   float rmsPower;
   int rmsCount;
   RioInstance_t *pRio;
+  Fft *pFft;
   bool initialized;
 } MyCounterStruct_t;
 
+// /////////////////////////////////////////////////////////////////////////////////////////////////
 static RioMicStat_t myAudioCallback(void *pUserData, float *pSampsBuf,
                                     int numChannels, int numFrames) {
   MyCounterStruct_t *pCounter = (MyCounterStruct_t *)pUserData;
@@ -46,6 +49,7 @@ static RioMicStat_t myAudioCallback(void *pUserData, float *pSampsBuf,
   return s_ok;
 }
 
+// /////////////////////////////////////////////////////////////////////////////////////////////////
 MIC_t *MIC_Start(void *pSelf) {
   MyCounterStruct_t *pCounter =
       (MyCounterStruct_t *)malloc(sizeof(MyCounterStruct_t));
@@ -53,16 +57,23 @@ MIC_t *MIC_Start(void *pSelf) {
   pCounter->pRio = rio_start_mic(pSelf, pCounter, myAudioCallback, 48000);
   // int fs = pCounter->pRio->fs;
   pCounter->mic.pSelf = pSelf;
+  pCounter->pFft = new Fft(512);
   pCounter->initialized = true;
 
   return &pCounter->mic;
 }
 
+// /////////////////////////////////////////////////////////////////////////////////////////////////
 void MIC_Stop(MIC_t *pMic) {
   MyCounterStruct_t *pCounter = (MyCounterStruct_t *)pMic;
   rio_stop_mic(pCounter->pRio);
+  Fft *pFft = pCounter->pFft;
+  pCounter->pFft = nullptr;
   free(pCounter);
   pCounter = NULL;
+  if (pFft){
+    delete pFft;
+  }
 }
 }
 
