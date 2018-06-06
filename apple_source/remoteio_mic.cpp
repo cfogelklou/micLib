@@ -419,10 +419,11 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
       ASSERT_FN(noErr == _AudioSessionSetProperty(
                              kAudioSessionProperty_CurrentHardwareSampleRate,
                              propSize, &hardwareSampleRate));
-
+#if 0
       ASSERT_FN(noErr == _AudioSessionGetProperty(
                              kAudioSessionProperty_CurrentHardwareSampleRate,
                              &propSize, &hardwareSampleRate));
+#endif
     }
     RIOTRACE(("hardwareSampleRate = %f\n", hardwareSampleRate));
 
