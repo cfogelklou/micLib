@@ -38,6 +38,7 @@ typedef struct mw_tag {
   float *pPcmBuf;
   RioInstance_t *pRio;
   bool pcmQInitialized;
+  bool hasBeenReadOnce;
 } mw_t;
 
 static mw_t mw;
@@ -52,8 +53,10 @@ static RioMicStat_t mw_mic_callback(void *pUserData, float *pSampsBuf,
   ASSERT(pMw == &mw);
   ASSERT(numChannels == 1);
   if (mw.pcmQInitialized) {
-    const int numSamples = numChannels * numFrames;
-    MWPcmQForceWrite(&mw.pcmQ, pSampsBuf, numSamples);
+    if (hasBeenReadOnce){
+      const int numSamples = numChannels * numFrames;
+      MWPcmQForceWrite(&mw.pcmQ, pSampsBuf, numSamples);
+    }
   }
   return s_ok;
 }
@@ -161,6 +164,7 @@ typedef struct mw_tag {
   RioInstance_t *pRio;
   pthread_mutex_t mutex;
   bool pcmQInitialized;
+  bool hasBeenReadOnce;
 } mw_t;
 
 static mw_t mw;
@@ -184,7 +188,7 @@ static RioMicStat_t mw_mic_callback(void *pUserData, float *pSampsBuf,
   mw_t *pMw = (mw_t *)pUserData;
   ASSERT(pMw == &mw);
   ASSERT(numChannels == 1);
-  if (mw.pcmQInitialized) {
+  if ((mw.pcmQInitialized)&&(mw.hasBeenReadOnce)) {
     const int numSamples = numChannels * numFrames;
     pthread_mutex_lock(&mw.mutex);
     MWPcmQForceWrite(&mw.pcmQ, pSampsBuf, numSamples);
@@ -229,6 +233,7 @@ int _IPhoneMicGetReadReady() {
     pthread_mutex_lock(&mw.mutex);
     rval = MWPcmQGetReadReady(&mw.pcmQ);
     pthread_mutex_unlock(&mw.mutex);
+    mw.hasBeenReadOnce = true;
   }
   return rval;
 }
@@ -241,6 +246,7 @@ int _IPhoneMicRead(float *pfBuf, int length) {
     pthread_mutex_lock(&mw.mutex);
     rval = MWPcmQRead(&mw.pcmQ, pfBuf, length);
     pthread_mutex_unlock(&mw.mutex);
+    mw.hasBeenReadOnce = true;
   }
   return rval;
 }
