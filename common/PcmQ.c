@@ -6,22 +6,22 @@
 
   @author: chris.fogelklou@gmail.com
 *******************************************************************************/
-#include "PcmQ.h"
+#include "legacy_audio/pcm_q.h"
 #include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#ifndef ASSERT
-#define ASSERT(x)                                                              \
+#ifndef LOG_ASSERT
+#define LOG_ASSERT(x)                                                              \
   if (!(x)) {                                                                  \
     printf("\n***Assertion Failed at %s(%d)***\n", __FILE__, __LINE__);        \
     exit(-1);                                                                  \
   }
 #endif
-#ifndef ASSERT_FN
-#define ASSERT_FN(x)                                                           \
+#ifndef LOG_ASSERT_FN
+#define LOG_ASSERT_FN(x)                                                           \
   if (!(x)) {                                                                  \
     printf("\n***Assertion Failed at %s(%d)***\n", __FILE__, __LINE__);        \
     exit(-1);                                                                  \
@@ -73,7 +73,7 @@ static unsigned int MWPcmQUnprotectedInsert(MWPcmQ_t *const pQ, const pcm_t *pWr
 */
 bool MWPcmQCreate(MWPcmQ_t *const pQ, pcm_t *pBuf, unsigned int nBufSz) {
 
-  ASSERT((NULL != pQ) && (NULL != pBuf));
+  LOG_ASSERT((NULL != pQ) && (NULL != pBuf));
 
   memset(pQ, 0, sizeof(MWPcmQ_t));
 
@@ -100,7 +100,7 @@ bool MWPcmQCreate(MWPcmQ_t *const pQ, pcm_t *pBuf, unsigned int nBufSz) {
 **=============================================================================
 */
 bool MWPcmQDestroy(MWPcmQ_t *const pQ) {
-  ASSERT(NULL != pQ);
+  LOG_ASSERT(NULL != pQ);
   return true;
 }
 
@@ -119,7 +119,7 @@ bool MWPcmQDestroy(MWPcmQ_t *const pQ) {
 unsigned int MWPcmQWrite(MWPcmQ_t *const pQ, const pcm_t *pWrBuf, unsigned int nLen) {
   unsigned int WordsWritten = 0;
 
-  ASSERT(NULL != pQ);
+  LOG_ASSERT(NULL != pQ);
 
   if (nLen) {
     // Write nothing if there isn't room in the buffer.
@@ -203,7 +203,7 @@ static unsigned int MWPcmQUnprotectedInsert(MWPcmQ_t *const pQ, const pcm_t *pWr
 unsigned int MWPcmQCommitWrite(MWPcmQ_t *const pQ, unsigned int nLen) {
   unsigned int WordsWritten = 0;
 
-  ASSERT(NULL != pQ);
+  LOG_ASSERT(NULL != pQ);
 
   if (nLen) {
 
@@ -238,7 +238,7 @@ unsigned int MWPcmQCommitWrite(MWPcmQ_t *const pQ, unsigned int nLen) {
 */
 unsigned int MWPcmQRead(MWPcmQ_t *const pQ, pcm_t *pRdBuf, unsigned int nLen) {
   unsigned int WordsRead = 0;
-  ASSERT(NULL != pQ);
+  LOG_ASSERT(NULL != pQ);
 
   if (nLen) {
     // Calculate how many bytes can be read from the RdBuffer.
@@ -295,7 +295,7 @@ unsigned int MWPcmQRead(MWPcmQ_t *const pQ, pcm_t *pRdBuf, unsigned int nLen) {
 */
 unsigned int MWPcmQCommitRead(MWPcmQ_t *const pQ, unsigned int nLen) {
   unsigned int WordsRead = 0;
-  ASSERT(NULL != pQ);
+  LOG_ASSERT(NULL != pQ);
 
   if (nLen) {
 
@@ -332,7 +332,7 @@ unsigned int MWPcmQCommitRead(MWPcmQ_t *const pQ, unsigned int nLen) {
 */
 unsigned int MWPcmQGetWriteReady(MWPcmQ_t *const pQ) {
   unsigned int rval = 0;
-  ASSERT(NULL != pQ);
+  LOG_ASSERT(NULL != pQ);
 
   LOCKMUTEX(pQ);
   rval = (pQ->nBufSz - pQ->nCount);
@@ -354,7 +354,7 @@ unsigned int MWPcmQGetWriteReady(MWPcmQ_t *const pQ) {
 unsigned int MWPcmQGetContiguousWriteReady(MWPcmQ_t *const pQ) {
 
   unsigned int bytesReady = 0;
-  ASSERT(NULL != pQ);
+  LOG_ASSERT(NULL != pQ);
 
   LOCKMUTEX(pQ);
   bytesReady = (pQ->nBufSz - pQ->nCount);
@@ -375,7 +375,7 @@ unsigned int MWPcmQGetContiguousWriteReady(MWPcmQ_t *const pQ) {
 */
 unsigned int MWPcmQGetReadReady(MWPcmQ_t *const pQ) {
   unsigned int bytesReady = 0;
-  ASSERT(NULL != pQ);
+  LOG_ASSERT(NULL != pQ);
 
   LOCKMUTEX(pQ);
   bytesReady = pQ->nCount;
@@ -397,7 +397,7 @@ unsigned int MWPcmQGetReadReady(MWPcmQ_t *const pQ) {
 unsigned int MWPcmQGetContiguousReadReady(MWPcmQ_t *const pQ) {
 
   unsigned int bytesReady = 0;
-  ASSERT(NULL != pQ);
+  LOG_ASSERT(NULL != pQ);
 
   LOCKMUTEX(pQ);
   bytesReady = MIN(pQ->nCount, pQ->nBufSz - pQ->nRdIdx);
@@ -420,7 +420,7 @@ void MWPcmQFlush(MWPcmQ_t *const pQ) {
   // Get the read mutex to only allow a single thread to read from the
   // queue at a time.
 
-  ASSERT(NULL != pQ);
+  LOG_ASSERT(NULL != pQ);
 
   // delete the single count mutex
   LOCKMUTEX(pQ);
@@ -440,7 +440,7 @@ void MWPcmQFlush(MWPcmQ_t *const pQ) {
 unsigned int MWPcmQPeek(MWPcmQ_t *const pQ, pcm_t *pRdBuf, unsigned int nLen) {
   unsigned int WordsRead = 0;
 
-  ASSERT(NULL != pQ);
+  LOG_ASSERT(NULL != pQ);
   if (nLen) {
 
     unsigned int nRdIdx;
@@ -556,7 +556,7 @@ void MWPcmQSetRdIdxFromPointer(MWPcmQ_t *const pQ, void *pRdPtr) {
 */
 unsigned int MWPcmQUnread(MWPcmQ_t *const pQ, unsigned int nLen) {
   unsigned int bytesUnread = 0;
-  ASSERT(NULL != pQ);
+  LOG_ASSERT(NULL != pQ);
 
   if (nLen) {
     // Calculate how many bytes can be read from the RdBuffer.
@@ -594,7 +594,7 @@ unsigned int MWPcmQUnread(MWPcmQ_t *const pQ, unsigned int nLen) {
 unsigned int MWPcmQForceWrite(MWPcmQ_t *const pQ, const pcm_t *const pWrBuf,
                         unsigned int nLen) {
   unsigned int words = 0;
-  ASSERT(NULL != pQ);
+  LOG_ASSERT(NULL != pQ);
 
   if (nLen) {
     int diff = 0;
@@ -621,7 +621,7 @@ unsigned int MWPcmQForceWrite(MWPcmQ_t *const pQ, const pcm_t *const pWrBuf,
     }
 
     // Insert the data in the buffer.
-    ASSERT_FN(nLen == MWPcmQUnprotectedInsert(pQ, pWrBuf, nLen, &newWrIdx));
+    LOG_ASSERT_FN(nLen == MWPcmQUnprotectedInsert(pQ, pWrBuf, nLen, &newWrIdx));
     pQ->nWrIdx = newWrIdx;
 
     pQ->nCount += nLen;
@@ -643,7 +643,7 @@ unsigned int MWPcmQPeekRandom(MWPcmQ_t *const pQ, pcm_t *pRdBuf,
                         unsigned int bytesFromRdIdx, unsigned int nLen) {
   unsigned int WordsRead = 0;
 
-  ASSERT(NULL != pQ);
+  LOG_ASSERT(NULL != pQ);
   if (nLen) {
 
     unsigned int nRdIdx;
@@ -687,7 +687,7 @@ unsigned int MWPcmQPokeRandom(MWPcmQ_t *const pQ, pcm_t *pWrBuf,
                         unsigned int bytesFromStart, unsigned int nLen) {
   unsigned int WordsWritten = 0;
 
-  ASSERT(NULL != pQ);
+  LOG_ASSERT(NULL != pQ);
   if (nLen) {
 
     unsigned int nWrIdx;

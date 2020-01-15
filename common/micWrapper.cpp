@@ -6,22 +6,22 @@
 //
 #if defined (__ANDROID__) || defined(ROBOVM)
 #include "../common/micwrapper_MicW.h"
-#include "PcmQ.h"
+#include "legacy_audio/pcm_q.h"
 #include "remoteio_mic_c.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <pthread.h>
 
-#ifndef ASSERT
-#define ASSERT(x)                                                              \
+#ifndef LOG_ASSERT
+#define LOG_ASSERT(x)                                                              \
   if (!(x)) {                                                                  \
     printf("\n***Assertion Failed at %s(%d)***\n", __FILE__, __LINE__);        \
     exit(-1);                                                                  \
   }
 #endif
-#ifndef ASSERT_FN
-#define ASSERT_FN(x)                                                           \
+#ifndef LOG_ASSERT_FN
+#define LOG_ASSERT_FN(x)                                                           \
   if (!(x)) {                                                                  \
     printf("\n***Assertion Failed at %s(%d)***\n", __FILE__, __LINE__);        \
     exit(-1);                                                                  \
@@ -50,8 +50,8 @@ extern "C" {
 static RioMicStat_t mw_mic_callback(void *pUserData, float *pSampsBuf,
                                     int numChannels, int numFrames) {
   mw_t *pMw = (mw_t *)pUserData;
-  ASSERT(pMw == &mw);
-  ASSERT(numChannels == 1);
+  LOG_ASSERT(pMw == &mw);
+  LOG_ASSERT(numChannels == 1);
   if (mw.pcmQInitialized) {
     if (hasBeenReadOnce){
       const int numSamples = numChannels * numFrames;
@@ -135,22 +135,22 @@ jint JNICALL Java_micwrapper_MicW_Read(JNIEnv *pEnv, jclass c,
 //
 //
 
-#include "PcmQ.h"
+#include "legacy_audio/pcm_q.h"
 #include "remoteio_mic_c.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <pthread.h>
 
-#ifndef ASSERT
-#define ASSERT(x)                                                              \
+#ifndef LOG_ASSERT
+#define LOG_ASSERT(x)                                                              \
   if (!(x)) {                                                                  \
     printf("\n***Assertion Failed at %s(%d)***\n", __FILE__, __LINE__);        \
     exit(-1);                                                                  \
   }
 #endif
-#ifndef ASSERT_FN
-#define ASSERT_FN(x)                                                           \
+#ifndef LOG_ASSERT_FN
+#define LOG_ASSERT_FN(x)                                                           \
   if (!(x)) {                                                                  \
     printf("\n***Assertion Failed at %s(%d)***\n", __FILE__, __LINE__);        \
     exit(-1);                                                                  \
@@ -186,8 +186,8 @@ extern "C" {
 static RioMicStat_t mw_mic_callback(void *pUserData, float *pSampsBuf,
                                     int numChannels, int numFrames) {
   mw_t *pMw = (mw_t *)pUserData;
-  ASSERT(pMw == &mw);
-  ASSERT(numChannels == 1);
+  LOG_ASSERT(pMw == &mw);
+  LOG_ASSERT(numChannels == 1);
   if ((mw.pcmQInitialized)&&(mw.hasBeenReadOnce)) {
     const int numSamples = numChannels * numFrames;
     pthread_mutex_lock(&mw.mutex);
