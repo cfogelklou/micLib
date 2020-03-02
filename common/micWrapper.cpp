@@ -6,7 +6,7 @@
 //
 #if defined (__ANDROID__) || defined(ROBOVM)
 #include "../common/micwrapper_MicW.h"
-#include "legacy_audio/pcm_q.h"
+#include "PcmQ.h"
 #include "remoteio_mic_c.h"
 #include <cstdio>
 #include <cstdlib>
@@ -135,7 +135,7 @@ jint JNICALL Java_micwrapper_MicW_Read(JNIEnv *pEnv, jclass c,
 //
 //
 
-#include "legacy_audio/pcm_q.h"
+#include "PcmQ.h"
 #include "remoteio_mic_c.h"
 #include <cstdio>
 #include <cstdlib>

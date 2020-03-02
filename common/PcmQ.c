@@ -6,7 +6,7 @@
 
   @author: chris.fogelklou@gmail.com
 *******************************************************************************/
-#include "legacy_audio/pcm_q.h"
+#include "PcmQ.h"
 #include <math.h>
 #include <stdint.h>
 #include <stdio.h>
