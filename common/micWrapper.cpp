@@ -53,7 +53,7 @@ static RioMicStat_t mw_mic_callback(void *pUserData, float *pSampsBuf,
   LOG_ASSERT(pMw == &mw);
   LOG_ASSERT(numChannels == 1);
   if (mw.pcmQInitialized) {
-    if (hasBeenReadOnce){
+    if (mw.hasBeenReadOnce){
       const int numSamples = numChannels * numFrames;
       MWPcmQForceWrite(&mw.pcmQ, pSampsBuf, numSamples);
     }
