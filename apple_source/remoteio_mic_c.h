@@ -7,8 +7,11 @@ extern "C" {
 
 typedef enum { s_ok, s_err } RioMicStat_t;
 
-typedef RioMicStat_t (*fnAudioCallbackFn)(void *pUserData, float *pSampsBuf,
-                                          int numChannels, int numFrames);
+typedef RioMicStat_t (*fnAudioCallbackFn)(
+  void *pUserData,
+  float *pSampsBuf,
+  int numChannels,
+  int numFrames);
 
 typedef struct {
   void *pUserData;
@@ -17,8 +20,11 @@ typedef struct {
 } RioInstance_t;
 
 // Starts the microphone, which will start triggering callbacks.
-RioInstance_t *rio_start_mic(void *const pSelf, void *const pUserData,
-                             fnAudioCallbackFn fnPtr, const int desiredFs);
+RioInstance_t *rio_start_mic(
+  void *const pSelf,
+  void *const pUserData,
+  fnAudioCallbackFn fnPtr,
+  const int desiredFs);
 
 void rio_stop_mic(RioInstance_t *pInst);
 
