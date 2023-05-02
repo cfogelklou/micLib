@@ -10,41 +10,8 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "AppDelegate_cpp.h"
 
-/*
-static void CheckError(OSStatus error, const char *operation) {
-    if (error == noErr) return;
-    char errorString[20]; // See if it appears to be a 4-char-code
-    *(UInt32 *)(errorString + 1) = CFSwapInt32HostToBig(error);
-    if (isprint(errorString[1]) && isprint(errorString[2]) && isprint(errorString[3]) && isprint(errorString[4])) {
-        errorString[0] = errorString[5] = '\'';
-        errorString[6] = '\0';
-    } else // No, format it as an integer
-        sprintf(errorString, "%d", (int)error);
-    fprintf(stderr, "Error: %s (%s)\n", operation, errorString);
-    printf("Error: %s (%s)\n", operation, errorString);
-    exit(1);
-}
-*/
 
-
-
-void MyInterruptionListener (void *inUserData, UInt32 inInterruptionState)
-{
-    printf ("Interrupted! inInterruptionState=%ld\n", (long)inInterruptionState);
-    //CH10_iOSBackgroundingToneAppDelegate *appDelegate = (CH10_iOSBackgroundingToneAppDelegate*)inUserData;
-    switch (inInterruptionState) {
-        case kAudioSessionBeginInterruption:
-            break;
-        case kAudioSessionEndInterruption:
-            //CheckError(AudioQueueStart(appDelegate.audioQueue, 0), "Couldn't restart the audio queue");
-            break;
-        default:
-            break;
-    };
-}
-
-static MIC_t *pMic;
-
+static MIC_t *pMic = nullptr;
 
 @interface AppDelegate ()
 
@@ -55,24 +22,7 @@ static MIC_t *pMic;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    
-    // Set up the audio session
-    // This fails in XCode > 7.0, but the test code works, anyway.
-    /*
-    CheckError(AudioSessionInitialize(NULL,
-                                      kCFRunLoopDefaultMode,
-                                      MyInterruptionListener,
-                                      (__bridge void *)(self)),
-               "Couldn't initialize the audio session");
-     */
-    /*UInt32 category = kAudioSessionCategory_RecordAudio;
-    
-    CheckError(AudioSessionSetProperty(kAudioSessionProperty_AudioCategory,
-                                       sizeof(category),
-                                       &category),
-               "Couldn't set the category on the audio session");
-    */
+
     pMic = MIC_Start( (__bridge void *)(self) );
     
     return YES;
@@ -100,7 +50,7 @@ static MIC_t *pMic;
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     MIC_Stop( pMic );
-    pMic = NULL;
+    pMic = nullptr;
 }
 
 @end
