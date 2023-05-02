@@ -194,6 +194,8 @@ static bool riom_set_stream_parameters(RemoteIO_Internal_t *pPlayer,
                                        const Float64 hardwareSampleRate, bool doOutput) {
   if (!doOutput) {return true;}
 
+  const auto kBus = (doOutput) ? kOutputBus0 : kInputBus1;
+  const auto kScope = (doOutput) ? kAudioUnitScope_Input : kAudioUnitScope_Output;
   AudioStreamBasicDescription inputASBD = {0};
   
   // Get properties, and set them if necessary.
@@ -205,7 +207,7 @@ static bool riom_set_stream_parameters(RemoteIO_Internal_t *pPlayer,
   
   LOG_ASSERT_FN(noErr == AudioUnitGetProperty(pPlayer->inputUnit,
                                           kAudioUnitProperty_StreamFormat,
-                                          kAudioUnitScope_Input, kOutputBus0,
+                                              kScope, kBus,
                                           &myASBDRef, &propSize));
 
   riom_print_asbd("kAudioUnitScope_Input, kOutputBus0", &myASBDRef);
@@ -247,7 +249,7 @@ static bool riom_set_stream_parameters(RemoteIO_Internal_t *pPlayer,
     RIOTRACE(("Not all ASBD parameters matched expectations!, adjusting\n"));
     int err = AudioUnitSetProperty(
         pPlayer->inputUnit, kAudioUnitProperty_StreamFormat,
-        kAudioUnitScope_Input, kOutputBus0, &asbdExpected, propSize);
+                                   kScope, kBus, &asbdExpected, propSize);
     if (noErr != err) {
       RIOTRACE(("AudioUnitSetProperty returned error code %d:\n", err));
       RIOTRACE(("  - Please run this software on IOS hardware.  The simulator "
