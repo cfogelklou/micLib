@@ -138,7 +138,7 @@ jint JNICALL Java_micwrapper_MicW_Read(JNIEnv *pEnv, jclass c,
 //
 
 #include "PcmQ.h"
-#include "remoteio_mic_c.h"
+#include "AudioCapturer_cpp.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -163,7 +163,8 @@ typedef struct mw_tag {
   void *pSelf;
   MWPcmQ_t pcmQ;
   float *pPcmBuf;
-  RioInstance_t *pRio;
+  void *pAudioCapturer;
+  float fs;
   pthread_mutex_t mutex;
   bool pcmQInitialized;
   bool hasBeenReadOnce;
@@ -185,18 +186,17 @@ const pthread_mutex_t rMutexInit = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 extern "C" {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
-static RioMicStat_t mw_mic_callback(void *pUserData, float *pSampsBuf,
-                                    int numChannels, int numFrames) {
+static void mw_mic_callback(void *pUserData, float *pSampsBuf,
+                                    int numSamples) {
   mw_t *pMw = (mw_t *)pUserData;
   LOG_ASSERT(pMw == &mw);
-  LOG_ASSERT(numChannels == 1);
+
   if ((mw.pcmQInitialized)&&(mw.hasBeenReadOnce)) {
-    const int numSamples = numChannels * numFrames;
     pthread_mutex_lock(&mw.mutex);
     MWPcmQForceWrite(&mw.pcmQ, pSampsBuf, numSamples);
     pthread_mutex_unlock(&mw.mutex);
   }
-  return s_ok;
+
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -209,19 +209,22 @@ int _IPhoneMicStart(
     memcpy(&mw.mutex, (void *)&rMutexInit, sizeof(pthread_mutex_t));
     init = true;
   }
-  mw.pRio = rio_start_mic(NULL, &mw, mw_mic_callback, fs);
-  int bufSizeWords = (int)(1.0 * mw.pRio->fs);
+  //mw.pAudioCapturer = rio_start_mic(NULL, &mw, mw_mic_callback, fs);
+  mw.fs = fs;
+  mw.pAudioCapturer = AudioCapturer_create(fs, mw_mic_callback, &mw);
+  int bufSizeWords = (int)(1.0 * mw.fs);
   mw.pPcmBuf = (float *)malloc(bufSizeWords * sizeof(float));
   MWPcmQCreate(&mw.pcmQ, mw.pPcmBuf, bufSizeWords);
   mw.pcmQInitialized = true;
-  return mw.pRio->fs;
+  return mw.fs;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
 void _IPhoneMicStop() {
   mw.pcmQInitialized = false;
-  rio_stop_mic(mw.pRio);
+  //rio_stop_mic(mw.pRio);
+  AudioCapturer_stopCapture(mw.pAudioCapturer);
   free(mw.pPcmBuf);
   mw.pPcmBuf = NULL;
   return;

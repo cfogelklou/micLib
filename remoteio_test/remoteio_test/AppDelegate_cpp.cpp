@@ -9,7 +9,6 @@
 #define APPDELEGATE_CPP_H__
 #include "AppDelegate_cpp.h"
 #include "AudioCapturer_cpp.h"
-#include "remoteio_mic_c.h"
 #include "fft.hpp"
 #include <cstdlib>
 #include <math.h>
