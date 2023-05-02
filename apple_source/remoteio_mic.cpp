@@ -192,7 +192,7 @@ failure:
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 static bool riom_set_stream_parameters(RemoteIO_Internal_t *pPlayer,
                                        const Float64 hardwareSampleRate, bool doOutput) {
-  //if (!doOutput) {return true;}
+  if (!doOutput) {return true;}
 
   const auto kBus = (doOutput) ? kOutputBus0 : kInputBus1;
   const auto kScope = (doOutput) ? kAudioUnitScope_Input : kAudioUnitScope_Output;
@@ -200,7 +200,9 @@ static bool riom_set_stream_parameters(RemoteIO_Internal_t *pPlayer,
   
   // Get properties, and set them if necessary.
   AudioStreamBasicDescription asbdExpected = {0};
-  memset(&pPlayer->myASBD, 0, sizeof(pPlayer->myASBD));
+  if (doOutput){
+    memset(&pPlayer->myASBD, 0, sizeof(pPlayer->myASBD));
+  }
   UInt32 propSize = sizeof(pPlayer->myASBD);
 
   AudioStreamBasicDescription &myASBDRef = (doOutput) ? pPlayer->myASBD :inputASBD;
@@ -210,7 +212,12 @@ static bool riom_set_stream_parameters(RemoteIO_Internal_t *pPlayer,
                                               kScope, kBus,
                                           &myASBDRef, &propSize));
 
-  riom_print_asbd("kAudioUnitScope_Input, kOutputBus0", &myASBDRef);
+  if (doOutput){
+    riom_print_asbd("kAudioUnitScope_Input, kOutputBus0", &myASBDRef);
+  }
+  else {
+    riom_print_asbd("kAudioUnitScope_Output, kInputBus1", &myASBDRef);
+  }
 
   // hardwareSampleRate = 24000.000000;
   // pPlayer->myASBD.mChannelsPerFrame = 2;
@@ -224,27 +231,33 @@ static bool riom_set_stream_parameters(RemoteIO_Internal_t *pPlayer,
                           kAudioFormatFlagIsFloat | kAudioFormatFlagIsPacked) ==
                          0x29);
   bool propsAsExpected = true;
+
   asbdExpected.mChannelsPerFrame = 2;
   asbdExpected.mFormatFlags = kAudioFormatFlagIsNonInterleaved |
-                              kAudioFormatFlagIsFloat |
-                              kAudioFormatFlagIsPacked; // 0x29;
+  kAudioFormatFlagIsFloat |
+  kAudioFormatFlagIsPacked; // 0x29;
   asbdExpected.mFramesPerPacket = 1;
   asbdExpected.mBytesPerFrame = 4;
   asbdExpected.mBytesPerPacket = 4;
   asbdExpected.mBitsPerChannel = 32;
 
+  if (!doOutput){
+    asbdExpected.mChannelsPerFrame = 1;
+    asbdExpected.mFormatFlags = kAudioFormatFlagIsFloat |
+    kAudioFormatFlagIsPacked; // 0x29;
+  }
   propsAsExpected &=
-      (asbdExpected.mChannelsPerFrame == pPlayer->myASBD.mChannelsPerFrame);
+      (asbdExpected.mChannelsPerFrame == myASBDRef.mChannelsPerFrame);
   propsAsExpected &=
-      (asbdExpected.mFormatFlags == pPlayer->myASBD.mFormatFlags);
+      (asbdExpected.mFormatFlags == myASBDRef.mFormatFlags);
   propsAsExpected &=
-      (asbdExpected.mFramesPerPacket == pPlayer->myASBD.mFramesPerPacket);
+      (asbdExpected.mFramesPerPacket == myASBDRef.mFramesPerPacket);
   propsAsExpected &=
-      (asbdExpected.mBytesPerFrame == pPlayer->myASBD.mBytesPerFrame);
+      (asbdExpected.mBytesPerFrame == myASBDRef.mBytesPerFrame);
   propsAsExpected &=
-      (asbdExpected.mBytesPerPacket == pPlayer->myASBD.mBytesPerPacket);
+      (asbdExpected.mBytesPerPacket == myASBDRef.mBytesPerPacket);
   propsAsExpected &=
-      (asbdExpected.mBitsPerChannel == pPlayer->myASBD.mBitsPerChannel);
+      (asbdExpected.mBitsPerChannel == myASBDRef.mBitsPerChannel);
   if (!propsAsExpected) {
     RIOTRACE(("Not all ASBD parameters matched expectations!, adjusting\n"));
     int err = AudioUnitSetProperty(
@@ -419,7 +432,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
            
       RIOTRACE(("Enabling microphone hardware.\n"));
       
-      //LOG_ASSERT_FN(riom_set_stream_parameters(pPlayer, hardwareSampleRate, false));
+      LOG_ASSERT_FN(riom_set_stream_parameters(pPlayer, hardwareSampleRate, false));
       
       // Enable the input of kInputBus1
       LOG_ASSERT_FN(noErr == AudioUnitSetProperty(pPlayer->inputUnit,
