@@ -194,18 +194,21 @@ static bool riom_set_stream_parameters(RemoteIO_Internal_t *pPlayer,
                                        const Float64 hardwareSampleRate, bool doOutput) {
   if (!doOutput) {return true;}
 
+  AudioStreamBasicDescription inputASBD = {0};
+  
   // Get properties, and set them if necessary.
-  AudioStreamBasicDescription asbdExpected;
-  memset(&asbdExpected, 0, sizeof(asbdExpected));
+  AudioStreamBasicDescription asbdExpected = {0};
   memset(&pPlayer->myASBD, 0, sizeof(pPlayer->myASBD));
   UInt32 propSize = sizeof(pPlayer->myASBD);
 
+  AudioStreamBasicDescription &myASBDRef = (doOutput) ? pPlayer->myASBD :inputASBD;
+  
   LOG_ASSERT_FN(noErr == AudioUnitGetProperty(pPlayer->inputUnit,
                                           kAudioUnitProperty_StreamFormat,
                                           kAudioUnitScope_Input, kOutputBus0,
-                                          &pPlayer->myASBD, &propSize));
+                                          &myASBDRef, &propSize));
 
-  riom_print_asbd("kAudioUnitScope_Input, kOutputBus0", &pPlayer->myASBD);
+  riom_print_asbd("kAudioUnitScope_Input, kOutputBus0", &myASBDRef);
 
   // hardwareSampleRate = 24000.000000;
   // pPlayer->myASBD.mChannelsPerFrame = 2;
