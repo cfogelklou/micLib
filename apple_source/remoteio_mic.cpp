@@ -411,10 +411,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
 
     // If disabled, then enable it.
     if (micHwEnabled == 0) {
-      
-      // Set the stream parameters!
-      //LOG_ASSERT_FN(riom_set_stream_parameters(pPlayer, hardwareSampleRate, false));
-      
+           
       RIOTRACE(("Enabling microphone hardware.\n"));
       // Enable the input of kInputBus1
       LOG_ASSERT_FN(noErr == AudioUnitSetProperty(pPlayer->inputUnit,
@@ -468,8 +465,6 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
   pPlayer->myASBD.mBytesPerPacket = pPlayer->myASBD.mBytesPerFrame * pPlayer->myASBD.mFramesPerPacket; // per buffer
   pPlayer->myASBD.mBitsPerChannel = bytesPerSample*8; // Set format for output (bus 0) on the RIO's input scope
 
-
-  
   CheckError(AudioUnitSetProperty (pPlayer->inputUnit, 
                                     kAudioUnitProperty_StreamFormat,
                                     kAudioUnitScope_Input, 
