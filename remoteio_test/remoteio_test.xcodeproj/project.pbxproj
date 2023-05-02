@@ -153,7 +153,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0820;
-				ORGANIZATIONNAME = "Acorn Technology";
+				ORGANIZATIONNAME = "Applicaudia";
 				TargetAttributes = {
 					83841CCA1B170B4F0013D0DF = {
 						CreatedOnToolsVersion = 6.3.2;

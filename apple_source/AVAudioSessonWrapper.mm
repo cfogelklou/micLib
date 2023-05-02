@@ -3,7 +3,7 @@
 //  remote_io
 //
 //  Created by Chris Fogelklou on 2017-03-12.
-//  Copyright © 2017 Acorn Technology. All rights reserved.
+//  Copyright © 2017 Applicaudia. All rights reserved.
 // Apple has disabled C/CPP access to AVAudioSession (unfortunately.)
 // This file makes bringing support back easy... All we need is the shared
 // session.

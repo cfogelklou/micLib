@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8320EBFC2A00E0E40068D453 /* AudioCapturer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8320EBFB2A00E0E40068D453 /* AudioCapturer.mm */; };
 		838FD2B020BE6B4E00C14298 /* AVAudioSessonWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 838FD2AD20BE6B4E00C14298 /* AVAudioSessonWrapper.mm */; };
 		838FD2B720BE6B6D00C14298 /* micWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 838FD2B320BE6B6D00C14298 /* micWrapper.cpp */; };
 		838FD2B820BE6B6D00C14298 /* PcmQ.c in Sources */ = {isa = PBXBuildFile; fileRef = 838FD2B520BE6B6D00C14298 /* PcmQ.c */; };
@@ -28,6 +29,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8320EBFB2A00E0E40068D453 /* AudioCapturer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioCapturer.mm; sourceTree = "<group>"; };
 		838FD2AC20BE6B4E00C14298 /* AVAudioSessionWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAudioSessionWrapper.h; sourceTree = "<group>"; };
 		838FD2AD20BE6B4E00C14298 /* AVAudioSessonWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AVAudioSessonWrapper.mm; sourceTree = "<group>"; };
 		838FD2AF20BE6B4E00C14298 /* remoteio_mic_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = remoteio_mic_c.h; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 		838FD2AB20BE6B4E00C14298 /* apple_source */ = {
 			isa = PBXGroup;
 			children = (
+				8320EBFB2A00E0E40068D453 /* AudioCapturer.mm */,
 				838FD2C920BE6D8400C14298 /* remoteio_mic.cpp */,
 				838FD2AC20BE6B4E00C14298 /* AVAudioSessionWrapper.h */,
 				838FD2AD20BE6B4E00C14298 /* AVAudioSessonWrapper.mm */,
@@ -139,7 +142,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
-				ORGANIZATIONNAME = "Acorn Technology";
+				ORGANIZATIONNAME = "Applicaudia";
 				TargetAttributes = {
 					8399151E1E753A5B0082B8D7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -171,6 +174,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8320EBFC2A00E0E40068D453 /* AudioCapturer.mm in Sources */,
 				838FD2B720BE6B6D00C14298 /* micWrapper.cpp in Sources */,
 				838FD2CA20BE6D8400C14298 /* remoteio_mic.cpp in Sources */,
 				838FD2B020BE6B4E00C14298 /* AVAudioSessonWrapper.mm in Sources */,

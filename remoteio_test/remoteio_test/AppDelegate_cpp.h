@@ -3,7 +3,7 @@
 //  remoteio_test
 //
 //  Created by Chris Fogelklou on 28/05/15.
-//  Copyright (c) 2015 Acorn Technology. All rights reserved.
+//  Copyright (c) 2015 Applicaudia. All rights reserved.
 //
 
 #ifndef __remoteio_test__AppDelegate_cpp__
