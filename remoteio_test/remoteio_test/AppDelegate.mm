@@ -13,7 +13,6 @@
 
 static MIC_t *pMic = nullptr;
 
-
 @interface AppDelegate ()
 
 @end
