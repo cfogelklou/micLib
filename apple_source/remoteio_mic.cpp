@@ -7,22 +7,35 @@
 
 #define RIOTRACE(x) printf x
 
-#ifndef LOG_ASSERT
-#define LOG_ASSERT(x)                                                              \
-  if (!(x))                                                                    \
-    do {                                                                       \
-      printf("\n***Assertion Failed: %s(%d):%s\n", __FILE__, __LINE__, #x);    \
-      return false;                                                            \
-  } while (0)
-#endif
+static const char * rio_lastErrorFile = "";
+static int rio_lastErrorLine = -1;
+
+static void rio_AssertionFailed(const char *file, const int line, const char *comparison){
+  printf("\n***Assertion Failed: %s(%d):%s\n", file, line, comparison);
+  if (rio_lastErrorLine < 0){
+    rio_lastErrorLine = line;
+    rio_lastErrorFile = file;
+  }
+
+  assert(false);
+}
+
+//const AudioUnitElement kOutputBus0 = 0;
+//const AudioUnitElement kInputBus1 = 1;
+
+
 #ifndef LOG_ASSERT_FN
-#define LOG_ASSERT_FN(x)                                                           \
-  if (!(x))                                                                    \
-    do {                                                                       \
-      printf("\n***Assertion Failed:  %s(%d):%s\n", __FILE__, __LINE__, #x);   \
-      return false;                                                            \
+#define LOG_ASSERT_FN(x) do { \
+    if (!(x)) { \
+        rio_AssertionFailed(__FILE__, __LINE__, #x); \
+    } \
   } while (0)
 #endif
+
+#ifndef LOG_ASSERT
+#define LOG_ASSERT(x) LOG_ASSERT_FN(x)
+#endif
+
 #ifndef ASSERT_AT_COMPILE_TIME
 #define ASSERT_AT_COMPILE_TIME(pred)                                           \
   switch (0) {                                                                 \
