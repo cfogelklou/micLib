@@ -3,44 +3,28 @@
 //  remoteio_test
 //
 //  Created by Chris Fogelklou on 28/05/15.
-//  Copyright (c) 2015 Applicaudia. All rights reserved.
+//  Copyright (c) 2015 Acorn Technology. All rights reserved.
 //
 
 #import "AppDelegate.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import "AppDelegate_cpp.h"
 
-#import "AudioCapturer.h"
+
+static MIC_t *pMic = nullptr;
 
 
 @interface AppDelegate ()
-
-@property (nonatomic, strong) AudioCapturer *audioCapturer;
 
 @end
 
 @implementation AppDelegate
 
-struct UserData {
-  double fs;
-};
 
-static struct UserData g_UserData;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  float sampleRate = 44100.0;
-  g_UserData.fs = sampleRate;
-  self.audioCapturer = [[AudioCapturer alloc] initWithSampleRate:sampleRate callback:^(void *userData, float *data, int numFrames) {
-      struct UserData *ud = (struct UserData *)userData;
-      assert(ud->fs == sampleRate);
-      for (int i = 0; i < numFrames; i++) {
-          float sample = data[i];
-          NSLog(@"Sample: %f", sample);
-      }
-      // Use ud->... to access the custom data
-  } userData:&g_UserData];
 
-    // Start capturing audio
-    [self.audioCapturer startCapture];
+    pMic = MIC_Start( (__bridge void *)(self) );
     
     return YES;
 }
@@ -48,8 +32,6 @@ static struct UserData g_UserData;
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    // Stop capturing audio when the app goes to background
-    [self.audioCapturer stopCapture];    
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -63,15 +45,13 @@ static struct UserData g_UserData;
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    // Start capturing audio when the app becomes active
-    [self.audioCapturer startCapture];    
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-  // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-  // Stop capturing audio when the app goes to background
-  [self.audioCapturer stopCapture];
-
+    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    MIC_Stop( pMic );
+    pMic = nullptr;
 }
 
 @end

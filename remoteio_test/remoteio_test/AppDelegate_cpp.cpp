@@ -8,6 +8,7 @@
 #ifndef APPDELEGATE_CPP_H__
 #define APPDELEGATE_CPP_H__
 #include "AppDelegate_cpp.h"
+#include "AudioCapturer_cpp.h"
 #include "remoteio_mic_c.h"
 #include "fft.hpp"
 #include <cstdlib>
@@ -22,7 +23,8 @@ typedef struct MyCounterStruct_tag {
   int mCallbackCount;
   float rmsPower;
   int rmsCount;
-  RioInstance_t *pRio;
+  void *pAudioCapturer;
+  float fs;
   Fft *pFft;
   unsigned long fsMeasureLastMs;
   unsigned long fsMeasureSampCount;
@@ -42,38 +44,37 @@ static unsigned long now(){
 }
   
 // /////////////////////////////////////////////////////////////////////////////
-static RioMicStat_t myAudioCallback(void *pUserData, float *pSampsBuf,
-                                    int numChannels, int numFrames) {
-  MyCounterStruct_t *pCounter = (MyCounterStruct_t *)pUserData;
-  if (pCounter->initialized) {
-    int numSamps = numChannels * numFrames;
+static void myAudioCallback(void *pUserData, float *pSampsBuf,
+                                    int numSamps) {
+  MyCounterStruct_t *pMicObj = (MyCounterStruct_t *)pUserData;
+  if (pMicObj->initialized) {
     for (int i = 0; i < numSamps; i++) {
-      pCounter->rmsPower += (double)pSampsBuf[i] * (double)pSampsBuf[i];
+      pMicObj->rmsPower += (double)pSampsBuf[i] * (double)pSampsBuf[i];
     }
-    pCounter->rmsCount += numSamps;
-    pCounter->fsMeasureSampCount += numFrames;
+    pMicObj->rmsCount += numSamps;
+    pMicObj->fsMeasureSampCount += numSamps;
     
-    if (pCounter->fsMeasureSampCount >= 44100 * 5){
+    if (pMicObj->fsMeasureSampCount >= 44100 * 5){
       const auto now_ms = now();
-      const auto diff_ms = now_ms - pCounter->fsMeasureLastMs;
+      const auto diff_ms = now_ms - pMicObj->fsMeasureLastMs;
       double seconds = diff_ms / 1000.0;
-      double fs = pCounter->fsMeasureSampCount / seconds;
+      double fs = pMicObj->fsMeasureSampCount / seconds;
       printf("Measured fs = %f\n", fs);
-      pCounter->fsMeasureLastMs = now_ms;
-      pCounter->fsMeasureSampCount = 0;
+      pMicObj->fsMeasureLastMs = now_ms;
+      pMicObj->fsMeasureSampCount = 0;
     }
     
-    pCounter->mCallbackCount++;
-    if (0 == (pCounter->mCallbackCount & 0x1f)) {
-      pCounter->rmsPower = sqrt(pCounter->rmsPower / pCounter->rmsCount);
-      printf("%d callbacks:pwr = %f\n", pCounter->mCallbackCount,
-             pCounter->rmsPower);
-        pCounter->rmsPower = 0;
-        pCounter->rmsCount = 0;
-      if ((pCounter->pFft)){
+    pMicObj->mCallbackCount++;
+    if (0 == (pMicObj->mCallbackCount & 0x1f)) {
+      pMicObj->rmsPower = sqrt(pMicObj->rmsPower / pMicObj->rmsCount);
+      printf("%d callbacks:pwr = %f\n", pMicObj->mCallbackCount,
+             pMicObj->rmsPower);
+        pMicObj->rmsPower = 0;
+        pMicObj->rmsCount = 0;
+      if ((pMicObj->pFft)){
 
-        Fft &fft = *pCounter->pFft;
-        if ((numChannels == 1) && (numFrames >= FFT_SIZE)) {
+        Fft &fft = *pMicObj->pFft;
+        if (numSamps >= FFT_SIZE) {
           static double mag[FFT_SIZE];
           static double phz[FFT_SIZE];
           static double real[FFT_SIZE];
@@ -92,42 +93,42 @@ static RioMicStat_t myAudioCallback(void *pUserData, float *pSampsBuf,
               maxMag = pk;
             }
           }
-          auto peakFreq = fft.IndexToFrequency(FFT_SIZE, maxIdx, pCounter->pRio->fs);
+          auto peakFreq = fft.IndexToFrequency(FFT_SIZE, maxIdx, pMicObj->fs);
           printf("peakFreq = %f\n", peakFreq);
 
         }
       }
     }
   }
-  return s_ok;
+
 }
 
 // /////////////////////////////////////////////////////////////////////////////////////////////////
 MIC_t *MIC_Start(void *pSelf) {
-  MyCounterStruct_t *pCounter =
-      (MyCounterStruct_t *)malloc(sizeof(MyCounterStruct_t));
-  memset(pCounter, 0, sizeof(MyCounterStruct_t));
-  pCounter->pRio = rio_start_mic(pSelf, pCounter, myAudioCallback, 48000);
-  // int fs = pCounter->pRio->fs;
-  pCounter->mic.pSelf = pSelf;
-  pCounter->pFft = new Fft(FFT_SIZE);
-  pCounter->fsMeasureLastMs = now();
+  MyCounterStruct_t *pMicObj = new MyCounterStruct_t;
+  pMicObj->fs = 48000;
+  pMicObj->pAudioCapturer = AudioCapturer_create(48000, myAudioCallback, pMicObj);
+  pMicObj->mic.pSelf = pSelf;
+  pMicObj->pFft = new Fft(FFT_SIZE);
+  pMicObj->fsMeasureLastMs = now();
+  pMicObj->initialized = true;
+  AudioCapturer_startCapture(pMicObj->pAudioCapturer);
 
-  pCounter->initialized = true;
-
-  return &pCounter->mic;
+  return &pMicObj->mic;
 }
 
 // /////////////////////////////////////////////////////////////////////////////////////////////////
 void MIC_Stop(MIC_t *pMic) {
-  MyCounterStruct_t *pCounter = (MyCounterStruct_t *)pMic;
-  rio_stop_mic(pCounter->pRio);
-  Fft *pFft = pCounter->pFft;
-  pCounter->pFft = nullptr;
-  free(pCounter);
-  pCounter = NULL;
+  MyCounterStruct_t *pMicObj = (MyCounterStruct_t *)pMic;
+  AudioCapturer_stopCapture(pMicObj->pAudioCapturer);
+  AudioCapturer_destroy(pMicObj->pAudioCapturer);
+  Fft *pFft = pMicObj->pFft;
+  pMicObj->pFft = nullptr;
+  delete pMicObj;
+  pMicObj = nullptr;
   if (pFft){
     delete pFft;
+    pFft = nullptr;
   }
 }
 }

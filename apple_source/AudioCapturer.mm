@@ -58,9 +58,9 @@ extern "C" {
 
 // C-callable wrapper functions
 
-void *AudioCapturer_create(float sampleRate, void (*callback)(float *, int, void *), void *userData) {
+void *AudioCapturer_create(float sampleRate, void (*callback)(void *, float *, int), void *userData) {
     AudioCapturer *audioCapturer = [[AudioCapturer alloc] initWithSampleRate:sampleRate callback:^(void *userData, float *data, int numFrames) {
-        callback(data, numFrames, userData);
+        callback(userData, data, numFrames );
     } userData:userData];
     return (__bridge_retained void *)audioCapturer;
 }
