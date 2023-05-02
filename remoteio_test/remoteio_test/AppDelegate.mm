@@ -20,15 +20,24 @@
 
 @implementation AppDelegate
 
+struct UserData {
+  double fs;
+};
+
+static struct UserData g_UserData;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   float sampleRate = 44100.0;
-    self.audioCapturer = [[AudioCapturer alloc] initWithSampleRate:sampleRate callback:^(float *data, int numFrames) {
-        // Process the data array
-        for (int i = 0; i < numFrames; i++) {
-            float sample = data[i];
-            NSLog(@"Sample: %f", sample);
-        }
-    }];
+  g_UserData.fs = sampleRate;
+  self.audioCapturer = [[AudioCapturer alloc] initWithSampleRate:sampleRate callback:^(void *userData, float *data, int numFrames) {
+      struct UserData *ud = (struct UserData *)userData;
+      assert(ud->fs == sampleRate);
+      for (int i = 0; i < numFrames; i++) {
+          float sample = data[i];
+          NSLog(@"Sample: %f", sample);
+      }
+      // Use ud->... to access the custom data
+  } userData:&g_UserData];
 
     // Start capturing audio
     [self.audioCapturer startCapture];

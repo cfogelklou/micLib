@@ -5,13 +5,15 @@
 @implementation AudioCapturer {
     AVAudioEngine *_engine;
     float _sampleRate;
-    void (^_callback)(float *, int);
+    void (^_callback)(void *, float *, int);
+    void *_userData;
 }
 
-- (instancetype)initWithSampleRate:(float)sampleRate callback:(void(^)(float *, int))callback {
+- (instancetype)initWithSampleRate:(float)sampleRate callback:(void(^)(void *, float *, int))callback userData:(void *)userData {
     if (self = [super init]) {
         _sampleRate = sampleRate;
         _callback = callback;
+        _userData = userData;
         [self setupAudioEngine];
     }
     return self;
@@ -34,7 +36,7 @@
     [inputNode installTapOnBus:0 bufferSize:1024 format:monoFormat block:^(AVAudioPCMBuffer *buffer, AVAudioTime *when) {
         float *data = buffer.floatChannelData[0];
         int numFrames = (int)buffer.frameLength;
-        _callback(data, numFrames);
+        self->_callback(self->_userData, data, numFrames);
     }];
 }
 
@@ -51,3 +53,31 @@
 }
 
 @end
+
+extern "C" {
+
+// C-callable wrapper functions
+
+void *AudioCapturer_create(float sampleRate, void (*callback)(float *, int, void *), void *userData) {
+    AudioCapturer *audioCapturer = [[AudioCapturer alloc] initWithSampleRate:sampleRate callback:^(void *userData, float *data, int numFrames) {
+        callback(data, numFrames, userData);
+    } userData:userData];
+    return (__bridge_retained void *)audioCapturer;
+}
+
+void AudioCapturer_startCapture(void *audioCapturer) {
+    AudioCapturer *capturer = (__bridge AudioCapturer *)audioCapturer;
+    [capturer startCapture];
+}
+
+void AudioCapturer_stopCapture(void *audioCapturer) {
+    AudioCapturer *capturer = (__bridge AudioCapturer *)audioCapturer;
+    [capturer stopCapture];
+}
+
+void AudioCapturer_destroy(void *audioCapturer) {
+    AudioCapturer *capturer = (__bridge_transfer AudioCapturer *)audioCapturer;
+    capturer = nil;
+}
+
+}
