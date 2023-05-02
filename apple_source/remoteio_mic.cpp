@@ -55,6 +55,9 @@ const AudioUnitElement kInputBus1 = 1;
       return false;                                                            \
   } while (0)
 
+#define DEFAULT_BUFFER_SIZE_FRAMES 512
+
+
 // ////////////////////////////////////////////////////////////////////////////
 typedef struct RemoteIO_Internal_tag {
   RioInstance_t inst;
@@ -70,8 +73,6 @@ typedef struct RemoteIO_Internal_tag {
   // If the user wants a specific FS, allows it to be passed in.
   int desiredFs;
 } RemoteIO_Internal_t;
-
-#define DEFAULT_BUFFER_SIZE_FRAMES 512
 
 extern "C" {
 
@@ -192,7 +193,7 @@ failure:
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 static bool riom_set_stream_parameters(RemoteIO_Internal_t *pPlayer,
                                        const Float64 hardwareSampleRate, bool doOutput) {
-  if (!doOutput) {return true;}
+  //if (!doOutput) {return true;}
 
   const auto kBus = (doOutput) ? kOutputBus0 : kInputBus1;
   const auto kScope = (doOutput) ? kAudioUnitScope_Input : kAudioUnitScope_Output;
@@ -432,7 +433,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
            
       RIOTRACE(("Enabling microphone hardware.\n"));
       
-      LOG_ASSERT_FN(riom_set_stream_parameters(pPlayer, hardwareSampleRate, false));
+      //LOG_ASSERT_FN(riom_set_stream_parameters(pPlayer, hardwareSampleRate, false));
       
       // Enable the input of kInputBus1
       LOG_ASSERT_FN(noErr == AudioUnitSetProperty(pPlayer->inputUnit,
@@ -562,7 +563,6 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
 
   return true;
 }
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Starts the microphone, which will start triggering callbacks.
