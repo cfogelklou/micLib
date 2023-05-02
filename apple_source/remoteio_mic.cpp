@@ -139,135 +139,6 @@ riom_input_render_proc(void *pInRefCon,
 }
 
 // ////////////////////////////////////////////////////////////////////////////
-#if !TARGET_OS_IPHONE
-static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
-  // Generates a description that matches audio HAL
-  AudioComponentDescription inputcd = {0};
-  inputcd.componentType = kAudioUnitType_Output;
-  inputcd.componentSubType = kAudioUnitSubType_HALOutput;
-  inputcd.componentManufacturer = kAudioUnitManufacturer_Apple;
-
-  AudioComponent comp = AudioComponentFindNext(NULL, &inputcd);
-  if (comp == NULL) {
-    printf("Can't get output unit");
-    exit(-1);
-  }
-
-  CheckError(AudioComponentInstanceNew(comp, &pPlayer->inputUnit),
-             "Couldn't open component for inputUnit");
-
-  UInt32 disableFlag = 0;
-  UInt32 enableFlag = 1;
-  AudioUnitScope outputBus = 0;
-  AudioUnitScope inputBus = 1;
-
-  CheckError(AudioUnitSetProperty(pPlayer->inputUnit,
-                                  kAudioOutputUnitProperty_EnableIO,
-                                  kAudioUnitScope_Input, inputBus, &enableFlag,
-                                  sizeof(enableFlag)),
-             "Couldn't enable input on I/O unit");
-
-  CheckError(AudioUnitSetProperty(pPlayer->inputUnit,
-                                  kAudioOutputUnitProperty_EnableIO,
-                                  kAudioUnitScope_Output, outputBus,
-                                  &disableFlag, sizeof(enableFlag)),
-             "Couldn't disable output on I/O unit");
-
-  AudioDeviceID defaultDevice = kAudioObjectUnknown;
-  UInt32 propertySize = sizeof(defaultDevice);
-
-  AudioObjectPropertyAddress defaultDeviceProperty;
-  defaultDeviceProperty.mSelector = kAudioHardwarePropertyDefaultInputDevice;
-  defaultDeviceProperty.mScope = kAudioObjectPropertyScopeGlobal;
-  defaultDeviceProperty.mElement = kAudioObjectPropertyElementMaster;
-
-  CheckError(AudioObjectGetPropertyData(kAudioObjectSystemObject,
-                                        &defaultDeviceProperty, 0, NULL,
-                                        &propertySize, &defaultDevice),
-             "Couldn't get default input device");
-
-  CheckError(AudioUnitSetProperty(pPlayer->inputUnit,
-                                  kAudioOutputUnitProperty_CurrentDevice,
-                                  kAudioUnitScope_Global, outputBus,
-                                  &defaultDevice, sizeof(defaultDevice)),
-             "Couldn't set default device on I/O unit");
-
-  propertySize = sizeof(AudioStreamBasicDescription);
-
-  CheckError(AudioUnitGetProperty(pPlayer->inputUnit,
-                                  kAudioUnitProperty_StreamFormat,
-                                  kAudioUnitScope_Output, inputBus,
-                                  &pPlayer->myASBD, &propertySize),
-             "Couldn't get ASBD from output unit");
-
-  AudioStreamBasicDescription myASBD;
-  CheckError(AudioUnitGetProperty(
-                 pPlayer->inputUnit, kAudioUnitProperty_StreamFormat,
-                 kAudioUnitScope_Input, inputBus, &myASBD, &propertySize),
-             "Couldn't get ASBD from input unit");
-
-  pPlayer->myASBD.mSampleRate = myASBD.mSampleRate;
-  printf("Sample rate = %d\n", (int)myASBD.mSampleRate);
-
-  pPlayer->inst.fs = (int)myASBD.mSampleRate;
-
-  propertySize = sizeof(AudioStreamBasicDescription);
-
-  CheckError(AudioUnitSetProperty(pPlayer->inputUnit,
-                                  kAudioUnitProperty_StreamFormat,
-                                  kAudioUnitScope_Output, inputBus,
-                                  &pPlayer->myASBD, propertySize),
-             "Couldn't set ASBD on input unit");
-
-  UInt32 bufferSizeFrames = 0;
-  propertySize = sizeof(UInt32);
-
-  CheckError(AudioUnitGetProperty(
-                 pPlayer->inputUnit, kAudioDevicePropertyBufferFrameSize,
-                 kAudioUnitScope_Global, 0, &bufferSizeFrames, &propertySize),
-             "Couldn't get buffer frame size from input unit");
-
-  UInt32 bufferSizeBytes = bufferSizeFrames * sizeof(Float32);
-
-  UInt32 propsize = offsetof(AudioBufferList, mBuffers[0]) +
-                    (sizeof(AudioBuffer) * pPlayer->myASBD.mChannelsPerFrame);
-
-  // malloc buffer lists
-  pPlayer->pInputBuffer = (AudioBufferList *)malloc(propsize);
-
-  printf("pPlayer->myASBD.mChannelsPerFrame = %d\n",
-         pPlayer->myASBD.mChannelsPerFrame);
-  pPlayer->pInputBuffer->mNumberBuffers = pPlayer->myASBD.mChannelsPerFrame;
-
-  // Pre-malloc buffers for AudioBufferLists
-  for (UInt32 i = 0; i < pPlayer->pInputBuffer->mNumberBuffers; i++) {
-    pPlayer->pInputBuffer->mBuffers[i].mNumberChannels = 1;
-    pPlayer->pInputBuffer->mBuffers[i].mDataByteSize = bufferSizeBytes;
-    pPlayer->pInputBuffer->mBuffers[i].mData = malloc(bufferSizeBytes);
-  }
-
-  // Set render proc to supply samples from input unit
-  AURenderCallbackStruct callbackStruct;
-  callbackStruct.inputProc = riom_input_render_proc;
-  callbackStruct.inputProcRefCon = pPlayer;
-  CheckError(AudioUnitSetProperty(pPlayer->inputUnit,
-                                  kAudioOutputUnitProperty_SetInputCallback,
-                                  kAudioUnitScope_Global, 0, &callbackStruct,
-                                  sizeof(callbackStruct)),
-             "Couldn't set input callback");
-
-  CheckError(AudioUnitInitialize(pPlayer->inputUnit),
-             "Couldn't initialize input unit");
-
-  printf("Bottom of riom_create_input_unit()\n");
-
-  CheckError(AudioOutputUnitStart(pPlayer->inputUnit),
-             "AudioOutputUnitStart failed");
-
-  return true;
-}
-#else
-
 #include "AVAudioSessionWrapper.h"
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // We want to ensure that Unity has enabled a mode that allows recording.
@@ -650,7 +521,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
 
   return true;
 }
-#endif
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Starts the microphone, which will start triggering callbacks.
