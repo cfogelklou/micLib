@@ -20,8 +20,8 @@ static void rio_AssertionFailed(const char *file, const int line, const char *co
   assert(false);
 }
 
-//const AudioUnitElement kOutputBus0 = 0;
-//const AudioUnitElement kInputBus1 = 1;
+const AudioUnitElement kOutputBus0 = 0;
+const AudioUnitElement kInputBus1 = 1;
 
 
 #ifndef LOG_ASSERT_FN
@@ -192,8 +192,6 @@ failure:
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 static bool riom_set_stream_parameters(RemoteIO_Internal_t *pPlayer,
                                        const Float64 hardwareSampleRate) {
-  const AudioUnitElement kOutputBus0 = 0;
-  // const AudioUnitElement kInputBus1 = 1;
   // Get properties, and set them if necessary.
   AudioStreamBasicDescription asbdExpected;
   memset(&asbdExpected, 0, sizeof(asbdExpected));
@@ -258,11 +256,44 @@ static bool riom_set_stream_parameters(RemoteIO_Internal_t *pPlayer,
   return propsAsExpected;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ Using the Remote I/O audio unit (kAudioUnitSubType_RemoteIO) to perform audio processing tasks. The Remote I/O audio unit contains two buses: an input bus (microphone) and an output bus (speaker). The audio data is being processed between these buses.
+
+ Here's a description of the connections between the different audio nodes in the code:
+
+ Setting the audio session category: The audio session category is set to record audio using the riom_set_record_category() function. This step is necessary to allow audio input and output through the audio unit.
+
+ Getting the audio input hardware availability: The code checks if the audio input hardware (microphone) is available using the kAudioSessionProperty_AudioInputAvailable property.
+
+ Setting the hardware sample rate: The hardware sample rate is set using the kAudioSessionProperty_CurrentHardwareSampleRate property. If the desired sample rate is specified (pPlayer->desiredFs), it is set; otherwise, the current hardware sample rate is used.
+
+ Setting the buffer size: The preferred buffer size is determined using the kAudioSessionProperty_PreferredHardwareIOBufferDuration property. The buffer size in frames is calculated based on the hardware duration and sample rate.
+
+ Creating the Remote I/O audio unit: The Remote I/O audio unit is created using the AudioComponentInstanceNew() function. This audio unit handles both input (microphone) and output (speaker) audio data.
+
+ Disabling the output hardware: The output hardware (speaker) is disabled using the kAudioOutputUnitProperty_EnableIO property and setting its value to 0 (kZeroFlag).
+
+ Enabling the input hardware: The input hardware (microphone) is enabled using the kAudioOutputUnitProperty_EnableIO property and setting its value to 1 (kOneFlag).
+
+ Setting audio stream parameters: The audio stream parameters are set using the riom_set_stream_parameters() function. This function configures the audio data format, channel count, and sample rate for both input and output buses.
+
+ Setting the input callback: The input callback is set using the kAudioOutputUnitProperty_SetInputCallback property. The callback function riom_input_render_proc is responsible for processing the audio data received from the input hardware (microphone).
+
+ The code initializes and starts the Remote I/O audio unit to begin processing audio data. When the audio data is available from the input hardware (microphone), the input callback function processes the data and stores it in the specified buffer.
+
+ Here's a visual representation of the connections:
+
+ ```
+ +--------------+       +---------------------+       +--------------+
+ | Input        |------>| Remote I/O Audio    |------>| Application  |
+ | (Microphone) |       | Unit (Input Bus)    |       | (Processing) |
+ +--------------+       +---------------------+       +--------------+
+ ```
+ In summary, the code sets up the audio session, configures the audio unit, and enables the input hardware (microphone) to process the incoming audio data. The output hardware (speaker) is disabled, and the processed audio data is stored in the application buffer.
+ */
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
-  const AudioUnitElement kOutputBus0 = 0;
-  const AudioUnitElement kInputBus1 = 1;
+
   // Set up the RIO unit for playback
   const UInt32 kZeroFlag = 0;
   const UInt32 kOneFlag = 1;
@@ -303,11 +334,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
       LOG_ASSERT_FN(noErr == _AudioSessionSetProperty(
                              kAudioSessionProperty_CurrentHardwareSampleRate,
                              propSize, &hardwareSampleRate));
-#if 0
-      LOG_ASSERT_FN(noErr == _AudioSessionGetProperty(
-                             kAudioSessionProperty_CurrentHardwareSampleRate,
-                             &propSize, &hardwareSampleRate));
-#endif
+
     }
     RIOTRACE(("hardwareSampleRate = %f\n", hardwareSampleRate));
 
@@ -340,7 +367,6 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
   }
 
   // Getting RemoteIO AudioUnit from Audio Component Manager
-  // Describe the unit
   {
     AudioComponentDescription audioCompDesc;
     memset(&audioCompDesc, 0, sizeof(audioCompDesc));
@@ -362,7 +388,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
   // Set the stream parameters!
   LOG_ASSERT_FN(riom_set_stream_parameters(pPlayer, hardwareSampleRate));
 
-  // Disable output hardware
+  // Disable output hardware. This disables the output of kOutputBus0
   LOG_ASSERT_FN(noErr == AudioUnitSetProperty(pPlayer->inputUnit,
                                           kAudioOutputUnitProperty_EnableIO,
                                           kAudioUnitScope_Output, kOutputBus0,
@@ -373,7 +399,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
     UInt32 micHwEnabled = 0;
     UInt32 flagSize = sizeof(micHwEnabled);
 
-    // First get status.
+    // Gets the input of kInputBus1
     LOG_ASSERT_FN(noErr == AudioUnitGetProperty(pPlayer->inputUnit,
                                             kAudioOutputUnitProperty_EnableIO,
                                             kAudioUnitScope_Input, kInputBus1,
@@ -384,11 +410,13 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
     // If disabled, then enable it.
     if (micHwEnabled == 0) {
       RIOTRACE(("Enabling microphone hardware.\n"));
+      // Enable the input of kInputBus1
       LOG_ASSERT_FN(noErr == AudioUnitSetProperty(pPlayer->inputUnit,
                                               kAudioOutputUnitProperty_EnableIO,
                                               kAudioUnitScope_Input, kInputBus1,
                                               &kOneFlag, sizeof(kOneFlag)));
-      // First get status.
+      
+      // Now get status - get the input flag of inputBus1
       LOG_ASSERT_FN(noErr == AudioUnitGetProperty(pPlayer->inputUnit,
                                               kAudioOutputUnitProperty_EnableIO,
                                               kAudioUnitScope_Input, kInputBus1,
@@ -454,14 +482,6 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
 #endif
   {
     UInt32 bufferSizeBytes = bufferSizeFrames * pPlayer->myASBD.mBytesPerFrame;
-    /*CheckError (AudioUnitGetProperty(pPlayer->inputUnit,
-                                     kAudioDevicePropertyBufferFrameSize,
-                                     kAudioUnitScope_Global,
-                                     0,
-                                     &bufferSizeFrames,
-                                     &propertySize),
-                "Couldn't get buffer frame size from input unit");
-    */
     const int numBuffers = pPlayer->myASBD.mChannelsPerFrame;
     LOG_ASSERT(numBuffers >= 1);
 
@@ -470,7 +490,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
     LOG_ASSERT((1 == numBuffers) ||
            (pPlayer->myASBD.mFormatFlags & kAudioFormatFlagIsNonInterleaved));
 
-    // malloc buffer lists
+    // malloc buffer lists. use numBuffers -1 because AudioBuffer mBuffers[1] is a variable length array.
     pPlayer->pInputBuffer = (AudioBufferList *)malloc(
         sizeof(AudioBufferList) + ((numBuffers - 1) * sizeof(AudioBuffer)));
 
@@ -535,8 +555,8 @@ RioInstance_t *rio_start_mic(
   RemoteIO_Internal_t *pInst =
       (RemoteIO_Internal_t *)malloc(sizeof(RemoteIO_Internal_t));
 
-  if (NULL == pInst)
-    return NULL;
+  assert(nullptr != pInst);
+  
   memset(pInst, 0, sizeof(RemoteIO_Internal_t));
   pInst->inst.pUserData = pUserData;
   pInst->inst.audCb = fnPtr;
