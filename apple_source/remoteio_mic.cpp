@@ -191,7 +191,9 @@ failure:
 */
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 static bool riom_set_stream_parameters(RemoteIO_Internal_t *pPlayer,
-                                       const Float64 hardwareSampleRate) {
+                                       const Float64 hardwareSampleRate, bool doOutput) {
+  if (!doOutput) {return true;}
+
   // Get properties, and set them if necessary.
   AudioStreamBasicDescription asbdExpected;
   memset(&asbdExpected, 0, sizeof(asbdExpected));
@@ -368,8 +370,8 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
 
   // Getting RemoteIO AudioUnit from Audio Component Manager
   {
-    AudioComponentDescription audioCompDesc;
-    memset(&audioCompDesc, 0, sizeof(audioCompDesc));
+    AudioComponentDescription audioCompDesc = {0};
+
     audioCompDesc.componentType = kAudioUnitType_Output;
     audioCompDesc.componentSubType = kAudioUnitSubType_RemoteIO;
     audioCompDesc.componentManufacturer = kAudioUnitManufacturer_Apple;
@@ -386,7 +388,7 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
   LOG_ASSERT_FN(noErr == AudioOutputUnitStop(pPlayer->inputUnit));
 
   // Set the stream parameters!
-  LOG_ASSERT_FN(riom_set_stream_parameters(pPlayer, hardwareSampleRate));
+  LOG_ASSERT_FN(riom_set_stream_parameters(pPlayer, hardwareSampleRate, true));
 
   // Disable output hardware. This disables the output of kOutputBus0
   LOG_ASSERT_FN(noErr == AudioUnitSetProperty(pPlayer->inputUnit,
@@ -409,6 +411,10 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
 
     // If disabled, then enable it.
     if (micHwEnabled == 0) {
+      
+      // Set the stream parameters!
+      //LOG_ASSERT_FN(riom_set_stream_parameters(pPlayer, hardwareSampleRate, false));
+      
       RIOTRACE(("Enabling microphone hardware.\n"));
       // Enable the input of kInputBus1
       LOG_ASSERT_FN(noErr == AudioUnitSetProperty(pPlayer->inputUnit,
@@ -428,9 +434,8 @@ static bool riom_create_input_unit(RemoteIO_Internal_t *pPlayer) {
 
   // Do some logging so we know the settings used.
   {
-    AudioStreamBasicDescription asbd;
+    AudioStreamBasicDescription asbd = {0};
     UInt32 propSize = sizeof(asbd);
-    memset(&asbd, 0, propSize);
 
     LOG_ASSERT_FN(noErr == AudioUnitGetProperty(pPlayer->inputUnit,
                                             kAudioUnitProperty_StreamFormat,
