@@ -4,7 +4,8 @@
 //  Created by Chris Fogelklou
 //
 //
-#if defined (__ANDROID__) || defined(ROBOVM)
+#ifdef __APPLE__
+#elif defined (__ANDROID__) || defined(ROBOVM)
 #include "../common/micwrapper_MicW.h"
 #include "PcmQ.h"
 #include "remoteio_mic_c.h"
@@ -126,7 +127,8 @@ jint JNICALL Java_micwrapper_MicW_Read(JNIEnv *pEnv, jclass c,
 }
 }
 
-#else //__APPLE__
+#endif
+#ifdef __APPLE__
 //
 //  micWrapper.c
 //  Unity-iPhone

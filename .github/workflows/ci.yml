@@ -1,0 +1,52 @@
+name: CI
+# To test fastlane build commands on your local machine, install fastlane.
+# sudo gem install fastlane -NV
+#
+
+on:
+  push:
+    branches:
+      - master
+      - main
+      - devel
+    tags:
+      - '*' # Test all pushed tags.
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+  pull_request_review:
+    types:
+      - submitted
+  status: {}
+env:
+  RELEASE: release
+  ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
+
+jobs:
+  build-apps-ios:
+    name: Build the example application for iOS
+    # needs: [build-apps-android] # docker-ccsv8,
+    strategy:
+      matrix:
+        platform: [macos-latest] #[macos-latest] # macos-latest,
+    runs-on: ${{ matrix.platform }}
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          token: ${{secrets.ACCESS_TOKEN}}
+          submodules: 'recursive'
+
+      - name: Build iOS version without signing keys for now. (iOS)
+        if: (matrix.platform == 'macos-latest') || (matrix.platform == 'self-hosted')
+        working-directory: remoteio_test
+        run: |
+          xcodebuild -workspace remoteio_test.xcodeproj/project.xcworkspace -scheme remoteio_test -configuration Release -sdk iphoneos -derivedDataPath ./build CODE_SIGNING_ALLOWED=NO
