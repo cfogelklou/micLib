@@ -23,37 +23,70 @@
 }
 
 - (instancetype)initWithSampleRate:(float)sampleRate callback:(void(^)(void *, float *, int))callback userData:(void *)userData {
-    if (self = [super init]) {
-        _requestedSampleRate = sampleRate;
-        _actualSampleRate = 0.0;
-        _callback = callback;
-        _userData = userData;
-        [self setupAudioEngine];
+    try {
+        if (self = [super init]) {
+            _requestedSampleRate = sampleRate;
+            _actualSampleRate = 0.0;
+            _callback = callback;
+            _userData = userData;
+            [self setupAudioEngine];
+        }
+    }
+    catch(NSException *exception) {
+        NSLog(@"Exception: %@", exception);
     }
     return self;
 }
 
 - (void)setupAudioEngine {
+
     _engine = [[AVAudioEngine alloc] init];
+    try {
+        NSError *error = nil;    
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        if (![audioSession setCategory:AVAudioSessionCategoryRecord error:&error]) {
+            NSLog(@"setupAudioEngine::0:Error: %@", error);
+            return;
+        }
+        if (![audioSession setPreferredSampleRate:_requestedSampleRate error:&error]) {
+            NSLog(@"setupAudioEngine::1:Error: %@", error);
+            return;
+        }
+        if (![audioSession setActive:YES error:&error]) {
+            NSLog(@"setupAudioEngine::2:Error: %@", error);
+            return;
+        }
+    }
+    catch(NSException *exception) {
+        NSLog(@"setupAudioEngine::4:Exception: %@", exception);
+        return;
+    }
 
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    [audioSession setCategory:AVAudioSessionCategoryRecord error:nil];
-    [audioSession setPreferredSampleRate:_requestedSampleRate error:nil];
-    [audioSession setActive:YES error:nil];
+    try {
+      // This gives a CARP violation
+      auto inputNode = _engine.inputNode;
 
-    AVAudioInputNode *inputNode = _engine.inputNode;
-    AVAudioFormat *inputFormat = [inputNode outputFormatForBus:0];
-    
-    // Set up the format for mono audio with a single float sample
-    AVAudioFormat *monoFormat = [[AVAudioFormat alloc] initWithCommonFormat:AVAudioPCMFormatFloat32 sampleRate:inputFormat.sampleRate channels:1 interleaved:NO];
+      AVAudioFormat *inputFormat = [inputNode outputFormatForBus:0];
+      //AVAudioFormat *inputFormat = [[AVAudioFormat alloc] initWithCommonFormat:AVAudioPCMFormatFloat32 sampleRate:fs channels:1 interleaved:NO];
 
-    _actualSampleRate = [_engine.inputNode inputFormatForBus:0].sampleRate;
+      NSLog(@"setupAudioEngine::3:inputFormat.sampleRate: %f", inputFormat.sampleRate);
 
-    [inputNode installTapOnBus:0 bufferSize:1024 format:monoFormat block:^(AVAudioPCMBuffer *buffer, AVAudioTime *when) {
-        float *data = buffer.floatChannelData[0];
-        int numFrames = (int)buffer.frameLength;
-        self->_callback(self->_userData, data, numFrames);
-    }];
+      //_actualSampleRate = fs;//[_engine.inputNode inputFormatForBus:0].sampleRate;
+      _actualSampleRate = inputFormat.sampleRate;
+
+      // Set up the format for mono audio with a single float sample
+      AVAudioFormat *monoFormat = [[AVAudioFormat alloc] initWithCommonFormat:AVAudioPCMFormatFloat32 sampleRate:inputFormat.sampleRate channels:1 interleaved:NO];
+
+      [inputNode installTapOnBus:0 bufferSize:1024 format:monoFormat block:^(AVAudioPCMBuffer *buffer, AVAudioTime *when) {
+          float *data = buffer.floatChannelData[0];
+          int numFrames = (int)buffer.frameLength;
+          self->_callback(self->_userData, data, numFrames);
+      }];
+    }
+    catch(NSException *exception) {
+        NSLog(@"setupAudioEngine::5:Exception: %@", exception);
+    }
+
 }
 
 - (void)startCapture {
