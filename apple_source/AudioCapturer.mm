@@ -63,13 +63,11 @@
     }
 
     try {
-      // This gives a CARP violation
-      auto inputNode = _engine.inputNode;
+
+      // This gives a CARP violation in Xcode 12.5.1.
+      AVAudioInputNode *inputNode = _engine.inputNode;       
 
       AVAudioFormat *inputFormat = [inputNode outputFormatForBus:0];
-      //AVAudioFormat *inputFormat = [[AVAudioFormat alloc] initWithCommonFormat:AVAudioPCMFormatFloat32 sampleRate:fs channels:1 interleaved:NO];
-
-      NSLog(@"setupAudioEngine::3:inputFormat.sampleRate: %f", inputFormat.sampleRate);
 
       //_actualSampleRate = fs;//[_engine.inputNode inputFormatForBus:0].sampleRate;
       _actualSampleRate = inputFormat.sampleRate;
